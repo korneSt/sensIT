@@ -1,0 +1,11 @@
+h2 Dodaj tutaj nowy sensor
+label(for='title') Identyfikator sensora
+input(ng-model='form.title', name='title')
+
+label(for='title') Przypisz do huba
+input(ng-model='form.hubName', name='hubName')
+
+p Opis
+textarea(ng-model='form.text', cols=10, rows='5')
+p
+    button(ng-click='submitSensor()') Zapisz sensor

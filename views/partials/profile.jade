@@ -1,0 +1,5 @@
+p Posiadasz {{hubs.length}} hubów
+div(ng-repeat='hub in hubs')
+    h2 {{hub.hubID}}
+    div {{hub.desc}}
+    a(href='/editHub/{{hub.hubID}}') Edytuj
