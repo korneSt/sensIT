@@ -251,6 +251,21 @@ exports.addSensor = function (req, res) {
         });
 }
 
+exports.addMeasure = function (req, res) {
+    Model.Measure.forge({
+        sensorID: req.body.sensorid,
+        value1: req.body.value1,
+        value2: req.body.value2
+    })
+        .save()
+        .then(function (measure) {
+            res.json({ error: false, data: { measureID: measure.get('measureID') } });
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+}
+
 exports.editHub = function (req, res) {
     Model.User.forge({
         name: req.body.name,

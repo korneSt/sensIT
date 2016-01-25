@@ -143,6 +143,7 @@ app.get('/api/currentUser', api.currentUser);
 app.post('/api/user', api.addUser);
 app.post('/api/hub', api.addHub);
 app.post('/api/sensor', api.addSensor);
+app.post('/api/measure', api.addMeasure);
 
 // PUT API
 app.put('/api/hub/:id', api.editHub);

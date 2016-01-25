@@ -8,6 +8,7 @@ $(document).ready(function () {
     // Populate the user table on initial page load
     populateTableHubs();
     populateTableSensors();
+    getCurrentTemp();
 
 });
 
@@ -67,4 +68,17 @@ function populateTableSensors() {
 
     });
 };
+
+function getCurrentTemp() {
+    $.getJSON('/api/measures').then(function (result) {
+        var totalItems = result.data.length;
+        //alert(result.data[totalItems - 1].hubID);
+        $('.currentTemp').html(result.data[totalItems - 1].value1);
+
+    }).then(function () {
+        setTimeout(getCurrentTemp, 10000);
+    })
+
+
+}
 
