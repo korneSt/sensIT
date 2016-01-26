@@ -9,8 +9,11 @@ html(lang='en')
     // bootstrap, style i inne motyle
     link(href="/bootstrap/bootstrap.css" rel="stylesheet", type='text/css')
     link(href='/stylesheets/styles.css', rel='stylesheet', type='text/css')
+    link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+    // 
+    // script(src="bootstrap/jquery-1.11.2.min.js" type="text/javascript")
     
-    script(src="bootstrap/jquery-1.11.2.min.js" type="text/javascript")
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     // nie ruszac
     
     // nie wiem co to:
@@ -25,6 +28,7 @@ html(lang='en')
     // bezuzyteczny skrypt
     // script(src='/js/contentScript.js', type='text/javascript')
     script(src='/js/carousel.js', type='text/javascript')
+    script(src='/js/global.js')
     
     
 
@@ -71,8 +75,8 @@ html(lang='en')
                     
           // /.navbar-collapse
         // /.container-fluid
-      #myContent
-        block content
+      block content
+        
       
       
     // jQuery (necessary for Bootstrap's JavaScript plugins)
