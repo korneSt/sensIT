@@ -64,6 +64,13 @@ var index = function(req, res, next) {
    }
 };
 
+
+var showContact = function(req, res, next) {
+    res.render('contact', {title: 'Contact'})
+}
+var showAbout = function(req, res, next) {
+    res.render('about', {title: 'About'})
+}
 // sign in
 // GET
 
@@ -183,5 +190,9 @@ module.exports.loggedUser = loggedUser;
 module.exports.notFound404 = notFound404;
 
 module.exports.currentUser = currentUser;
+
+module.exports.showContact = showContact;
+
+module.exports.showAbout = showAbout;
 
 

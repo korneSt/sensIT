@@ -97,6 +97,8 @@ app.get('/partials/:name', function (req, res) {
   res.render('partials/' + name);
 });
 
+app.get('/contact', routes.showContact);
+app.get('/about', routes.showContact);
 // signin
 // GET
 app.get('/login', routes.signIn);
