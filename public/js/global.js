@@ -27,7 +27,7 @@ function populateTableHubs() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(result.data, function () {
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            tableContent += '<td><a href="#' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
             tableContent += '</tr>';
         });

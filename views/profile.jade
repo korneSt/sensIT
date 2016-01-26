@@ -1,75 +1,16 @@
 extends layout
 
 block content
+    #myContent
 
-    // script.
-    //     $(document).ready(function update() {
-    //             $.ajax({
-    //                 url: "http://localhost:3000/api/users"
-    //                 }).then(function(data) {
-                        
-    //                     var totalItems = data.data.length;
-    //                     $('.greeting-id').append(data.data[totalItems-1].userID);
-    //                     $('.greeting-content').append(data.data[totalItems-1].username);
-    //                 }).then(function() {         
-    //                     setTimeout(update, 30000);
-    //                 })();
-    //             });
-        
-    // p.greeting-id The ID is 
-    // p.greeting-content The content is 
-    div
-        .row
-
-            .col-md-4.col-sm-6.col-xs-12
-                // | #{items[0].username}
-                // $http.get('/api/hubs').
-                // success(function (data, status, headers, config) {
-                // $scope.hubs = data.data;
-                // });
-                // ul
-                //     li
-                //         a(href='/addHub') Dodaj hub
-                //     li
-                //         a(href='/addSensor') Dodaj sensor
-                
-                // form(action='/addhub', method='post')
-                //     -if(errorMessage)
-                //         .alert.alert-danger !{errorMessage}
-                //     .form-group
-                //     label Hub ID
-                //     input.form-control(type='text', name='hubName', required)
-                //     br
-                //     button.btn.btn-default(type='submit') Dodaj hub
-                // br
-                // br
-                // form(action='/addsensor', method='post')
-                //     -if(errorMessage1)
-                //         .alert.alert-danger !{errorMessage1}
-                //     .form-group
-                //     label Sensor ID
-                //     input.form-control(type='text', name='sensorName', required)
-                //     br
-                //     button.btn.btn-default(type='submit') Dodaj sensor
-            .col-md-4.col-sm-6.col-xs-12
-                .panel.panel-info
-                    .panel-heading
-                        h3.panel-title Witaj
-                    .panel-body
-                        | #{user.username}
-                 // Wrapper
-                #txt(style="display: none;")
-                    | #{user.userID} 
-               
-                #wrapper
-                    h2 Twoje Huby
-                    #hubList.tableFormat
-                        table
-                            thead
-                                th Hub ID
-                                th Hub opis     
-                            tbody
+    
+        // script.
+        //     $(document).ready(function update() {
+        //             $.ajax({
+        //                 url: "http://localhost:3000/api/users"
+        //                 }).then(function(data) {
                             
+<<<<<<< HEAD
                     h2 Twoje Sensory
                     #sensorList.tableFormat
                         table
@@ -85,5 +26,84 @@ block content
             //     include ./includes/hubs.jade
             //     br
             //     include ./includes/sensors.jade
+=======
+        //                     var totalItems = data.data.length;
+        //                     $('.greeting-id').append(data.data[totalItems-1].userID);
+        //                     $('.greeting-content').append(data.data[totalItems-1].username);
+        //                 }).then(function() {         
+        //                     setTimeout(update, 30000);
+        //                 })();
+        //             });
+            
+        // p.greeting-id The ID is 
+        // p.greeting-content The content is 
+        div
+            .row
+
+                .col-md-4.col-sm-6.col-xs-12
+                    // | #{items[0].username}
+                    // $http.get('/api/hubs').
+                    // success(function (data, status, headers, config) {
+                    // $scope.hubs = data.data;
+                    // });
+                    // ul
+                    //     li
+                    //         a(href='/addHub') Dodaj hub
+                    //     li
+                    //         a(href='/addSensor') Dodaj sensor
+>>>>>>> 50b765dc3d0f68c35dc463dcc00828551cc141c8
                     
- 
+                    // form(action='/addhub', method='post')
+                    //     -if(errorMessage)
+                    //         .alert.alert-danger !{errorMessage}
+                    //     .form-group
+                    //     label Hub ID
+                    //     input.form-control(type='text', name='hubName', required)
+                    //     br
+                    //     button.btn.btn-default(type='submit') Dodaj hub
+                    // br
+                    // br
+                    // form(action='/addsensor', method='post')
+                    //     -if(errorMessage1)
+                    //         .alert.alert-danger !{errorMessage1}
+                    //     .form-group
+                    //     label Sensor ID
+                    //     input.form-control(type='text', name='sensorName', required)
+                    //     br
+                    //     button.btn.btn-default(type='submit') Dodaj sensor
+                .col-md-4.col-sm-6.col-xs-12
+                    .panel.panel-info
+                        .panel-heading
+                            h3.panel-title Witaj
+                        .panel-body
+                            | #{user.username}
+                    // Wrapper
+                    #txt(style="display: none;")
+                        | #{user.userID} 
+                
+                    #wrapper
+                        h2 Twoje Huby
+                        #hubList.tableFormat
+                            table
+                                thead
+                                    th Hub ID
+                                    th Hub opis     
+                                tbody
+                                
+                        h2 Twoje Sensory
+                        #sensorList.tableFormat
+                            table
+                                thead
+                                    th Sensor ID
+                                    th Hub Id  
+                                    th Opis
+                                    th Stan   
+                                tbody
+                        h3 Aktualna temperatura
+                        h2#p.currentTemp 
+                // .col-md-4.col-sm-6.col-xs-12
+                //     include ./includes/hubs.jade
+                //     br
+                //     include ./includes/sensors.jade
+                        
+    
