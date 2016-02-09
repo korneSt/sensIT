@@ -138,16 +138,16 @@ function addHub(event) {
            url: '/api/hub',
            dataType: 'JSON' 
         }).done(function(response) {
-            //check for succesful response
             if( response.msg === '') {
                 $('#addHub fieldset input').val('');
                 populateTableHubs();
             } else {
-                alert('Error: ' + response.msg);
+                console.log(response);
+                alert('Niepoprawne ID huba');
             }
         });
     } else {
-        alert('Please fill in all fields');
+        alert('Wypelnij wszyskie pola');
 
         return false;
     }
