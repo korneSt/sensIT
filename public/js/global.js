@@ -9,8 +9,25 @@ $(document).ready(function () {
     populateTableHubs();
     populateTableSensors();
     getCurrentTemp();
+    $('#addHubButton').click(addHub);
+
+    // var ctx = document.getElementById("canvas").getContext("2d");
+    // document.myBar = new Chart(ctx).Bar(barChartData, {
+    //     responsive: true
+    // });
 
 });
+
+// $( "#addHubForm" ).submit(function( event ) {
+//   alert( "Handler for .submit() called." );
+//  // console.log(event);
+//   event.preventDefault();
+// });
+
+/**
+ * Add HUB button click
+ */
+
 
 // Functions =============================================================
 
@@ -19,6 +36,7 @@ function populateTableHubs() {
 
     // Empty content string
     var tableContent = '';
+    var temps;
 
     // jQuery AJAX call for JSON
 
@@ -78,7 +96,83 @@ function getCurrentTemp() {
     }).then(function () {
         setTimeout(getCurrentTemp, 10000);
     })
-
-
 }
+
+function getTemperatures() {
+    var temps = [];
+    $.getJSON('/api/measures').then(function (result) {
+
+        $.each(result.data, function () {
+            //alert(result.data.value1);
+            temps.push(this.value1);
+        });
+
+    }).then(function () {
+        alert(temps);
+        return temps;
+    });
+}
+
+function addHub(event) {
+    event.preventDefault();
+    
+    var errorCount = 0;
+    $('#addHub input').each(function(index, val) {
+        console.log(val);
+        if($(this).val() === '') {
+            errorCount++;
+        }
+    });
+    
+    if(errorCount === 0) {
+        
+        var newHub = {
+            'hubid' : $('#addHub fieldset input#inputHubID').val(),
+            'desc' : $('#addHub fieldset input#inputDesc').val(),
+            'userid' : $('#addHub fieldset input#inputUserID').val()
+        }
+        
+        $.ajax({
+           type: 'POST',
+           data: newHub,
+           url: '/api/hub',
+           dataType: 'JSON' 
+        }).done(function(response) {
+            //check for succesful response
+            if( response.msg === '') {
+                $('#addHub fieldset input').val('');
+                populateTableHubs();
+            } else {
+                alert('Error: ' + response.msg);
+            }
+        });
+    } else {
+        alert('Please fill in all fields');
+
+        return false;
+    }
+}
+
+// var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+// var barChartData = {
+//     labels: "Temperatury",
+//     datasets: [
+//         {
+//             fillColor: "rgba(220,220,220,0.5)",
+//             strokeColor: "rgba(220,220,220,0.8)",
+//             highlightFill: "rgba(220,220,220,0.75)",
+//             highlightStroke: "rgba(220,220,220,1)",
+//             data: getTemperatures
+//         },
+//         {
+//             fillColor: "rgba(151,187,205,0.5)",
+//             strokeColor: "rgba(151,187,205,0.8)",
+//             highlightFill: "rgba(151,187,205,0.75)",
+//             highlightStroke: "rgba(151,187,205,1)",
+//             data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+//         }
+//     ]
+// }
+
+
 

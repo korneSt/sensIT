@@ -221,17 +221,19 @@ exports.addUser = function (req, res) {
 
 
 exports.addHub = function (req, res) {
-    Model.Hub.forge({
-        hubID: req.body.hubid,
-        userID: req.body.userid,
-        desc: req.body.desc
-    })
+    // Model.Hub.forge({
+    //     hubID: req.body.hubid,
+    //     userID: req.body.userid,
+    //     desc: req.body.desc
+    // })
+    Model.Hub.forge(req.body)
         .save()
         .then(function (hub) {
-            res.json({ error: false, data: { hubID: hub.get('hubID') } });
+            res.send({ msg: '' });
+            //res.redirect('/profile/#');
         })
         .catch(function (err) {
-            res.status(500).json({ error: true, data: { message: err.message } });
+            res.send({ msg: err  });
         });
 }
 
