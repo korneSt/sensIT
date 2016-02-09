@@ -233,7 +233,7 @@ exports.addHub = function (req, res) {
             //res.redirect('/profile/#');
         })
         .catch(function (err) {
-            res.send({ msg: err  });
+            res.send({ msg: err.message  });
         });
 }
 
