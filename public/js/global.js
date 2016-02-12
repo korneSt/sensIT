@@ -10,11 +10,23 @@ $(document).ready(function () {
     populateTableSensors();
     getCurrentTemp();
     $('#addHubButton').click(addHub);
-
     // var ctx = document.getElementById("canvas").getContext("2d");
     // document.myBar = new Chart(ctx).Bar(barChartData, {
     //     responsive: true
     // });
+    //TODO: remove kebab
+    $('.grid').masonry({
+        // options
+        columnWidth: 150,
+        itemSelector: '.grid-item',
+        gutter: 10
+    });
+    
+    $('.draggable').draggabilly({
+        grid: [ 20, 20 ]
+
+
+})
 
 });
 
@@ -115,30 +127,30 @@ function getTemperatures() {
 
 function addHub(event) {
     event.preventDefault();
-    
+
     var errorCount = 0;
-    $('#addHub input').each(function(index, val) {
+    $('#addHub input').each(function (index, val) {
         console.log(val);
-        if($(this).val() === '') {
+        if ($(this).val() === '') {
             errorCount++;
         }
     });
-    
-    if(errorCount === 0) {
-        
+
+    if (errorCount === 0) {
+
         var newHub = {
-            'hubid' : $('#addHub fieldset input#inputHubID').val(),
-            'desc' : $('#addHub fieldset input#inputDesc').val(),
-            'userid' : $('#addHub fieldset input#inputUserID').val()
+            'hubid': $('#addHub fieldset input#inputHubID').val(),
+            'desc': $('#addHub fieldset input#inputDesc').val(),
+            'userid': $('#addHub fieldset input#inputUserID').val()
         }
-        
+
         $.ajax({
-           type: 'POST',
-           data: newHub,
-           url: '/api/hub',
-           dataType: 'JSON' 
-        }).done(function(response) {
-            if( response.msg === '') {
+            type: 'POST',
+            data: newHub,
+            url: '/api/hub',
+            dataType: 'JSON'
+        }).done(function (response) {
+            if (response.msg === '') {
                 $('#addHub fieldset input').val('');
                 populateTableHubs();
             } else {
