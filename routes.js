@@ -21,13 +21,13 @@ var hubsArray;
 var loggedUser;
 
 var items = [];
+var loggedUser;
 
 // index
 var index = function(req, res, next) {
     // if(req.url != '/profile') {
     //     res.render('login');
     // }
-
 
    if(!req.isAuthenticated()) {
       res.render('index', {title: 'Index'});
@@ -59,11 +59,25 @@ var index = function(req, res, next) {
          console.log(items);
 
          console.log(user.username);
+         loggedUser = user;
          res.render('profile', {title: 'Home',items: items, user: user, hubs: hubsArray});
+         next();
       }
    }
 };
 
+var showEditSensor = function(req, res, next) {
+    console.log(req.user);
+    if(!req.isAuthenticated()) {
+      res.render('index', {title: 'Index'});
+   } else {
+      var user = req.user;
+
+      if(user !== undefined) {
+    res.render('editSensor', {title: 'Home',items: items, user: user, hubs: hubsArray});
+      }
+   }
+}
 
 var showContact = function(req, res, next) {
     res.render('contact', {title: 'Contact'})
@@ -194,3 +208,5 @@ module.exports.currentUser = currentUser;
 module.exports.showAbout = showAbout;
 
 module.exports.showContact = showContact;
+
+module.exports.showEditSensor = showEditSensor;
