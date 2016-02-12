@@ -1,6 +1,7 @@
 
 // Userlist data array for filling in info box
 var userListData = [];
+var favSensors = [];
 
 // DOM Ready =============================================================
 $(document).ready(function () {
@@ -44,6 +45,7 @@ $(document).ready(function () {
 // Functions =============================================================
 
 // Fill table with data
+//TODO: asd
 function populateTableHubs() {
 
     // Empty content string
@@ -85,7 +87,7 @@ function populateTableSensors() {
                 var tableContent = ''
                 $.each(data.data, function () {
                     tableContent += '<tr>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
+                    tableContent += '<td><a href="profile/sensor/'+ this.sensorID+'" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';

@@ -246,10 +246,10 @@ exports.addSensor = function (req, res) {
     })
         .save()
         .then(function (user) {
-            res.json({ error: false, data: { id: user.get('sensorID') } });
+            res.send({ msg: '' });
         })
         .catch(function (err) {
-            res.status(500).json({ error: true, data: { message: err.message } });
+            res.send({ msg: err.message  });
         });
 }
 
