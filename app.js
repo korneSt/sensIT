@@ -155,6 +155,9 @@ app.post('/api/measure', api.addMeasure);
 app.put('/api/hub/:id', api.editHub);
 app.put('/api/sensor/:id', api.editSensor);
 
+//DELETE API
+app.delete('/api/sensor/:id', api.deleteSensor);
+
 //app.get('/api/hub/:id', api.post);
 
 // logout

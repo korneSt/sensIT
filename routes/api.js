@@ -310,20 +310,37 @@ exports.editHub = function (req, res) {
 //             res.status(500).json({ error: true, data: { message: err.message } });
 //         });
 // }
-exports.editSensor = function(req, res) {
-    Model.Sensor.forge( {
-        sensorID : req.params.id
+exports.editSensor = function (req, res) {
+    Model.Sensor.forge({
+        sensorID: req.params.id
     }).save({
         desc: req.body.desc,
-        favourite: req.body.fav, 
-        hubId: req.body.hubid,  
+        favourite: req.body.fav,
+        hubId: req.body.hubid,
     }).then(function (sensor) {
         res.json({ error: false, data: { id: sensor.get('desc') } });
     }).catch(function (err) {
         res.status(500).json({ error: true, data: { message: err.message } });
     })
-        
-    }
+
+}
+
+exports.deleteSensor = function (req, res) {
+    Model.Sensor.forge({ sensorID: req.params.id })
+        .fetch({ require: true })
+        .then(function (sensor) {
+            sensor.destroy()
+                .then(function () {
+                    res.json({ error: false, data: { message: 'Sensor successfully deleted' } });
+                })
+                .catch(function (err) {
+                    res.status(500).json({ error: true, data: { message: err.message } });
+                });
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+}
 
 // GET
 
