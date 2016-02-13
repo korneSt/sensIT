@@ -1,0 +1,7 @@
+1. editSensor 
+    1.1 widok
+2. addSensor
+    2.1 widok
+    2.2 routes
+    2.3 api
+3. deleteSensor
