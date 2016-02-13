@@ -1,53 +1,63 @@
 var DB = require('./db').DB;
 
 var User = DB.Model.extend({
-   tableName: 'users',
-   idAttribute: 'userId',
-   hubs: function() {
-       return this.hasMany(Hub);
-  }
+    tableName: 'users',
+    idAttribute: 'userID',
+    hubs: function () {
+        return this.hasMany(Hub);
+    }
 });
 
 var Hub = DB.Model.extend({
-   tableName: 'hubs',
-   user: function() {
-       return this.belongsTo(User);
-  }
+    tableName: 'hubs',
+    idAttribute: 'hubID',
+    user: function () {
+        return this.belongsTo(User);
+    }
+
 });
 
 var Sensor = DB.Model.extend({
-   tableName: 'sensors'
+    tableName: 'sensors',
+    idAttribute: 'sensorID',
+    hubID: function () {
+        return this.belongsTo(Hub);
+    }
 });
 
 var Measure = DB.Model.extend({
-   tableName: 'data'
+    tableName: 'data',
+    idAttribute: 'measureID',
+    sensorID: function() {
+        return this.belongsTo(Sensor);
+    }
 });
 
 
 //KOLEKCJE
 var Users = DB.Collection.extend({
-  model: User
+    model: User
 });
 
 var Hubs = DB.Collection.extend({
-  model: Hub
+    model: Hub
 });
 
 var Sensors = DB.Collection.extend({
-  model: Sensor
+    model: Sensor
 });
 
 var Measures = DB.Collection.extend({
-  model: Measure
+    model: Measure
 });
 
 module.exports = {
-   User: User,
-   Hub: Hub,
-   Sensor: Sensor,
-   Measure: Measure,
-   Users: Users,
-   Hubs: Hubs,
-   Sensors: Sensors,
-   Measures: Measures
+    User: User,
+    Hub: Hub,
+    Sensor: Sensor,
+    Measure: Measure,
+    Users: Users,
+    Hubs: Hubs,
+    Sensors: Sensors,
+    Measures: Measures
 };

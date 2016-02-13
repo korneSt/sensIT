@@ -11,6 +11,7 @@ $(document).ready(function () {
     populateTableSensors();
     getCurrentTemp();
     $('#addHubButton').click(addHub);
+    $('#editSensorButton').click(editSensor);
     // var ctx = document.getElementById("canvas").getContext("2d");
     // document.myBar = new Chart(ctx).Bar(barChartData, {
     //     responsive: true
@@ -22,13 +23,14 @@ $(document).ready(function () {
         itemSelector: '.grid-item',
         gutter: 10
     });
-    
+
     $('.draggable').draggabilly({
-        grid: [ 20, 20 ]
-
-
-})
-
+        grid: [20, 20]
+    })
+    console.log($("#myCheckbox").prop( "checked" ))
+    $("#myCheckbox").prop( "checked", false );
+    
+    $('.linkshowuser').click(getSensorByID(4));
 });
 
 // $( "#addHubForm" ).submit(function( event ) {
@@ -87,7 +89,7 @@ function populateTableSensors() {
                 var tableContent = ''
                 $.each(data.data, function () {
                     tableContent += '<tr>';
-                    tableContent += '<td><a href="profile/sensor/'+ this.sensorID+'" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
+                    tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
@@ -100,6 +102,15 @@ function populateTableSensors() {
 
     });
 };
+
+function getSensorByID(id) {
+    console.log('/api/sensor/'+id)
+    $.getJSON('/api/sensor/'+id).then( function(result){
+        console.log(result.data.desc)
+        //return result.data.desc
+        $('#inputDescEditSens').val(result.data.desc)
+    })
+}
 
 function getCurrentTemp() {
     $.getJSON('/api/measures').then(function (result) {
@@ -148,6 +159,44 @@ function addHub(event) {
 
         $.ajax({
             type: 'POST',
+            data: newHub,
+            url: '/api/hub',
+            dataType: 'JSON'
+        }).done(function (response) {
+            if (response.msg === '') {
+                $('#addHub fieldset input').val('');
+                populateTableHubs();
+            } else {
+                console.log(response);
+                alert('Niepoprawne ID huba');
+            }
+        });
+    } else {
+        alert('Wypelnij wszyskie pola');
+
+        return false;
+    }
+}
+
+function editSensor(event) {
+    event.preventDefault();
+    var errorCount = 0;
+    $('#editSensor input').each(function (index, val) {
+        console.log(val);
+        if ($(this).val() === '') {
+            errorCount++;
+        }
+    });
+
+    if (errorCount === 0) {
+        var newHub = {
+            'hubid': $('#addHub fieldset input#inputHubID').val(),
+            'desc': $('#addHub fieldset input#inputDesc').val(),
+            'userid': $('#addHub fieldset input#inputUserID').val()
+        }
+
+        $.ajax({
+            type: 'PUT',
             data: newHub,
             url: '/api/hub',
             dataType: 'JSON'

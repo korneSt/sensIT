@@ -233,7 +233,7 @@ exports.addHub = function (req, res) {
             //res.redirect('/profile/#');
         })
         .catch(function (err) {
-            res.send({ msg: err.message  });
+            res.send({ msg: err.message });
         });
 }
 
@@ -249,7 +249,7 @@ exports.addSensor = function (req, res) {
             res.send({ msg: '' });
         })
         .catch(function (err) {
-            res.send({ msg: err.message  });
+            res.send({ msg: err.message });
         });
 }
 
@@ -281,20 +281,49 @@ exports.editHub = function (req, res) {
             res.status(500).json({ error: true, data: { message: err.message } });
         });
 }
-
-exports.editSensor = function (req, res) {
-    Model.User.forge({
-        name: req.body.name,
-        email: req.body.email
+//  Model.Sensor.forge({ sensorID: req.params.id })
+//         .fetch()
+//         .then(function (user) {
+//             if (!user) {
+//                 res.status(404).json({ error: true, data: {} });
+//             }
+//             else {
+//                 res.json({ data: user.toJSON() });
+//             }
+//         })
+//         .catch(function (err) {
+//             res.status(500).json({ error: true, data: { message: err.message } });
+//         });
+          
+// exports.editSensor = function (req, res) {
+//     Model.Sensor.forge({
+//         sensorID: req.params.id
+//     })
+//         .fetch({require: true})
+//         .then(function (sensor) {
+//             sensor.save({ desc: req.body.desc, favourite: req.body.fav })
+//                 .then(function () {
+//                     res.json({ error: false, data: { id: sensor.get('desc') } });
+//                 })
+//         })
+//         .catch(function (err) {
+//             res.status(500).json({ error: true, data: { message: err.message } });
+//         });
+// }
+exports.editSensor = function(req, res) {
+    Model.Sensor.forge( {
+        sensorID : req.params.id
+    }).save({
+        desc: req.body.desc,
+        favourite: req.body.fav, 
+        hubId: req.body.hubid,  
+    }).then(function (sensor) {
+        res.json({ error: false, data: { id: sensor.get('desc') } });
+    }).catch(function (err) {
+        res.status(500).json({ error: true, data: { message: err.message } });
     })
-        .save()
-        .then(function (user) {
-            res.json({ error: false, data: { id: user.get('id') } });
-        })
-        .catch(function (err) {
-            res.status(500).json({ error: true, data: { message: err.message } });
-        });
-}
+        
+    }
 
 // GET
 

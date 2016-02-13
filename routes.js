@@ -67,14 +67,15 @@ var index = function(req, res, next) {
 };
 
 var showEditSensor = function(req, res, next) {
-    console.log(req.user);
+
     if(!req.isAuthenticated()) {
       res.render('index', {title: 'Index'});
    } else {
       var user = req.user;
 
       if(user !== undefined) {
-    res.render('editSensor', {title: 'Home',items: items, user: user, hubs: hubsArray});
+        user = user.toJSON();   
+        res.render('editSensor', {title: 'Home',items: items, user: user, hubs: hubsArray});
       }
    }
 }
