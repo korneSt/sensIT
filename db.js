@@ -7,8 +7,10 @@ var knex = require('knex')({
    database: 'pomiary'
   },
   pool: {
-    idleTimeoutMillis: 60000,
-    reapIntervalMillis: 2000
+    //idleTimeoutMillis: 60000,
+    //reapIntervalMillis: 2000
+    min: 0,
+    max: 4
   }
 });
 
