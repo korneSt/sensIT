@@ -1,42 +1,55 @@
 $(document).ready(function () {
-  
+    console.log(sensorID)
     //$('#inpuDescEditSens').val(selectedHub.desc)
 
-    getSensorByID(selectedHub, sensorID)
-    $("#inpuDescEditSens").click(function () {
-        $(this).val("");
+    // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
+    $('#inpuDescEditSens').click(function () {
+        $(this).val('');
     });
-
-
+    getSensorByIDTest(sensorID, function (result) {
+    console.log('resultat: ' + result)
+    selectedSensor = result
+    $('#inpuDescEditSens').val(selectedSensor.desc)
+})
+    // if (($('#inpuDescEditSens').is(":focus"))) {
+    //     $(this).val('');
+    // } else {
+    //     $(this).val(selectedHub.desc);
+    // }
 
 })
 $('#editSensorButton').on('click', editSensor);
 var url = window.location.pathname.split('/')
 var sensorID = url[3]
-var selectedHub = { desc: 'brak opisu' }
+var selectedSensor = {}
 
 console.log('zaladowano podstrone edit sensor')
 
+//DRUGA WERSJA + callback
 
-function getSensorByID(dest, id) {
+
+function getSensorByIDTest(id, callback) {
     console.log('/api/sensor/' + id)
     $.getJSON('/api/sensor/' + id).then(function (result) {
-        console.log(result.data.desc)
-        dest.desc = result.data.desc
-        $('#inpuDescEditSens').val(dest.desc)
-        //dest = result.data.desc
-        //return result.data.desc
-        //$('#inputDescEditSens').val(result.data.desc)
+        callback(result.data)
     })
 }
+//PIERWSZA WERSJA
+// function getSensorByID(dest, id) {
+//     console.log('/api/sensor/' + id)
+//     $.getJSON('/api/sensor/' + id).then(function (result) {
+//         console.log(result.data)
+//         console.log(result.data.desc)
+//         dest.desc = result.data.desc
+//         $('#inpuDescEditSens').val(dest.desc)
+
+//     })
+// }
 
 
 
 function editSensor(event) {
     event.preventDefault();
-    var url = window.location.pathname.split('/')
-    var sensorID = url[3]
-    console.log(sensorID)
     var errorCount = 0;
     $('#editSensor input').each(function (index, val) {
         console.log(val);
@@ -44,26 +57,30 @@ function editSensor(event) {
             errorCount++;
         }
     });
-
+    console.log(errorCount)
     if (errorCount === 0) {
-        var editedSensor = {
-            'hubid': $('#addHub fieldset input#inputHubID').val(),
-            'desc': $('#addHub fieldset input#inputDesc').val(),
-            'userid': $('#addHub fieldset input#inputUserID').val()
-        }
-
+        selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
+        // var editedSensor = {
+        //     'hubid': $('#addHub fieldset input#inputHubID').val(),
+        //     'desc': $('#addHub fieldset input#inputDesc').val(),
+        //     'userid': $('#addHub fieldset input#inputUserID').val()
+        // }
+        console.log(selectedSensor);
+        console.log('sensor id: ' + sensorID);
         $.ajax({
             type: 'PUT',
-            data: editedSensor,
-            url: '/api/hub',
+            data: selectedSensor,
+            url: '/api/sensor/'+sensorID,
             dataType: 'JSON'
         }).done(function (response) {
-            if (response.msg === '') {
-                $('#addHub fieldset input').val('');
-                populateTableHubs();
+            console.log(response)
+            if (response.error === false) {
+                // $('#addHub fieldset input').val('');
+                // populateTableHubs();
+                alert('Zmieniono ustawienia');
             } else {
-                console.log(response);
-                alert('Niepoprawne ID huba');
+                console.log(response.message);
+                alert('Blad serwera');
             }
         });
     } else {
