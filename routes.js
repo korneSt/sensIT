@@ -57,25 +57,25 @@ var index = function(req, res, next) {
          //loggedUser = user.toJSON();
          items.push(user);
          console.log(items);
-
          console.log(user.username);
          loggedUser = user;
          res.render('profile', {title: 'Home',items: items, user: user, hubs: hubsArray});
-         next();
+
       }
    }
 };
 
 var showEditSensor = function(req, res, next) {
-
+      console.log('edit sensor param:' + req.params.name)
+      var sensor = req.params.name
     if(!req.isAuthenticated()) {
       res.render('index', {title: 'Index'});
    } else {
       var user = req.user;
-
+      //var sensor = req.params.name
       if(user !== undefined) {
         user = user.toJSON();   
-        res.render('editSensor', {title: 'Home',items: items, user: user, hubs: hubsArray});
+        res.render('editSensor', {title: 'EditSensor', sensor: sensor, user: user});
       }
    }
 }
