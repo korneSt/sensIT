@@ -80,7 +80,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res, next) {
-  console.log('Time:', Date.now());
+  //console.log('Time:', Date.now());
   next();
 });
 
