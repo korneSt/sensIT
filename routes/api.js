@@ -312,11 +312,11 @@ exports.editHub = function (req, res) {
 // }
 exports.editSensor = function (req, res) {
     Model.Sensor.forge({
-        sensorID: req.params.id
+        sensorID: req.body.sensorID
     }).save({
         desc: req.body.desc,
-        favourite: req.body.fav,
-        hubId: req.body.hubid,
+        favourite: req.body.favourite,
+        hubID: req.body.hubID
     }).then(function (sensor) {
         res.json({ error: false, data: { id: sensor.get('desc') } });
     }).catch(function (err) {

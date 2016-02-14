@@ -35,7 +35,7 @@ $(document).ready(function () {
     if($('#editSensor').is(":visible")) {
         console.log("a");
     }
-    $('.linkshowuser').click(getSensorByID(4));
+    //$('.linkshowuser').click(getSensorByID(4));
     //$('#favCheckBox' ).prop( "checked", true );
 });
 
