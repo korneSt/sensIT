@@ -5,13 +5,14 @@ var favSensors = [];
 
 // DOM Ready =============================================================
 $(document).ready(function () {
-
+    console.log('zaladowano /profile');
     // Populate the user table on initial page load
     populateTableHubs();
     populateTableSensors();
     getCurrentTemp();
-    $('#addHubButton').click(addHub);
-    $('#editSensorButton').click(editSensor);
+    //$('#addHubButton').click(addHub);
+    //$('#editSensorButton').click(editSensor);
+    $('#addHubButton').on('click', addHub);
     // var ctx = document.getElementById("canvas").getContext("2d");
     // document.myBar = new Chart(ctx).Bar(barChartData, {
     //     responsive: true
@@ -29,8 +30,13 @@ $(document).ready(function () {
     })
     console.log($("#myCheckbox").prop( "checked" ))
     $("#myCheckbox").prop( "checked", false );
+    //sprawdza czy strona edycji sensora jest uruchomiona
     
+    if($('#editSensor').is(":visible")) {
+        console.log("a");
+    }
     $('.linkshowuser').click(getSensorByID(4));
+    //$('#favCheckBox' ).prop( "checked", true );
 });
 
 // $( "#addHubForm" ).submit(function( event ) {
@@ -54,7 +60,7 @@ function populateTableHubs() {
     var tableContent = '';
     var temps;
 
-    // jQuery AJAX call for JSON
+    // jQuery AJAX call for JSONp
 
     $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
 
@@ -93,6 +99,8 @@ function populateTableSensors() {
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
+                    tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.sensorID + '">delete</a></td>';
+
                     tableContent += '</tr>';
                 });
                 wholeContent += tableContent;
@@ -106,9 +114,9 @@ function populateTableSensors() {
 function getSensorByID(id) {
     console.log('/api/sensor/'+id)
     $.getJSON('/api/sensor/'+id).then( function(result){
-        console.log(result.data.desc)
+        console.log(result.data)
         //return result.data.desc
-        $('#inputDescEditSens').val(result.data.desc)
+        //$('#inputDescEditSens').val(result.data.desc)
     })
 }
 
@@ -142,13 +150,14 @@ function addHub(event) {
     event.preventDefault();
 
     var errorCount = 0;
-    $('#addHub input').each(function (index, val) {
+
+    $('#addHub input[type=text]').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
             errorCount++;
         }
     });
-
+    console.log(errorCount)
     if (errorCount === 0) {
 
         var newHub = {
@@ -156,7 +165,7 @@ function addHub(event) {
             'desc': $('#addHub fieldset input#inputDesc').val(),
             'userid': $('#addHub fieldset input#inputUserID').val()
         }
-
+        console.log(newHub)
         $.ajax({
             type: 'POST',
             data: newHub,
@@ -164,7 +173,7 @@ function addHub(event) {
             dataType: 'JSON'
         }).done(function (response) {
             if (response.msg === '') {
-                $('#addHub fieldset input').val('');
+                $('#addHub fieldset input[type=text]').val('');
                 populateTableHubs();
             } else {
                 console.log(response);
@@ -180,6 +189,9 @@ function addHub(event) {
 
 function editSensor(event) {
     event.preventDefault();
+    var url = window.location.pathname.split('/')
+    var sensorID = url[3]
+    console.log(sensorID)
     var errorCount = 0;
     $('#editSensor input').each(function (index, val) {
         console.log(val);
@@ -189,7 +201,7 @@ function editSensor(event) {
     });
 
     if (errorCount === 0) {
-        var newHub = {
+        var editedSensor = {
             'hubid': $('#addHub fieldset input#inputHubID').val(),
             'desc': $('#addHub fieldset input#inputDesc').val(),
             'userid': $('#addHub fieldset input#inputUserID').val()
@@ -197,7 +209,7 @@ function editSensor(event) {
 
         $.ajax({
             type: 'PUT',
-            data: newHub,
+            data: editedSensor,
             url: '/api/hub',
             dataType: 'JSON'
         }).done(function (response) {
