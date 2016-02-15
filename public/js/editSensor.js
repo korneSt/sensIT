@@ -7,15 +7,22 @@ $(document).ready(function () {
         $(this).val('');
     });
     getSensorByIDTest(sensorID, function (result) {
-    console.log('resultat: ' + result)
-    selectedSensor = result
-    $('#inpuDescEditSens').val(selectedSensor.desc)
-})
+        console.log('resultat: ' + result)
+        selectedSensor = result
+        $('#inpuDescEditSens').val(selectedSensor.desc)
+        if (selectedSensor.favourite === 1) {
+            $('#editSensor fieldset input#favCheckBox').prop('checked', true)
+        }
+
+    })
     // if (($('#inpuDescEditSens').is(":focus"))) {
     //     $(this).val('');
     // } else {
     //     $(this).val(selectedHub.desc);
     // }
+    
+    $('#editSensor fieldset input#favCheckBox').click(checkFavourite);
+
 
 })
 $('#editSensorButton').on('click', editSensor);
@@ -27,6 +34,11 @@ console.log('zaladowano podstrone edit sensor')
 
 //DRUGA WERSJA + callback
 
+var checkFavourite = function () {
+    //$('#editSensor fieldset input#favCheckBox').is(':checked')
+    selectedSensor.favourite = $('input:checked').length;
+    console.log($('input:checked').length);
+}
 
 function getSensorByIDTest(id, callback) {
     console.log('/api/sensor/' + id)
@@ -60,6 +72,8 @@ function editSensor(event) {
     console.log(errorCount)
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
+        // if ($('#editSensor fieldset input#favCheckBox').)
+        //selectedSensor.favourite = $('#editSensor fieldset input#favCheckBox').val()
         // var editedSensor = {
         //     'hubid': $('#addHub fieldset input#inputHubID').val(),
         //     'desc': $('#addHub fieldset input#inputDesc').val(),
@@ -70,7 +84,7 @@ function editSensor(event) {
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
-            url: '/api/sensor/'+sensorID,
+            url: '/api/sensor/' + sensorID,
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
@@ -89,3 +103,5 @@ function editSensor(event) {
         return false;
     }
 }
+
+

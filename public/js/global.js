@@ -8,8 +8,12 @@ $(document).ready(function () {
     console.log('zaladowano /profile');
     // Populate the user table on initial page load
     populateTableHubs();
-    populateTableSensors();
+    populateTableSensors(function(sensorList) {
+        console.log(sensorList.length)
+        populateFavourite()
+    })
     getCurrentTemp();
+
     //$('#addHubButton').click(addHub);
     //$('#editSensorButton').click(editSensor);
     $('#addHubButton').on('click', addHub);
@@ -28,13 +32,16 @@ $(document).ready(function () {
     $('.draggable').draggabilly({
         grid: [20, 20]
     })
-    console.log($("#myCheckbox").prop( "checked" ))
+    //console.log($("#myCheckbox").prop( "checked" ))
     $("#myCheckbox").prop( "checked", false );
     //sprawdza czy strona edycji sensora jest uruchomiona
     
     if($('#editSensor').is(":visible")) {
         console.log("a");
     }
+    //delete sensor
+    $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
+
     //$('.linkshowuser').click(getSensorByID(4));
     //$('#favCheckBox' ).prop( "checked", true );
 });
@@ -77,7 +84,7 @@ function populateTableHubs() {
     });
 };
 
-function populateTableSensors() {
+function populateTableSensors(callback) {
 
     var wholeContent = '';
     var hubList = [];
@@ -87,19 +94,23 @@ function populateTableSensors() {
             //alert(this.hubID);
             hubList.push(this.hubID);
         });
-    }).done(function () {
+    }).then(function () {
         $.each(hubList, function () {
 
             $.getJSON('/api/sensorsHub/' + this, function (data) {
                 // For each item in our JSON, add a table row and cells to the content stringt
                 var tableContent = ''
                 $.each(data.data, function () {
+                    if(this.favourite === 1) {
+                        favSensors.push(this)
+                    }
                     tableContent += '<tr>';
                     tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
                     tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this.sensorID + '">delete</a></td>';
+                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
+                    tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
 
                     tableContent += '</tr>';
                 });
@@ -108,8 +119,23 @@ function populateTableSensors() {
             });
         });
 
-    });
+    })
+    return callback(favSensors);
 };
+
+var populateFavourite = function() {
+    //favSensors=[{},{}]
+    var content = '<div class="grid-item"><div class="panel panel-info"><div class="panel-heading"><panel-title>';
+    content+='Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div class="';
+    content+='currentTemp' + '"></div></div></div></div>';
+    console.log('ile ulubionych: ' + favSensors.length);
+    favSensors.forEach(function(data) {
+        console.log(data.sensorID);
+        $('.grid').append(content)
+    })
+
+    //$('.grid').html(content);
+}
 
 function getSensorByID(id) {
     console.log('/api/sensor/'+id)
@@ -182,51 +208,50 @@ function addHub(event) {
         });
     } else {
         alert('Wypelnij wszyskie pola');
-
         return false;
     }
 }
 
-function editSensor(event) {
+
+
+function deleteSensor(event) {
     event.preventDefault();
-    var url = window.location.pathname.split('/')
-    var sensorID = url[3]
-    console.log(sensorID)
-    var errorCount = 0;
-    $('#editSensor input').each(function (index, val) {
-        console.log(val);
-        if ($(this).val() === '') {
-            errorCount++;
-        }
-    });
 
-    if (errorCount === 0) {
-        var editedSensor = {
-            'hubid': $('#addHub fieldset input#inputHubID').val(),
-            'desc': $('#addHub fieldset input#inputDesc').val(),
-            'userid': $('#addHub fieldset input#inputUserID').val()
-        }
+    // Pop up a confirmation dialog
+    var confirmation = confirm('Are you sure you want to delete this sensor?');
 
+    // Check and make sure the user confirmed
+    if (confirmation === true) {
+
+        // If they did, do our delete
         $.ajax({
-            type: 'PUT',
-            data: editedSensor,
-            url: '/api/hub',
-            dataType: 'JSON'
-        }).done(function (response) {
-            if (response.msg === '') {
-                $('#addHub fieldset input').val('');
-                populateTableHubs();
-            } else {
-                console.log(response);
-                alert('Niepoprawne ID huba');
+            type: 'DELETE',
+            url: '/api/sensor/' + $(this).attr('rel')
+        }).done(function( response ) {
+            // Check for a successful (blank) response
+            if (response.error === false) {
+                console.log(response.data.message)
             }
-        });
-    } else {
-        alert('Wypelnij wszyskie pola');
+            else {
+                console.log(response.data.message)
+                alert('Blad serwera');
+            }
 
-        return false;
+            // Update the table
+            populateTableSensors();
+
+        });
+
     }
-}
+    else {
+
+        // If they said no to the confirm, do nothing
+        return false;
+
+    }
+
+};
+
 
 // var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
 // var barChartData = {
