@@ -269,17 +269,16 @@ exports.addMeasure = function (req, res) {
 }
 
 exports.editHub = function (req, res) {
-    Model.User.forge({
-        name: req.body.name,
-        email: req.body.email
-    })
-        .save()
-        .then(function (user) {
-            res.json({ error: false, data: { id: user.get('id') } });
-        })
-        .catch(function (err) {
+    Model.Hub.forge({
+            hubID: req.body.hubID
+        }).save({
+            desc: req.body.desc,
+            userID: req.body.userID
+        }).then(function (sensor) {
+            res.json({ error: false, data: { id: sensor.get('desc') } });
+        }).catch(function (err) {
             res.status(500).json({ error: true, data: { message: err.message } });
-        });
+        })
 }
 //  Model.Sensor.forge({ sensorID: req.params.id })
 //         .fetch()
@@ -322,7 +321,6 @@ exports.editSensor = function (req, res) {
     }).catch(function (err) {
         res.status(500).json({ error: true, data: { message: err.message } });
     })
-
 }
 
 exports.deleteSensor = function (req, res) {

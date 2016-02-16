@@ -3,10 +3,10 @@ $(document).ready(function () {
     //$('#inpuDescEditSens').val(selectedHub.desc)
 
     // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
-    $('#inpuDescEditSens').click(function () {
+    $('#inpuDescEditHub').click(function () {
         $(this).val('');
     });
-    getSensorByIDTest(sensorID, function (result) {
+    getHubByID(hubID, function (result) {
     console.log('resultat: ' + result)
     selectedSensor = result
     $('#inpuDescEditSens').val(selectedSensor.desc)
@@ -28,9 +28,9 @@ console.log('zaladowano podstrone edit hub')
 //DRUGA WERSJA + callback
 
 
-function getSensorByIDTest(id, callback) {
-    console.log('/api/sensor/' + id)
-    $.getJSON('/api/sensor/' + id).then(function (result) {
+function getHubByID(id, callback) {
+    console.log('/api/hub/' + id)
+    $.getJSON('/api/hub/' + id).then(function (result) {
         callback(result.data)
     })
 }
@@ -38,7 +38,7 @@ function getSensorByIDTest(id, callback) {
 function editHub(event) {
     event.preventDefault();
     var errorCount = 0;
-    $('#editSensor input').each(function (index, val) {
+    $('#editHub input').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
             errorCount++;
@@ -46,14 +46,14 @@ function editHub(event) {
     });
     console.log(errorCount)
     if (errorCount === 0) {
-        selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
+        selectedSensor.desc = $('#editHub fieldset input#inpuDescEditHub').val()
         // var editedSensor = {
         //     'hubid': $('#addHub fieldset input#inputHubID').val(),
         //     'desc': $('#addHub fieldset input#inputDesc').val(),
         //     'userid': $('#addHub fieldset input#inputUserID').val()
         // }
         console.log(selectedSensor);
-        console.log('sensor id: ' + sensorID);
+        console.log('hub id: ' + sensorID);
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
