@@ -42,7 +42,6 @@ var favSensors = [];
 function populateTableHubs() {
 
     var tableContent = '';
-    var temps;
 
     $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
 

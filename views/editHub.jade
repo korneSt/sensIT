@@ -18,7 +18,10 @@ block content
             br
             #addSensor
                 fieldset
-                    label(for='hubid') Sensor ID:
+                    input(type='checkbox' name='state' id="stateCheckBox")
+                    | Wlaczony
+                    br
+                    label(for='sensorid') Sensor ID:
                     input.form-control#inputHubID(type='text', required)
                     //.form-group
                     label(for='desc') Opis:

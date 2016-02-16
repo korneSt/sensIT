@@ -8,8 +8,8 @@ $(document).ready(function () {
     });
     getHubByID(hubID, function (result) {
     console.log('resultat: ' + result)
-    selectedSensor = result
-    $('#inpuDescEditSens').val(selectedSensor.desc)
+    selectedHub = result
+    $('#inpuDescEditHub').val(selectedHub.desc)
 })
     // if (($('#inpuDescEditSens').is(":focus"))) {
     //     $(this).val('');
@@ -18,7 +18,7 @@ $(document).ready(function () {
     // }
 
 })
-$('#editHubButton').on('click', editSensor);
+$('#editHubButton').on('click', editHub);
 var url = window.location.pathname.split('/')
 var hubID = url[3]
 var selectedHub = {}
@@ -46,33 +46,35 @@ function editHub(event) {
     });
     console.log(errorCount)
     if (errorCount === 0) {
-        selectedSensor.desc = $('#editHub fieldset input#inpuDescEditHub').val()
+        selectedHub.desc = $('#editHub fieldset input#inpuDescEditHub').val()
         // var editedSensor = {
         //     'hubid': $('#addHub fieldset input#inputHubID').val(),
         //     'desc': $('#addHub fieldset input#inputDesc').val(),
         //     'userid': $('#addHub fieldset input#inputUserID').val()
         // }
-        console.log(selectedSensor);
-        console.log('hub id: ' + sensorID);
+        console.log('wybrany hub' + selectedHub);
         $.ajax({
             type: 'PUT',
-            data: selectedSensor,
-            url: '/api/sensor/'+sensorID,
+            data: selectedHub,
+            url: '/api/hub/'+hubID,
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
             if (response.error === false) {
                 // $('#addHub fieldset input').val('');
-                // populateTableHubs();
+
                 alert('Zmieniono ustawienia');
             } else {
                 console.log(response.message);
                 alert('Blad serwera');
             }
+        }).fail(function name(params) {
+            console.log('blad')
         });
     } else {
         alert('Wypelnij wszyskie pola');
-
         return false;
     }
 }
+
+
