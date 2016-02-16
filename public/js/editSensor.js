@@ -1,20 +1,30 @@
+/**
+ * 
+ * funckje podstrony do edycji sensora
+ * 
+ */
+
 $(document).ready(function () {
     console.log(sensorID)
-    //$('#inpuDescEditSens').val(selectedHub.desc)
 
-    // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
     $('#inpuDescEditSens').click(function () {
         $(this).val('');
     });
-    getSensorByIDTest(sensorID, function (result) {
+
+    getSensorByID(sensorID, function (result) {
         console.log('resultat: ' + result)
         selectedSensor = result
+        
+        //ustawia opis sensora w polu tekstowym
         $('#inpuDescEditSens').val(selectedSensor.desc)
+        
+        //ustawia wartosc checkboxa 
         if (selectedSensor.favourite === 1) {
             $('#editSensor fieldset input#favCheckBox').prop('checked', true)
         }
-
     })
+    //test
+    //$("#myCheckbox").prop("checked", false);
     // if (($('#inpuDescEditSens').is(":focus"))) {
     //     $(this).val('');
     // } else {
@@ -22,10 +32,11 @@ $(document).ready(function () {
     // }
     
     $('#editSensor fieldset input#favCheckBox').click(checkFavourite);
-
-
+    $('#editSensorButton').on('click', editSensor);
 })
-$('#editSensorButton').on('click', editSensor);
+
+
+
 var url = window.location.pathname.split('/')
 var sensorID = url[3]
 var selectedSensor = {}
@@ -40,7 +51,7 @@ var checkFavourite = function () {
     console.log($('input:checked').length);
 }
 
-function getSensorByIDTest(id, callback) {
+function getSensorByID(id, callback) {
     console.log('/api/sensor/' + id)
     $.getJSON('/api/sensor/' + id).then(function (result) {
         callback(result.data)
@@ -58,11 +69,11 @@ function getSensorByIDTest(id, callback) {
 //     })
 // }
 
-
-
+//akcja przyciska zatwierdzajacego edycje
 function editSensor(event) {
     event.preventDefault();
     var errorCount = 0;
+    
     $('#editSensor input').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
@@ -70,17 +81,13 @@ function editSensor(event) {
         }
     });
     console.log(errorCount)
+    
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-        // if ($('#editSensor fieldset input#favCheckBox').)
-        //selectedSensor.favourite = $('#editSensor fieldset input#favCheckBox').val()
-        // var editedSensor = {
-        //     'hubid': $('#addHub fieldset input#inputHubID').val(),
-        //     'desc': $('#addHub fieldset input#inputDesc').val(),
-        //     'userid': $('#addHub fieldset input#inputUserID').val()
-        // }
+
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
+        
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
@@ -88,6 +95,7 @@ function editSensor(event) {
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
+            
             if (response.error === false) {
                 // $('#addHub fieldset input').val('');
                 // populateTableHubs();
@@ -99,7 +107,6 @@ function editSensor(event) {
         });
     } else {
         alert('Wypelnij wszyskie pola');
-
         return false;
     }
 }
