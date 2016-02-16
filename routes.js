@@ -225,10 +225,15 @@ module.exports.showAbout = showAbout;
 
 module.exports.showContact = showContact;
 
-
 module.exports.showEditSensor = showEditSensor;
 
 module.exports.showEditHub = showEditHub;
 
 module.exports.showEditSensor = showEditSensor;
 
+
+module.exports.showEditSensor = showEditSensor;
+
+module.exports.showEditHub = showEditHub;
+
+module.exports.showEditSensor = showEditSensor;
