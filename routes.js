@@ -79,7 +79,7 @@ var showEditSensor = function(req, res, next) {
       }
    }
 }
-<<<<<<< HEAD
+
 
 var showEditHub = function(req, res, next) {
     console.log('edit hub param:' + req.params.name)
@@ -94,8 +94,6 @@ var showEditHub = function(req, res, next) {
       }
    }
 }
-=======
->>>>>>> f807754a3bf7d9a03da96ea823049412af326757
 
 var showContact = function(req, res, next) {
     res.render('contact', {title: 'Contact'})
