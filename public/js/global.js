@@ -89,7 +89,7 @@ function populateTableSensors() {
                     if (this.favourite === 1) {
                         favSensors.push(this)
                         //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
-                        //populateFavourite();
+                        populateFavourite();
                     }
                 });
                 wholeContent += tableContent;
@@ -105,9 +105,10 @@ function populateFavourite() {
     content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div class="';
     content += 'currentTemp' + '"></div></div></div></div>';
     console.log('ile ulubionych: ' + favSensors.length);
+
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
-    $('.grid').html(content)
+    $('.grid').append(content)
     // })
     //$('.grid').html(content);
 }

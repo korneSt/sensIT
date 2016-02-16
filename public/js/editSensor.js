@@ -23,17 +23,21 @@ $(document).ready(function () {
             $('#editSensor fieldset input#favCheckBox').prop('checked', true)
         }
     })
-    //test
-    //$("#myCheckbox").prop("checked", false);
-    // if (($('#inpuDescEditSens').is(":focus"))) {
-    //     $(this).val('');
-    // } else {
-    //     $(this).val(selectedHub.desc);
-    // }
-    
+
+    console.log(this.checked)
     $('#editSensor fieldset input#favCheckBox').click(checkFavourite);
     $('#editSensorButton').on('click', editSensor);
-})
+});
+//test
+//$("#myCheckbox").prop("checked", false);
+// if (($('#inpuDescEditSens').is(":focus"))) {
+//     $(this).val('');
+// } else {
+//     $(this).val(selectedHub.desc);
+// }
+    
+
+
 
 
 
@@ -73,7 +77,7 @@ function getSensorByID(id, callback) {
 function editSensor(event) {
     event.preventDefault();
     var errorCount = 0;
-    
+
     $('#editSensor input').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
@@ -81,13 +85,13 @@ function editSensor(event) {
         }
     });
     console.log(errorCount)
-    
+
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
 
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
-        
+
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
@@ -95,7 +99,7 @@ function editSensor(event) {
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
-            
+
             if (response.error === false) {
                 // $('#addHub fieldset input').val('');
                 // populateTableHubs();

@@ -13,8 +13,8 @@ block content
                 br
                 button.btn.btn-default#editHubButton Edytuj
                 
-        a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Sensor
-        #hubForm.collapse
+        a.btn.btn-info(data-toggle='collapse', data-target='#sensorForm') Dodaj Sensor
+        #sensorForm.collapse
             br
             #addSensor
                 fieldset
@@ -22,14 +22,14 @@ block content
                     | Wlaczony
                     br
                     label(for='sensorid') Sensor ID:
-                    input.form-control#inputHubID(type='text', required)
+                    input.form-control#inputSensorID(type='text', required)
                     //.form-group
                     label(for='desc') Opis:
                     input.form-control#inputDesc(type='text')
                     //.form-group
-                    input.form-control#inputUserID(type='hidden', value=user.userID)
+                    input.form-control#inputHubID(type='hidden', value=hub)
                     br
-                    button.btn.btn-default#addHubButton Dodaj
+                    button.btn.btn-default#addSensorButton Dodaj
     script(src='/js/editHub.js')
 
 

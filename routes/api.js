@@ -238,19 +238,14 @@ exports.addHub = function (req, res) {
 }
 
 exports.addSensor = function (req, res) {
-    Model.Sensor.forge({
-        sensorID: req.body.sensorid,
-        hubID: req.body.hubid,
-        desc: req.body.desc,
-        state: req.body.state
-    })
+    Model.Sensor.forge(req.body)
         .save()
-        .then(function (user) {
-            res.send({ msg: '' });
+        .then(function (sensor) {
+            res.json({ error: false, data: { id: sensor.get('desc') } });
         })
         .catch(function (err) {
-            res.send({ msg: err.message });
-        });
+            res.status(500).json({ error: true, data: { message: err.message } });
+        })
 }
 
 exports.addMeasure = function (req, res) {
@@ -270,15 +265,15 @@ exports.addMeasure = function (req, res) {
 
 exports.editHub = function (req, res) {
     Model.Hub.forge({
-            hubID: req.body.hubID
-        }).save({
-            desc: req.body.desc,
-            userID: req.body.userID
-        }).then(function (sensor) {
-            res.json({ error: false, data: { id: sensor.get('desc') } });
-        }).catch(function (err) {
-            res.status(500).json({ error: true, data: { message: err.message } });
-        })
+        hubID: req.body.hubID
+    }).save({
+        desc: req.body.desc,
+        userID: req.body.userID
+    }).then(function (sensor) {
+        res.json({ error: false, data: { id: sensor.get('desc') } });
+    }).catch(function (err) {
+        res.status(500).json({ error: true, data: { message: err.message } });
+    })
 }
 //  Model.Sensor.forge({ sensorID: req.params.id })
 //         .fetch()

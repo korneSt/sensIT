@@ -19,7 +19,14 @@ body {
   background: #EEE;
   padding: 10px;
 }
+
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
+}
 .grid-item { 
+
     width: 150px; 
     height: 150px;
     margin-bottom: 10px;
