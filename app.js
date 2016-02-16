@@ -111,14 +111,14 @@ app.post('/login', routes.signInPost);
 app.get('/signup', routes.signUp);
 
 //edit sensor
-<<<<<<< HEAD
+
 app.get('/profile/sensor/:name', routes.showEditSensor);
 
 app.get('/profile/hub/:name', routes.showEditHub);
-=======
+
 app.get('/profile/sensor/:name', routes.showEditSensor)
 
->>>>>>> f807754a3bf7d9a03da96ea823049412af326757
+
 
 // POST
 app.post('/signup', routes.signUpPost);
