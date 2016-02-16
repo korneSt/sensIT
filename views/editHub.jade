@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    #myContent
+        #editHub
+            fieldset
+                // //form(id="addHubForm")
+                //.form-group
+                br
+                label(for='hubid') Opis:
+                input.form-control#inpuDescEditHub(type='text', required)
+                input.form-control#inputUserID(type='hidden', value=user.userID)
+                br
+                button.btn.btn-default#editHubButton Edytuj
+                
+        a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Sensor
+        #hubForm.collapse
+            br
+            #addSensor
+                fieldset
+                    label(for='hubid') Sensor ID:
+                    input.form-control#inputHubID(type='text', required)
+                    //.form-group
+                    label(for='desc') Opis:
+                    input.form-control#inputDesc(type='text')
+                    //.form-group
+                    input.form-control#inputUserID(type='hidden', value=user.userID)
+                    br
+                    button.btn.btn-default#addHubButton Dodaj
+    script(src='/js/editHub.js')
+
+
