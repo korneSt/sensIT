@@ -33,8 +33,8 @@ $(document).ready(function () {
     // if ($('#editSensor').is(":visible")) {
     //     console.log("podstrona widoczna");
     // }
-   // window.setTimeout(updateSensorTemp, 10000);
-//    window.setInterval(updateSensorTemp, 10000);
+    // window.setTimeout(updateSensorTemp, 10000);
+    //    window.setInterval(updateSensorTemp, 10000);
 });
 var myArray
 
@@ -62,42 +62,30 @@ function populateTableSensors() {
 
     var wholeContent = '';
     var hubList = [];
+    $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
+        // For each item in our JSON, add a table row and cells to the content stringt
+        var tableContent = ''
+        $.each(data.data, function () {
 
-    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
-        $.each(result.data, function () {
-            //alert(this.hubID);
-            hubList.push(this.hubID);
+            tableContent += '<tr>';
+            tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
+            tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
+
+            tableContent += '</tr>';
+            //dodaje do tablicy wszystkie ulubione sensory
+            if (this.favourite === 1) {
+                favSensors.push(this)
+                //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
+                populateFavourite(this);
+            }
         });
-    }).then(function () {
-        $.each(hubList, function () {
-
-            $.getJSON('/api/sensorsHub/' + this, function (data) {
-                // For each item in our JSON, add a table row and cells to the content stringt
-                var tableContent = ''
-                $.each(data.data, function () {
-
-                    tableContent += '<tr>';
-                    tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
-
-                    tableContent += '</tr>';
-                    //dodaje do tablicy wszystkie ulubione sensory
-                    if (this.favourite === 1) {
-                        favSensors.push(this)
-                        //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
-                        populateFavourite(this);
-                    }
-                });
-                wholeContent += tableContent;
-                $('#sensorList table tbody').html(wholeContent);
-            });
-        });
-
-    })
+        wholeContent += tableContent;
+        $('#sensorList table tbody').html(wholeContent);
+    });
 };
 
 function populateTableHubs(callback) {
@@ -130,8 +118,8 @@ function updateSensorTemp() {
             console.log('update: ' + this.sensorID)
             var sensorSelected = this;
             //populateFavourite(this)
-            getCurrentTemp(sensorSelected.sensorID, function(lastTemp) {
-                $('#sensor'+sensorSelected.sensorID).html(lastTemp)
+            getCurrentTemp(sensorSelected.sensorID, function (lastTemp) {
+                $('#sensor' + sensorSelected.sensorID).html(lastTemp)
             })
 
         })
