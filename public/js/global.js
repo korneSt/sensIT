@@ -143,19 +143,16 @@ function updateSensorTemp() {
     }
 }
 
-
-
-
 function populateFavourite(sensor) {
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
     getCurrentTemp(sensor.sensorID, function (lastTemp) {
 
-        var content = '<a style ="display:block" href="/profile/favouriteSensor/' +sensor.sensorID + '"><div class="grid-item"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
+        var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' +sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
         content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
         + sensor.sensorID + '" class="';
         content += 'currentTemp' + '">' + lastTemp
-        + '</div>' + sensor.desc + '</div></div></div></a>';
+        + '</div>' + sensor.desc + '</div></div></a></div>';
         console.log('ile ulubionych: ' + favSensors.length);
         $('.grid').append(content)
         //updateSensorTemp();
