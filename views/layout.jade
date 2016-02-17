@@ -35,25 +35,12 @@ html(lang='en')
     script(src='/js/carousel.js', type='text/javascript')
 
 
-    
-    
-
-  body(style='background-color:rgba(0,0,160,0.5);')
-    #myCarousel.carousel.container.slide(data-pause='false')
-      // Carousel items
-      .carousel-inner
-        .active.item.one
-          .carousel-caption
-            h3 Nie wiesz jak podlewać kwiatki?
-            p Zostaw to nam
-        .item.two
-          .carousel-caption
-            h3 Zapomniałeś zakręcić gaz przez wyjazdem?
-            p Przypał...
-        .item.three
-          .carousel-caption
-            h3 Lubisz wykresiki?
-            p Dobrze trafiłeś!
+  body(style='background-color: #006FED;')
+  
+    include mycarousel.jade 
+       
+                        
+              
     #wrapper.container-fluid
       nav#myNavi.navbar.navbar-default
         .container-fluid
