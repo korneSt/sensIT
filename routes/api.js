@@ -165,6 +165,11 @@ exports.sensorsHub = function (req, res) {
         });
 };
 
+// select * from sensors inner join hubs
+// on sensors.hubID = hubs.hubID
+// inner join users 
+// on hubs.userID = users.userID
+// where hubs.userID = 251;
 exports.sensorsUser = function (req, res) {
     Model.Sensors.forge()
         .query('where', { 'hubID': req.params.id })
