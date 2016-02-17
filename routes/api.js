@@ -171,8 +171,12 @@ exports.sensorsHub = function (req, res) {
 // on hubs.userID = users.userID
 // where hubs.userID = 251;
 exports.sensorsUser = function (req, res) {
-    Model.Sensors.forge()
-        .query('where', { 'hubID': req.params.id })
+   Model.Sensors.forge()
+        .query(function(qb) {
+            qb.where('hubs.userID', req.params.id)
+            qb.join('hubs', 'sensors.hubID', '=', 'hubs.hubID')
+            qb.join('users', 'hubs.userID', '=', 'users.userID')
+        })
         .fetch()
         .then(function (user) {
             if (!user) {
