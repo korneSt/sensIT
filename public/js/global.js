@@ -17,6 +17,9 @@ $(document).ready(function () {
     $('#addHubButton').on('click', addHub);
     //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
+
+    $('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
+
     //$('#addHubButton').click(addHub);
     
     //do wykresu
@@ -36,6 +39,7 @@ $(document).ready(function () {
     // window.setTimeout(updateSensorTemp, 10000);
     //    window.setInterval(updateSensorTemp, 10000);
 });
+
 var myArray
 
 var userListData = [];
@@ -57,6 +61,19 @@ function setCookie(nazwa, wartosc, dni) {
 
 var tab = []
 
+function createGrid() {
+
+    //var $gridItem = $("<div>", { id: "favGrid", class: "grid-item" });
+    var $grid = $("<div>", { class: "grid" });
+    var $gridItem = $("<div>", { class: "grid-item" });
+    var $panel = $("<div>", { class: "panel panel-info" });
+
+    $panel.appendTo($gridItem)
+    $gridItem.appendTo($grid)
+    //$gridItem.append($panel)
+    //$("#myContent").appendTo($gridItem)
+    $grid.appendTo(".row")
+}
 
 function populateTableSensors() {
 
@@ -133,13 +150,12 @@ function populateFavourite(sensor) {
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
     getCurrentTemp(sensor.sensorID, function (lastTemp) {
-        //$('.currentTemp').html();
-    
-        var content = '<div class="grid-item"><div class="panel panel-info"><div class="panel-heading"><panel-title>';
+
+        var content = '<a style ="display:block" href="/profile/favouriteSensor/' +sensor.sensorID + '"><div class="grid-item"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
         content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
         + sensor.sensorID + '" class="';
         content += 'currentTemp' + '">' + lastTemp
-        + '</div>' + sensor.desc + '</div></div></div>';
+        + '</div>' + sensor.desc + '</div></div></div></a>';
         console.log('ile ulubionych: ' + favSensors.length);
         $('.grid').append(content)
         //updateSensorTemp();
