@@ -1,3 +1,4 @@
+'use strict'
 // DOM READY
 $(document).ready(function () {
     console.log('zaladowano /profile');
@@ -8,12 +9,13 @@ $(document).ready(function () {
         itemSelector: '.grid-item',
         gutter: 10  //padding
     });
-    
-    populateTableHubs();
     populateTableSensors();
-    getCurrentTemp();
+    populateTableHubs();
+
+    //getCurrentTemp();
 
     $('#addHubButton').on('click', addHub);
+    //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
     //$('#addHubButton').click(addHub);
     
@@ -31,32 +33,30 @@ $(document).ready(function () {
     // if ($('#editSensor').is(":visible")) {
     //     console.log("podstrona widoczna");
     // }
-    
+   // window.setTimeout(updateSensorTemp, 10000);
+//    window.setInterval(updateSensorTemp, 10000);
 });
+var myArray
 
 var userListData = [];
 var favSensors = [];
 
 // Functions 
 
-function populateTableHubs() {
+function setCookie(nazwa, wartosc, dni) {
+    if (dni) {
+        var data = new Date();
+        data.setTime(data.getTime() + (dni * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + data.toGMTString();
+    } else {
+        var expires = "";
+    }
+    document.cookie = nazwa + "=" + wartosc + expires + "; path=/";
+}
 
-    var tableContent = '';
 
-    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
+var tab = []
 
-        // For each item in our JSON, add a table row and cells to the content string
-        $.each(result.data, function () {
-            tableContent += '<tr>';
-            tableContent += '<td><a href="profile/hub/' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-            tableContent += '</tr>';
-        });
-
-        // Inject the whole content string into our existing HTML table
-        $('#hubList table tbody').html(tableContent);
-    });
-};
 
 function populateTableSensors() {
 
@@ -89,7 +89,7 @@ function populateTableSensors() {
                     if (this.favourite === 1) {
                         favSensors.push(this)
                         //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
-                        populateFavourite();
+                        populateFavourite(this);
                     }
                 });
                 wholeContent += tableContent;
@@ -100,37 +100,92 @@ function populateTableSensors() {
     })
 };
 
-function populateFavourite() {
-    var content = '<div class="grid-item"><div class="panel panel-info"><div class="panel-heading"><panel-title>';
-    content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div class="';
-    content += 'currentTemp' + '"></div></div></div></div>';
-    console.log('ile ulubionych: ' + favSensors.length);
+function populateTableHubs(callback) {
+    var test = ''
+    var tableContent = '';
 
+    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
+
+        // For each item in our JSON, add a table row and cells to the content string
+        $.each(result.data, function () {
+            tableContent += '<tr>';
+            tableContent += '<td><a href="profile/hub/' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
+            tableContent += '</tr>';
+        });
+        // (function resultat(callback) {
+        //     tab.push(result)
+        // })();
+        // console.log(test);
+        // setCookie('huby', JSON.stringify(tab),2 )
+        // Inject the whole content string into our existing HTML table
+        $('#hubList table tbody').html(tableContent);
+
+    });
+
+};
+function updateSensorTemp() {
+    if (favSensors.length > 0) {
+        $.each(favSensors, function () {
+            console.log('update: ' + this.sensorID)
+            var sensorSelected = this;
+            //populateFavourite(this)
+            getCurrentTemp(sensorSelected.sensorID, function(lastTemp) {
+                $('#sensor'+sensorSelected.sensorID).html(lastTemp)
+            })
+
+        })
+    }
+}
+
+
+
+
+function populateFavourite(sensor) {
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
-    $('.grid').append(content)
+    getCurrentTemp(sensor.sensorID, function (lastTemp) {
+        //$('.currentTemp').html();
+    
+        var content = '<div class="grid-item"><div class="panel panel-info"><div class="panel-heading"><panel-title>';
+        content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
+        + sensor.sensorID + '" class="';
+        content += 'currentTemp' + '">' + lastTemp
+        + '</div>' + sensor.desc + '</div></div></div>';
+        console.log('ile ulubionych: ' + favSensors.length);
+        $('.grid').append(content)
+        //updateSensorTemp();
+    });
+
     // })
     //$('.grid').html(content);
 }
 
-function getSensorByID(id) {
-    console.log('/api/sensor/' + id)
-    $.getJSON('/api/sensor/' + id).then(function (result) {
-        console.log(result.data)
-        //return result.data.desc
-        //$('#inputDescEditSens').val(result.data.desc)
-    })
-}
+// function getSensorByID(id) {
+//     console.log('/api/sensor/' + id)
+//     $.getJSON('/api/sensor/' + id).then(function (result) {
+//         console.log(result.data)
+//         //return result.data.desc
+//         //$('#inputDescEditSens').val(result.data.desc)
+//     })
+// }
 
 //zwraca ostatnia temp dla wszystkich sensorow co 10s
-function getCurrentTemp() {
-    $.getJSON('/api/measures').then(function (result) {
+function getCurrentTemp(id, callback) {
+    $.getJSON('/api/measuresSensor/' + id).then(function (result) {
         var totalItems = result.data.length;
+        var lastTemp;
+        if (result.data[totalItems - 1] !== undefined) {
+            lastTemp = result.data[totalItems - 1].value1
+        } else {
+            lastTemp = 'Brak'
+        }
         //alert(result.data[totalItems - 1].hubID);
-        $('.currentTemp').html(result.data[totalItems - 1].value1);
-    }).then(function () {
-        setTimeout(getCurrentTemp, 10000);
+        callback(lastTemp);
     })
+    // .then(function () {
+    //     setTimeout(callback, 10000);
+    // })
 }
 
 function getTemperatures() {
