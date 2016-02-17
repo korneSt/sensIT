@@ -310,7 +310,8 @@ exports.editSensor = function (req, res) {
     }).save({
         desc: req.body.desc,
         favourite: req.body.favourite,
-        hubID: req.body.hubID
+        hubID: req.body.hubID,
+        state: req.body.state
     }).then(function (sensor) {
         res.json({ error: false, data: { id: sensor.get('desc') } });
     }).catch(function (err) {
