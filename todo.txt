@@ -5,3 +5,41 @@
     2.2 routes
     2.3 api
 3. deleteSensor
+
+    // .grid-item
+            //     .panel.panel-info
+            //         .panel-heading
+            //             panel-title Aktualna temperatura
+            //         .panel-body
+            //             .currentTemp
+            // .grid-item
+            //     .panel.panel-info
+            //         .panel-heading
+            //             panel-title Aktualna temperatura
+            //         .panel-body
+            //             .currentTemp
+            // .grid-item
+            //     .panel.panel-info
+            //         .panel-heading
+            //             panel-title Aktualna wilgotnosc
+            //         .panel-body
+            //             .currentTemp
+            // .grid-item
+            //     .panel.panel-info
+            //         .panel-heading
+            //             panel-title Aktualna wilgotnosc
+            //         .panel-body
+            //             .currentTemp
+            // .grid-item
+            //     .panel.panel-info
+            //         .panel-heading
+            //             panel-title Aktualna wilgotnosc
+            //         .panel-body
+            //             .currentTemp
+            // .row
+            //     .col-md-4.col-sm-6.col-xs-12#test
+            //     .col-md-4.col-sm-6.col-xs-12#test2
+
+            // .row
+            //     .col-md-4.col-sm-6.col-xs-12#test
+            //     .col-md-4.col-sm-6.col-xs-12#test2

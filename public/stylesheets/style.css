@@ -15,9 +15,11 @@ body {
 }
 */
 .grid {
+
   margin: auto;
   background: #EEE;
   padding: 10px;
+  padding-bottom: 10px;
 }
 
 .grid:after {
@@ -26,11 +28,15 @@ body {
   clear: both;
 }
 .grid-item { 
-
+    /*text-decoration: none;*/
     width: 150px; 
     height: 150px;
     margin-bottom: 10px;
 
+}
+a:hover {
+    color: lawngreen;
+  text-decoration: none; /* no underline */
 }
 .currentTemp {
     font-size: 28px;
