@@ -165,9 +165,18 @@ exports.sensorsHub = function (req, res) {
         });
 };
 
+// select * from sensors inner join hubs
+// on sensors.hubID = hubs.hubID
+// inner join users 
+// on hubs.userID = users.userID
+// where hubs.userID = 251;
 exports.sensorsUser = function (req, res) {
-    Model.Sensors.forge()
-        .query('where', { 'hubID': req.params.id })
+   Model.Sensors.forge()
+        .query(function(qb) {
+            qb.where('hubs.userID', req.params.id)
+            qb.join('hubs', 'sensors.hubID', '=', 'hubs.hubID')
+            qb.join('users', 'hubs.userID', '=', 'users.userID')
+        })
         .fetch()
         .then(function (user) {
             if (!user) {
@@ -238,19 +247,14 @@ exports.addHub = function (req, res) {
 }
 
 exports.addSensor = function (req, res) {
-    Model.Sensor.forge({
-        sensorID: req.body.sensorid,
-        hubID: req.body.hubid,
-        desc: req.body.desc,
-        state: req.body.state
-    })
+    Model.Sensor.forge(req.body)
         .save()
-        .then(function (user) {
-            res.send({ msg: '' });
+        .then(function (sensor) {
+            res.json({ error: false, data: { id: sensor.get('desc') } });
         })
         .catch(function (err) {
-            res.send({ msg: err.message });
-        });
+            res.status(500).json({ error: true, data: { message: err.message } });
+        })
 }
 
 exports.addMeasure = function (req, res) {
@@ -269,17 +273,16 @@ exports.addMeasure = function (req, res) {
 }
 
 exports.editHub = function (req, res) {
-    Model.User.forge({
-        name: req.body.name,
-        email: req.body.email
+    Model.Hub.forge({
+        hubID: req.body.hubID
+    }).save({
+        desc: req.body.desc,
+        userID: req.body.userID
+    }).then(function (sensor) {
+        res.json({ error: false, data: { id: sensor.get('desc') } });
+    }).catch(function (err) {
+        res.status(500).json({ error: true, data: { message: err.message } });
     })
-        .save()
-        .then(function (user) {
-            res.json({ error: false, data: { id: user.get('id') } });
-        })
-        .catch(function (err) {
-            res.status(500).json({ error: true, data: { message: err.message } });
-        });
 }
 //  Model.Sensor.forge({ sensorID: req.params.id })
 //         .fetch()
@@ -316,13 +319,13 @@ exports.editSensor = function (req, res) {
     }).save({
         desc: req.body.desc,
         favourite: req.body.favourite,
-        hubID: req.body.hubID
+        hubID: req.body.hubID,
+        state: req.body.state
     }).then(function (sensor) {
         res.json({ error: false, data: { id: sensor.get('desc') } });
     }).catch(function (err) {
         res.status(500).json({ error: true, data: { message: err.message } });
     })
-
 }
 
 exports.deleteSensor = function (req, res) {

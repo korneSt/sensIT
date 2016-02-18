@@ -18,25 +18,29 @@ $(document).ready(function () {
         //ustawia opis sensora w polu tekstowym
         $('#inpuDescEditSens').val(selectedSensor.desc)
         
-        //ustawia wartosc checkboxa 
+        //ustawia wartosc checkboxa favourite
         if (selectedSensor.favourite === 1) {
             $('#editSensor fieldset input#favCheckBox').prop('checked', true)
         }
+        //ustawia wartosc checkboxa stan
+        if (selectedSensor.state === 1) {
+            $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
+        }
     })
-    //test
-    //$("#myCheckbox").prop("checked", false);
-    // if (($('#inpuDescEditSens').is(":focus"))) {
-    //     $(this).val('');
-    // } else {
-    //     $(this).val(selectedHub.desc);
-    // }
-    
+
+    console.log(this.checked)
     $('#editSensor fieldset input#favCheckBox').click(checkFavourite);
+    $('#editSensor fieldset input#stateCheckBox').click(checkState);
     $('#editSensorButton').on('click', editSensor);
-})
-
-
-
+});
+//test
+//$("#myCheckbox").prop("checked", false);
+// if (($('#inpuDescEditSens').is(":focus"))) {
+//     $(this).val('');
+// } else {
+//     $(this).val(selectedHub.desc);
+// }
+    
 var url = window.location.pathname.split('/')
 var sensorID = url[3]
 var selectedSensor = {}
@@ -44,19 +48,26 @@ var selectedSensor = {}
 console.log('zaladowano podstrone edit sensor')
 
 //DRUGA WERSJA + callback
-
-var checkFavourite = function () {
-    //$('#editSensor fieldset input#favCheckBox').is(':checked')
-    selectedSensor.favourite = $('input:checked').length;
-    console.log($('input:checked').length);
-}
-
 function getSensorByID(id, callback) {
     console.log('/api/sensor/' + id)
     $.getJSON('/api/sensor/' + id).then(function (result) {
         callback(result.data)
     })
 }
+
+var checkState = function () {
+    //$('#editSensor fieldset input#favCheckBox').is(':checked')
+    selectedSensor.state = $('input#stateCheckBox:checked').length;
+    console.log($('input#stateCheckBox:checked').length);
+}
+
+var checkFavourite = function () {
+    //$('#editSensor fieldset input#favCheckBox').is(':checked')
+    selectedSensor.favourite = $('input#favCheckBox:checked').length;
+    console.log($('input#favCheckBox:checked').length);
+}
+
+
 //PIERWSZA WERSJA
 // function getSensorByID(dest, id) {
 //     console.log('/api/sensor/' + id)
@@ -73,7 +84,7 @@ function getSensorByID(id, callback) {
 function editSensor(event) {
     event.preventDefault();
     var errorCount = 0;
-    
+
     $('#editSensor input').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
@@ -81,13 +92,13 @@ function editSensor(event) {
         }
     });
     console.log(errorCount)
-    
+
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-
+        
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
-        
+
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
@@ -95,7 +106,7 @@ function editSensor(event) {
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
-            
+
             if (response.error === false) {
                 // $('#addHub fieldset input').val('');
                 // populateTableHubs();

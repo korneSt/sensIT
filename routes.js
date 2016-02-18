@@ -80,6 +80,21 @@ var showEditSensor = function(req, res, next) {
    }
 }
 
+
+var showEditHub = function(req, res, next) {
+    console.log('edit hub param:' + req.params.name)
+    var hub = req.params.name
+    if(!req.isAuthenticated()) {
+        res.render('index', {title: 'Index'});
+   } else {
+       var user = req.user;
+       if(user !== undefined) {
+           user = user.toJSON();   
+           res.render('editHub', {title: 'EditHub', hub: hub, user: user});
+      }
+   }
+}
+
 var showContact = function(req, res, next) {
     res.render('contact', {title: 'Contact'})
 };
@@ -209,5 +224,16 @@ module.exports.currentUser = currentUser;
 module.exports.showAbout = showAbout;
 
 module.exports.showContact = showContact;
+
+module.exports.showEditSensor = showEditSensor;
+
+module.exports.showEditHub = showEditHub;
+
+module.exports.showEditSensor = showEditSensor;
+
+
+module.exports.showEditSensor = showEditSensor;
+
+module.exports.showEditHub = showEditHub;
 
 module.exports.showEditSensor = showEditSensor;

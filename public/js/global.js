@@ -1,3 +1,4 @@
+'use strict'
 // DOM READY
 $(document).ready(function () {
     console.log('zaladowano /profile');
@@ -8,13 +9,17 @@ $(document).ready(function () {
         itemSelector: '.grid-item',
         gutter: 10  //padding
     });
-    
-    populateTableHubs();
     populateTableSensors();
-    getCurrentTemp();
+    populateTableHubs();
+
+    //getCurrentTemp();
 
     $('#addHubButton').on('click', addHub);
+    //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
+
+    $('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
+
     //$('#addHubButton').click(addHub);
     
     //do wykresu
@@ -31,106 +36,160 @@ $(document).ready(function () {
     // if ($('#editSensor').is(":visible")) {
     //     console.log("podstrona widoczna");
     // }
-    
+    // window.setTimeout(updateSensorTemp, 10000);
+    //    window.setInterval(updateSensorTemp, 10000);
 });
+
+var myArray
 
 var userListData = [];
 var favSensors = [];
 
 // Functions 
 
-function populateTableHubs() {
+function setCookie(nazwa, wartosc, dni) {
+    if (dni) {
+        var data = new Date();
+        data.setTime(data.getTime() + (dni * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + data.toGMTString();
+    } else {
+        var expires = "";
+    }
+    document.cookie = nazwa + "=" + wartosc + expires + "; path=/";
+}
 
+
+var tab = []
+
+function createGrid() {
+
+    //var $gridItem = $("<div>", { id: "favGrid", class: "grid-item" });
+    var $grid = $("<div>", { class: "grid" });
+    var $gridItem = $("<div>", { class: "grid-item" });
+    var $panel = $("<div>", { class: "panel panel-info" });
+
+    $panel.appendTo($gridItem)
+    $gridItem.appendTo($grid)
+    //$gridItem.append($panel)
+    //$("#myContent").appendTo($gridItem)
+    $grid.appendTo(".row")
+}
+
+function populateTableSensors() {
+
+    var wholeContent = '';
+    var hubList = [];
+    $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
+        // For each item in our JSON, add a table row and cells to the content stringt
+        var tableContent = ''
+        $.each(data.data, function () {
+
+            tableContent += '<tr>';
+            tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
+            tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
+
+            tableContent += '</tr>';
+            //dodaje do tablicy wszystkie ulubione sensory
+            if (this.favourite === 1) {
+                favSensors.push(this)
+                //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
+                populateFavourite(this);
+            }
+        });
+        wholeContent += tableContent;
+        $('#sensorList table tbody').html(wholeContent);
+    });
+};
+
+function populateTableHubs(callback) {
+    var test = ''
     var tableContent = '';
-    var temps;
 
     $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(result.data, function () {
             tableContent += '<tr>';
-            tableContent += '<td><a href="#' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            tableContent += '<td><a href="profile/hub/' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
             tableContent += '</tr>';
         });
-
+        // (function resultat(callback) {
+        //     tab.push(result)
+        // })();
+        // console.log(test);
+        // setCookie('huby', JSON.stringify(tab),2 )
         // Inject the whole content string into our existing HTML table
         $('#hubList table tbody').html(tableContent);
+
     });
+
 };
+function updateSensorTemp() {
+    if (favSensors.length > 0) {
+        $.each(favSensors, function () {
+            console.log('update: ' + this.sensorID)
+            var sensorSelected = this;
+            //populateFavourite(this)
+            getCurrentTemp(sensorSelected.sensorID, function (lastTemp) {
+                $('#sensor' + sensorSelected.sensorID).html(lastTemp)
+            })
 
-function populateTableSensors() {
+        })
+    }
+}
 
-    var wholeContent = '';
-    var hubList = [];
 
-    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
-        $.each(result.data, function () {
-            //alert(this.hubID);
-            hubList.push(this.hubID);
-        });
-    }).then(function () {
-        $.each(hubList, function () {
 
-            $.getJSON('/api/sensorsHub/' + this, function (data) {
-                // For each item in our JSON, add a table row and cells to the content stringt
-                var tableContent = ''
-                $.each(data.data, function () {
 
-                    tableContent += '<tr>';
-                    tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
-                    tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
-
-                    tableContent += '</tr>';
-                    //dodaje do tablicy wszystkie ulubione sensory
-                    if (this.favourite === 1) {
-                        favSensors.push(this)
-                        //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
-                        //populateFavourite();
-                    }
-                });
-                wholeContent += tableContent;
-                $('#sensorList table tbody').html(wholeContent);
-            });
-        });
-
-    })
-};
-
-function populateFavourite() {
-    var content = '<div class="grid-item"><div class="panel panel-info"><div class="panel-heading"><panel-title>';
-    content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div class="';
-    content += 'currentTemp' + '"></div></div></div></div>';
-    console.log('ile ulubionych: ' + favSensors.length);
+function populateFavourite(sensor) {
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
-    $('.grid').html(content)
+    getCurrentTemp(sensor.sensorID, function (lastTemp) {
+
+        var content = '<a style ="display:block" href="/profile/favouriteSensor/' +sensor.sensorID + '"><div class="grid-item"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
+        content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
+        + sensor.sensorID + '" class="';
+        content += 'currentTemp' + '">' + lastTemp
+        + '</div>' + sensor.desc + '</div></div></div></a>';
+        console.log('ile ulubionych: ' + favSensors.length);
+        $('.grid').append(content)
+        //updateSensorTemp();
+    });
+
     // })
     //$('.grid').html(content);
 }
 
-function getSensorByID(id) {
-    console.log('/api/sensor/' + id)
-    $.getJSON('/api/sensor/' + id).then(function (result) {
-        console.log(result.data)
-        //return result.data.desc
-        //$('#inputDescEditSens').val(result.data.desc)
-    })
-}
+// function getSensorByID(id) {
+//     console.log('/api/sensor/' + id)
+//     $.getJSON('/api/sensor/' + id).then(function (result) {
+//         console.log(result.data)
+//         //return result.data.desc
+//         //$('#inputDescEditSens').val(result.data.desc)
+//     })
+// }
 
 //zwraca ostatnia temp dla wszystkich sensorow co 10s
-function getCurrentTemp() {
-    $.getJSON('/api/measures').then(function (result) {
+function getCurrentTemp(id, callback) {
+    $.getJSON('/api/measuresSensor/' + id).then(function (result) {
         var totalItems = result.data.length;
+        var lastTemp;
+        if (result.data[totalItems - 1] !== undefined) {
+            lastTemp = result.data[totalItems - 1].value1
+        } else {
+            lastTemp = 'Brak'
+        }
         //alert(result.data[totalItems - 1].hubID);
-        $('.currentTemp').html(result.data[totalItems - 1].value1);
-    }).then(function () {
-        setTimeout(getCurrentTemp, 10000);
+        callback(lastTemp);
     })
+    // .then(function () {
+    //     setTimeout(callback, 10000);
+    // })
 }
 
 function getTemperatures() {

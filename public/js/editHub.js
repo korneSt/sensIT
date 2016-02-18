@@ -1,91 +1,138 @@
-// $(document).ready(function () {
-//     console.log(sensorID)
-//     //$('#inpuDescEditSens').val(selectedHub.desc)
+$(document).ready(function () {
+    console.log(hubID)
+    //$('#inpuDescEditSens').val(selectedHub.desc)
 
-//     // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
-//     $('#inpuDescEditSens').click(function () {
-//         $(this).val('');
-//     });
-//     getSensorByIDTest(sensorID, function (result) {
-//     console.log('resultat: ' + result)
-//     selectedSensor = result
-//     $('#inpuDescEditSens').val(selectedSensor.desc)
-// })
-//     // if (($('#inpuDescEditSens').is(":focus"))) {
-//     //     $(this).val('');
-//     // } else {
-//     //     $(this).val(selectedHub.desc);
-//     // }
+    // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
+    $('#inpuDescEditHub').click(function () {
+        $(this).val('');
+    });
+    getHubByID(hubID, function (result) {
+        console.log('resultat: ' + result)
+        selectedHub = result
 
-// })
-// $('#editSensorButton').on('click', editSensor);
-// var url = window.location.pathname.split('/')
-// var sensorID = url[3]
-// var selectedSensor = {}
-
-// console.log('zaladowano podstrone edit sensor')
-
-// //DRUGA WERSJA + callback
-
-
-// function getSensorByIDTest(id, callback) {
-//     console.log('/api/sensor/' + id)
-//     $.getJSON('/api/sensor/' + id).then(function (result) {
-//         callback(result.data)
-//     })
-// }
-// //PIERWSZA WERSJA
-// // function getSensorByID(dest, id) {
-// //     console.log('/api/sensor/' + id)
-// //     $.getJSON('/api/sensor/' + id).then(function (result) {
-// //         console.log(result.data)
-// //         console.log(result.data.desc)
-// //         dest.desc = result.data.desc
-// //         $('#inpuDescEditSens').val(dest.desc)
-
-// //     })
-// // }
+        $('#inpuDescEditHub').val(selectedHub.desc)
+    })
+    $('#editHubButton').on('click', editHub);
+    $('#addSensorButton').on('click', addSensor);
 
 
 
-// function editHub(event) {
-//     event.preventDefault();
-//     var errorCount = 0;
-//     $('#editSensor input').each(function (index, val) {
-//         console.log(val);
-//         if ($(this).val() === '') {
-//             errorCount++;
-//         }
-//     });
-//     console.log(errorCount)
-//     if (errorCount === 0) {
-//         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-//         // var editedSensor = {
-//         //     'hubid': $('#addHub fieldset input#inputHubID').val(),
-//         //     'desc': $('#addHub fieldset input#inputDesc').val(),
-//         //     'userid': $('#addHub fieldset input#inputUserID').val()
-//         // }
-//         console.log(selectedSensor);
-//         console.log('sensor id: ' + sensorID);
-//         $.ajax({
-//             type: 'PUT',
-//             data: selectedSensor,
-//             url: '/api/sensor/'+sensorID,
-//             dataType: 'JSON'
-//         }).done(function (response) {
-//             console.log(response)
-//             if (response.error === false) {
-//                 // $('#addHub fieldset input').val('');
-//                 // populateTableHubs();
-//                 alert('Zmieniono ustawienia');
-//             } else {
-//                 console.log(response.message);
-//                 alert('Blad serwera');
-//             }
-//         });
-//     } else {
-//         alert('Wypelnij wszyskie pola');
+    $('#stateCheckBox').click(function () {
+        if (this.checked) {
+            state = 1;
+        } else {
+            state = 0;
+        }
+    });
+    // if (($('#inpuDescEditSens').is(":focus"))) {
+    //     $(this).val('');
+    // } else {
+    //     $(this).val(selectedHub.desc);
+    // }    
 
-//         return false;
-//     }
-// }
+})
+
+var url = window.location.pathname.split('/')
+var hubID = url[3]
+var selectedHub = {}
+var state = 0;
+
+console.log('zaladowano podstrone edit hub')
+
+//DRUGA WERSJA + callback
+
+
+function getHubByID(id, callback) {
+    console.log('/api/hub/' + id)
+    $.getJSON('/api/hub/' + id).then(function (result) {
+        callback(result.data)
+    })
+}
+
+function editHub(event) {
+    event.preventDefault();
+    var errorCount = 0;
+    $('#editHub input').each(function (index, val) {
+        console.log(val);
+        if ($(this).val() === '') {
+            errorCount++;
+        }
+    });
+    console.log(errorCount)
+    if (errorCount === 0) {
+        selectedHub.desc = $('#editHub fieldset input#inpuDescEditHub').val()
+        // var editedSensor = {
+        //     'hubid': $('#addHub fieldset input#inputHubID').val(),
+        //     'desc': $('#addHub fieldset input#inputDesc').val(),
+        //     'userid': $('#addHub fieldset input#inputUserID').val()
+        // }
+        console.log('wybrany hub' + selectedHub);
+        $.ajax({
+            type: 'PUT',
+            data: selectedHub,
+            url: '/api/hub/' + hubID,
+            dataType: 'JSON'
+        }).done(function (response) {
+            console.log(response)
+            if (response.error === false) {
+                // $('#addHub fieldset input').val('');
+
+                alert('Zmieniono ustawienia');
+            } else {
+                console.log(response.message);
+                alert('Blad serwera');
+            }
+        }).fail(function name(params) {
+            console.log('blad')
+        });
+    } else {
+        alert('Wypelnij wszyskie pola');
+        return false;
+    }
+}
+
+
+//dodaje nowy sensor
+function addSensor(event) {
+    event.preventDefault();
+    var errorCount = 0;
+
+
+    $('#addSensor input[type=text]').each(function (index, val) {
+        console.log(val);
+        if ($(this).val() === '') {
+            errorCount++;
+        }
+    });
+    console.log(errorCount)
+    if (errorCount === 0) {
+        var newSensor = {
+            
+            //wartosci z pol tekstowych, ktore wprowadza user
+            'sensorid': $('#addSensor fieldset input#inputSensorID').val(),
+            'desc': $('#addSensor fieldset input#inputDesc').val(),
+            'hubID': selectedHub.hubID,
+            'state': state
+        }
+        console.log(newSensor)
+        $.ajax({
+            type: 'POST',
+            data: newSensor,
+            url: '/api/sensor',
+            dataType: 'JSON'
+        }).done(function (response) {
+            if (response.error === false) {
+                $('#addSensor fieldset input[type=text]').val('');
+                //populateTableHubs();
+            } else {
+                console.log(response);
+                alert('Niepoprawne ID sensora');
+            }
+        }).fail(function () {
+            alert('Niepoprawne ID sensora')
+        });
+    } else {
+        alert('Wypelnij wszyskie pola');
+        return false;
+    }
+}

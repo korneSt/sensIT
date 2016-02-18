@@ -15,20 +15,34 @@ body {
 }
 */
 .grid {
+
   margin: auto;
   background: #EEE;
   padding: 10px;
+  padding-bottom: 10px;
+}
+
+.grid:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 .grid-item { 
+    /*text-decoration: none;*/
     width: 150px; 
     height: 150px;
     margin-bottom: 10px;
 
 }
+a:hover {
+    color: lawngreen;
+  text-decoration: none; /* no underline */
+}
 .currentTemp {
     font-size: 28px;
     font-weight:600;
     text-align: center;
+    padding-bottom: 10px;
 }
 .grid-item--width2 { width: 200px; height: 150px;}
 
