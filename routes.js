@@ -95,6 +95,20 @@ var showEditHub = function(req, res, next) {
    }
 }
 
+var showFavouriteSensor = function(req, res, next) {
+    console.log('favourite sensor param:' + req.params.name)
+    var sensor = req.params.name
+    if(!req.isAuthenticated()) {
+        res.render('index', {title: 'Index'});
+   } else {
+       var user = req.user;
+       if(user !== undefined) {
+           user = user.toJSON();   
+           res.render('favouriteSensor', {title: 'EditHub', sensor: sensor, user: user});
+      }
+   }
+}
+
 var showContact = function(req, res, next) {
     res.render('contact', {title: 'Contact'})
 };
@@ -231,9 +245,10 @@ module.exports.showEditHub = showEditHub;
 
 module.exports.showEditSensor = showEditSensor;
 
-
 module.exports.showEditSensor = showEditSensor;
 
 module.exports.showEditHub = showEditHub;
 
 module.exports.showEditSensor = showEditSensor;
+
+module.exports.showFavouriteSensor = showFavouriteSensor;
