@@ -165,6 +165,7 @@ app.put('/api/sensor/:id', api.editSensor);
 
 //DELETE API
 app.delete('/api/sensor/:id', api.deleteSensor);
+app.delete('/api/measure/:id', api.deleteMeasure);
 
 //app.get('/api/hub/:id', api.post);
 

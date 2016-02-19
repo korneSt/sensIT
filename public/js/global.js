@@ -99,7 +99,7 @@ function populateTableSensors() {
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
-        $('.row').append(theTemplate(data));
+        $('#myContent').append(theTemplate(data));
         
         $.each(data.data, function () {
 
