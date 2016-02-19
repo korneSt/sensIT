@@ -30,7 +30,7 @@ var index = function(req, res, next) {
     // }
 
    if(!req.isAuthenticated()) {
-      res.render('index', {title: 'Index'});
+      res.render('index', {title: 'sensIT'});
    } else {
       var user = req.user;
 

@@ -84,6 +84,13 @@ app.use(function (req, res, next) {
   next();
 });
 
+//expose session details to the templates (change the content when logged in)
+app.get('*', function(req, res, next) {
+  // just use boolean for loggedIn
+  res.locals.loggedIn = (req.user) ? true : false;
+
+  next();
+});
 
 
 //app.locals.link = '/profile/s/';

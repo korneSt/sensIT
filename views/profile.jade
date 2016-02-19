@@ -2,6 +2,7 @@ extends layout
 
 block content
     #myContent
+<<<<<<< HEAD
         .grid#favGrid
         script#header(type='text/x-handlebars-template').
             <ul class="list-group">
@@ -74,3 +75,26 @@ block content
     script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js')
     script(src='/js/global.js')
 
+=======
+        #tabWrapper
+            ul.nav.nav-tabs
+                li.active
+                    a(data-toggle='tab', href='#tabProfile') Home
+                li
+                    a(data-toggle='tab', href='#tabHubs') Hubs
+                li
+                    a(data-toggle='tab', href='#tabSens') Sensors
+                li#tabLogout
+                    a(href='/signout') Logout
+        .tab-content
+            #tabProfile.tab-pane.fade.in.active
+                h3 Witaj userze
+                include tabProfile.jade
+            #tabHubs.tab-pane.fade
+                h3 Hubs
+                include tabHubs.jade
+            #tabSens.tab-pane.fade
+                h3 Sensors
+                include tabSensors.jade
+    
+>>>>>>> 53e1012d19969e66df1f68f0069f6dd3625c5b3d

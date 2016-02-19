@@ -6,11 +6,11 @@ $(document).ready(function () {
     
   
     //grid dla ulubionych sensorow
-    $('.grid').masonry({
-        columnWidth: 150,
-        itemSelector: '.grid-item',
-        gutter: 10  //padding
-    });
+    // $('.grid').masonry({
+    //     columnWidth: 150,
+    //     itemSelector: '.grid-item',
+    //     gutter: 10  //padding
+    // });
     populateTableSensors();
     populateTableHubs();
 
@@ -99,7 +99,11 @@ function populateTableSensors() {
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
+<<<<<<< HEAD
         $('#myContent').append(theTemplate(data));
+=======
+        $('.row').append(theTemplate(data));
+>>>>>>> 53e1012d19969e66df1f68f0069f6dd3625c5b3d
         
         $.each(data.data, function () {
 

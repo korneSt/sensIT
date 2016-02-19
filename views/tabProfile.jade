@@ -1,0 +1,26 @@
+p //strona uzytkownika z listą ulubionych sensorow
+#txt(style="display: none;")
+    | #{user.userID}
+#wrapper
+                h2 Twoje Huby
+                #hubList.tableFormat
+                    table
+                        thead
+                            th Hub ID
+                            th Hub opis
+                        tbody
+
+                h2 Twoje Sensory
+                #sensorList.tableFormat
+                    table
+                        thead
+                            th Sensor ID
+                            th Hub Id
+                            th Opis
+                            th Stan
+                            th Ulubiony
+                        tbody
+                h3 Aktualna temperatura
+                h2#p.currentTemp
+   
+script(src='/js/global.js')
