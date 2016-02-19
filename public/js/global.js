@@ -4,11 +4,11 @@ $(document).ready(function () {
     console.log('zaladowano /profile');
 
     //grid dla ulubionych sensorow
-    $('.grid').masonry({
-        columnWidth: 150,
-        itemSelector: '.grid-item',
-        gutter: 10  //padding
-    });
+    // $('.grid').masonry({
+    //     columnWidth: 150,
+    //     itemSelector: '.grid-item',
+    //     gutter: 10  //padding
+    // });
     populateTableSensors();
     populateTableHubs();
 

@@ -1,0 +1,26 @@
+nav#myNavi.navbar.navbar-default.navbar-fixed-top
+        .container-fluid
+          // Brand and toggle get grouped for better mobile display
+          .navbar-header
+            button.navbar-toggle.collapsed.navbar-fixed-top(type='button', data-toggle='collapse', data-target='#defaultNavbar1')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+              span.icon-bar
+            p
+              a#myBrand.navbar-brand(href='/') senseIT 
+          // Collect the nav links, forms, and other content for toggling
+          #defaultNavbar1.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-right
+              li
+                a#myAbout(href='/about') O nas
+              li
+                a#myContact(href='/contact') Kontakt
+              li
+                if loggedIn
+                    a#myLogin(href='/signout') Wyloguj
+                else
+                    a#myLogin(href='/login') Zaloguj
+                    
+          // /.navbar-collapse
+        // /.container-fluid

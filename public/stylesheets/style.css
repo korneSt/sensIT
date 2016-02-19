@@ -35,7 +35,7 @@ body {
 
 }
 a:hover {
-    color: lawngreen;
+  /*color: lawngreen;*/
   text-decoration: none; /* no underline */
 }
 .currentTemp {

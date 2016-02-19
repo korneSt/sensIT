@@ -82,7 +82,7 @@ input[type="password"] {
 	background-color: rgba(255,255,255,0.8);
 	min-height: 600px;
 	border-radius: 5px;
-    margin: auto;
+    margin: 60px 0 0 0;
 }
 /*/CONTENT*/
 
@@ -101,13 +101,15 @@ input[type="password"] {
 	min-height: 70px !important;
 }*/
 }
+
+
 @media (min-width: 900px) {
 .navbar{
 	padding: 0 10% 0 10%;
 }
 #myContent{
 	padding: 50px;
-	margin: 0 10% 0 10%;
+	margin: 60px 10% 0 10%;
 }
 }
 @media (min-width: 1200px) {
@@ -116,7 +118,7 @@ input[type="password"] {
 }
 #myContent{
 	padding: 50px;
-	margin: 0 20% 0 20%;
+	margin: 60px 20% 0 20%;
 }
 }
 .navbar {
@@ -132,7 +134,8 @@ input[type="password"] {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #00D1E3;
+  color: lawngreen;
+  /*color: #00D1E3*/
   background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -143,12 +146,13 @@ input[type="password"] {
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-  color: #00D1E3;
+    color: lawngreen;
+  /*color: #00D1E3;*/
   background-color: transparent;
 }
 #myNavi {
 	font-size: medium;
-	background-color: rgba(128,128,128,0.50);
+	background-color: #000;
 	top:0;
 	right:0;
 }
@@ -159,3 +163,22 @@ input[type="password"] {
 	font-size: large;
 }
 
+/*tabsy*/
+#tabWrapper{
+    max-height: 50px;
+}
+.nav-tabs > li {
+    float: left;
+    width: 25%;
+}
+.nav-tabs > li {
+	text-align:center;
+}
+#tabLogout > a{
+    color: black;
+    background-color: palevioletred;
+}
+#tabLogout > a:hover{
+    color: white;    
+    background-color: indianred;
+}

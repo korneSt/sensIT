@@ -2,66 +2,60 @@ extends layout
 
 block content
     #myContent
-        .grid#favGrid
-        .row
-            .col-md-4.col-sm-6.col-xs-12
-                a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Hub
-                #hubForm.collapse
-                    br
-                    #addHub
-                        fieldset
-                            // //form(id="addHubForm")
-                            //.form-group
-                            label(for='hubid') Hub ID:
-                            input.form-control#inputHubID(type='text', required)
-                            //.form-group
-                            label(for='desc') Opis:
-                            input.form-control#inputDesc(type='text')
-                            //.form-group
-                            input.form-control#inputUserID(type='hidden', value=user.userID)
-                            br
-                            button.btn.btn-default#addHubButton Dodaj
+        #tabWrapper
+            ul.nav.nav-tabs
+                li.active
+                    a(data-toggle='tab', href='#tabProfile') Home
+                li
+                    a(data-toggle='tab', href='#tabHubs') Hubs
+                li
+                    a(data-toggle='tab', href='#tabSens') Sensors
+                li#tabLogout
+                    a(href='/signout') Logout
+        .tab-content
+            #tabProfile.tab-pane.fade.in.active
+                h3 Witaj userze
+                include tabProfile.jade
+            #tabHubs.tab-pane.fade
+                h3 Hubs
+                include tabHubs.jade
+            #tabSens.tab-pane.fade
+                h3 Sensors
+                include tabSensors.jade
+    
+    
+        // 
+        // .grid#favGrid
+        // .row
+        //     .col-md-4.col-sm-6.col-xs-12
+        //         a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Hub
+        //         #hubForm.collapse
+        //             br
+        //             #addHub
+        //                 fieldset
+        //                     // //form(id="addHubForm")
+        //                     //.form-group
+        //                     label(for='hubid') Hub ID:
+        //                     input.form-control#inputHubID(type='text', required)
+        //                     //.form-group
+        //                     label(for='desc') Opis:
+        //                     input.form-control#inputDesc(type='text')
+        //                     //.form-group
+        //                     input.form-control#inputUserID(type='hidden', value=user.userID)
+        //                     br
+        //                     button.btn.btn-default#addHubButton Dodaj
                 //     -if(errorMessage1)
                 //         .alert.alert-danger !{errorMessage1}
+                //
                 
-                
-            .col-md-4.col-sm-6.col-xs-12
-                // .panel.panel-info
-                //     .panel-heading
-                //         h3.panel-title Witaj
-                //     .panel-body
-                //         | #{user.username}
+        .col-md-4.col-sm-6.col-xs-12
+            // .panel.panel-info
+            //     .panel-heading
+            //         h3.panel-title Witaj
+            //     .panel-body
+            //         | #{user.username}
 
-                #txt(style="display: none;")
-                    | #{user.userID}
+            #txt(style="display: none;")
+                | #{user.userID}
 
-                #wrapper
-                    h2 Twoje Huby
-                    #hubList.tableFormat
-                        table
-                            thead
-                                th Hub ID
-                                th Hub opis
-                            tbody
-
-                    h2 Twoje Sensory
-                    #sensorList.tableFormat
-                        table
-                            thead
-                                th Sensor ID
-                                th Hub Id
-                                th Opis
-                                th Stan
-                                th Ulubiony
-                            tbody
-                    h3 Aktualna temperatura
-                    h2#p.currentTemp
-        a(name='11')
-            | Printing Support
-        div(style='width: 50%')
-        canvas#canvas(height='450', width='600')
-            // .col-md-4.col-sm-6.col-xs-12
-            //     include ./includes/hubs.jade
-            //     br
-            //     include ./includes/sensors.jade
-    script(src='/js/global.js')
+            
