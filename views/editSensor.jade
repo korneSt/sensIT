@@ -1,22 +1,15 @@
-extends layout
-
-block content
-    #myContent
-        #editSensor
-            fieldset
-                // //form(id="addHubForm")
-                //.form-group
-                input(type='checkbox' name='favSensor' id="favCheckBox")
-                | Ulubiony
-                input(type='checkbox' name='stateSensor' id="stateCheckBox")
-                | Włączony
-                br
-                label(for='hubid') Opis:
-                input.form-control#inpuDescEditSens(type='text', required)
-                input.form-control#inputUserID(type='hidden', value=user.userID)
-                br
-                button.btn.btn-default#editSensorButton Dodaj
-    script(src='/js/editSensor.js')
-//link(href='/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.css', rel='stylesheet', type='text/css')
-//script(src='/bootstrap-switch-master/dist/js/bootstrap-switch.js')
-
+#editSensor
+    fieldset
+        // //form(id="addHubForm")
+        //.form-group
+        input(type='checkbox' name='favSensor' id="favCheckBox")
+        | Ulubiony
+        input(type='checkbox' name='stateSensor' id="stateCheckBox")
+        | Włączony
+        br
+        label(for='hubid') Opis:
+        input.form-control#inpuDescEditSens(type='text', required)
+        input.form-control#inputUserID(type='hidden', value=user.userID)
+        br
+        button.btn.btn-default#editSensorButton Dodaj
+script(src='/js/editSensor.js')    

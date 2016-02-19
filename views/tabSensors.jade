@@ -1,1 +1,28 @@
-p //lista sensorow, po kliknieciu przenosi na strone sensora
+#tabSensor
+    .row
+        .col-md-8.col-sm-6.col-xs-12
+            #sensorsListTab
+            script#header(type='text/x-handlebars-template').
+                <div class="list-group" id='sensorListGroup'>
+                {{#each data}}
+                    <a href="#" class="list-group-item" data-sensID="{{sensorID}}">{{ sensorID }} {{ desc }}</a>
+                {{/each}}
+                </div>
+            h2 Twoje Sensory
+            #sensorList.tableFormat
+                table
+                    thead
+                        th Sensor ID
+                        th Hub Id
+                        th Opis
+                        th Stan
+                        th Ulubiony
+                    tbody
+        .col-md-4.col-sm-6.col-xs-12
+            #editSensorTab
+                include editSensor.jade
+    #txt(style="display: none;")
+        | #{user.userID}
+//<li class="list-group-item" data-sensID="{{sensorID}}">  
+//     {{ sensorID }} {{ desc }}
+// </li>​

@@ -3,7 +3,6 @@
  * funckje podstrony do edycji sensora
  * 
  */
-
 $(document).ready(function () {
     console.log(sensorID)
 
@@ -11,22 +10,31 @@ $(document).ready(function () {
         $(this).val('');
     });
 
-    getSensorByID(sensorID, function (result) {
-        console.log('resultat: ' + result)
-        selectedSensor = result
+
+    $('ul.list-group li').click(function (e) {
+        console.log($(this).attr('data-sensid'));
+        sensorID = $(this).attr('data-sensid');
+        $('#editSensorTab').load('editSensor.jade');
+
+        getSensorByID(sensorID, function (result) {
+            console.log('resultat: ' + result)
+            selectedSensor = result
         
-        //ustawia opis sensora w polu tekstowym
-        $('#inpuDescEditSens').val(selectedSensor.desc)
+            //ustawia opis sensora w polu tekstowym
+            $('#inpuDescEditSens').val(selectedSensor.desc)
         
-        //ustawia wartosc checkboxa favourite
-        if (selectedSensor.favourite === 1) {
-            $('#editSensor fieldset input#favCheckBox').prop('checked', true)
-        }
-        //ustawia wartosc checkboxa stan
-        if (selectedSensor.state === 1) {
-            $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
-        }
-    })
+            //ustawia wartosc checkboxa favourite
+            if (selectedSensor.favourite === 1) {
+                $('#editSensor fieldset input#favCheckBox').prop('checked', true)
+            }
+            //ustawia wartosc checkboxa stan
+            if (selectedSensor.state === 1) {
+                $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
+            }
+        })
+
+    }).css("cursor", "pointer");
+
 
     console.log(this.checked)
     $('#editSensor fieldset input#favCheckBox').click(checkFavourite);
@@ -41,11 +49,13 @@ $(document).ready(function () {
 //     $(this).val(selectedHub.desc);
 // }
     
-var url = window.location.pathname.split('/')
-var sensorID = url[3]
+//var url = window.location.pathname.split('/')
+var sensorID;
 var selectedSensor = {}
 
 console.log('zaladowano podstrone edit sensor')
+
+
 
 //DRUGA WERSJA + callback
 function getSensorByID(id, callback) {
@@ -95,7 +105,7 @@ function editSensor(event) {
 
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-        
+
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
 
