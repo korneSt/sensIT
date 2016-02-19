@@ -1,8 +1,10 @@
 'use strict'
+
 // DOM READY
 $(document).ready(function () {
-    console.log('zaladowano /profile');
-
+    console.log('zaladowano profile');
+    
+  
     //grid dla ulubionych sensorow
     $('.grid').masonry({
         columnWidth: 150,
@@ -20,6 +22,16 @@ $(document).ready(function () {
 
     $('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
 
+    Handlebars.registerHelper('link', function (text, url) {
+        url = Handlebars.escapeExpression(url);
+        text = Handlebars.escapeExpression(text);
+
+        return new Handlebars.SafeString(
+            //<li class="list-group-item" >
+            "<a href='/profile/sensor/" + url + "'>" + text + "</a>"
+            );
+    });
+    
     //$('#addHubButton').click(addHub);
     
     //do wykresu
@@ -41,6 +53,7 @@ $(document).ready(function () {
 });
 
 var myArray
+
 
 var userListData = [];
 var favSensors = [];
@@ -76,23 +89,29 @@ function createGrid() {
 }
 
 function populateTableSensors() {
+    var theData = { customers: [{ firstName: 'Michael', lastName: 'Alexander', age: 20 }, { firstName: 'John', lastName: 'Allen', age: 29 }] };
+    var theTemplateScript = $("#header").html();
+    var theTemplate = Handlebars.compile(theTemplateScript);
+
 
     var wholeContent = '';
     var hubList = [];
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
+        $('.row').append(theTemplate(data));
+        
         $.each(data.data, function () {
 
-            tableContent += '<tr>';
-            tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
-            tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
+            // tableContent += '<tr>';
+            // tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
+            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
+            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
+            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
+            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
+            // tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
 
-            tableContent += '</tr>';
+            // tableContent += '</tr>';
             //dodaje do tablicy wszystkie ulubione sensory
             if (this.favourite === 1) {
                 favSensors.push(this)
@@ -100,8 +119,8 @@ function populateTableSensors() {
                 populateFavourite(this);
             }
         });
-        wholeContent += tableContent;
-        $('#sensorList table tbody').html(wholeContent);
+        // wholeContent += tableContent;
+        // $('#sensorList table tbody').html(wholeContent);
     });
 };
 
@@ -148,7 +167,7 @@ function populateFavourite(sensor) {
     // console.log(this.data.sensorID);
     getCurrentTemp(sensor.sensorID, function (lastTemp) {
 
-        var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' +sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
+        var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' + sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
         content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
         + sensor.sensorID + '" class="';
         content += 'currentTemp' + '">' + lastTemp
