@@ -182,3 +182,9 @@ input[type="password"] {
     color: white;    
     background-color: indianred;
 }
+
+
+
+.panel-heading{
+    padding: 0;
+}

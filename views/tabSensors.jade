@@ -3,9 +3,19 @@
         .col-md-8.col-sm-6.col-xs-12
             #sensorsListTab
             script#header(type='text/x-handlebars-template').
-                <div class="list-group" id='sensorListGroup'>
+                <div class="panel-group" id="sensorListGroup">
                 {{#each data}}
-                    <a href="#" class="list-group-item" data-sensID="{{sensorID}}">{{ sensorID }} {{ desc }}</a>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#c{{sensorID}}" class="list-group-item" data-parent="sensorListGroup" data-toggle="collapse" data-sensID="{{sensorID}}">{{ sensorID }} {{ desc }}</a>
+                            </h4>
+                        </div>
+                        <div id="c{{sensorID}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+                    </div>
                 {{/each}}
                 </div>
             h2 Twoje Sensory

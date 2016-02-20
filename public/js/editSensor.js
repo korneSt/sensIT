@@ -5,40 +5,40 @@ $(document).ready(function () {
     console.log('zaladowano podstrone sensor')
     console.log('sensorID: ' + sensorID)
 
-    $(document).on('click', 'div#sensorListGroup a', function (e) {
-        e.preventDefault();
-        $selectedItem = $(this);
-        $(this).addClass('list-group-item active').siblings()
-            .removeClass('list-group-item active')
-            .addClass('list-group-item');
+    // $(document).on('click', 'div#sensorListGroup a', function (e) {
+    //     e.preventDefault();
+    //     $selectedItem = $(this);
+    //     $(this).addClass('list-group-item active').siblings()
+    //         .removeClass('list-group-item active')
+    //         .addClass('list-group-item');
         
-        //ustaw wartosc sensorID na wybrana po kliknieciu
-        sensorID = $(this).attr('data-sensid');
+    //     //ustaw wartosc sensorID na wybrana po kliknieciu
+    //     sensorID = $(this).attr('data-sensid');
         
-        //wyswietl zakladke do edycji sensora
-        $('#editSensorTab').show();
+    //     //wyswietl zakladke do edycji sensora
+    //     $('#editSensorTab').show();
 
-        getSensorByID(sensorID, function (result) {
-            //ustaw objekt sensora
-            selectedSensor = result
+    //     getSensorByID(sensorID, function (result) {
+    //         //ustaw objekt sensora
+    //         selectedSensor = result
         
-            //ustaw opis sensora w polu tekstowym
-            $('#inpuDescEditSens').val(selectedSensor.desc)
+    //         //ustaw opis sensora w polu tekstowym
+    //         $('#inpuDescEditSens').val(selectedSensor.desc)
         
-            //ustaw wartosc checkboxa favourite
-            if (selectedSensor.favourite === 1) {
-                $('#editSensor fieldset input#favCheckBox').prop('checked', true)
-            } else {
-                $('#editSensor fieldset input#favCheckBox').prop('checked', false)
-            }
-            //ustaw wartosc checkboxa stan
-            if (selectedSensor.state === 1) {
-                $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
-            } else {
-                $('#editSensor fieldset input#stateCheckBox').prop('checked', false)
-            }
-        })
-    })
+    //         //ustaw wartosc checkboxa favourite
+    //         if (selectedSensor.favourite === 1) {
+    //             $('#editSensor fieldset input#favCheckBox').prop('checked', true)
+    //         } else {
+    //             $('#editSensor fieldset input#favCheckBox').prop('checked', false)
+    //         }
+    //         //ustaw wartosc checkboxa stan
+    //         if (selectedSensor.state === 1) {
+    //             $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
+    //         } else {
+    //             $('#editSensor fieldset input#stateCheckBox').prop('checked', false)
+    //         }
+    //     })
+    // })
     
     //usun tekst z pola tekstowego po kliknieciu
     $('#inpuDescEditSens').click(function () {
@@ -108,7 +108,7 @@ function editSensor(event) {
                 // $('#addHub fieldset input').val('');
                 // populateTableHubs();
                 $selectedItem.text(selectedSensor.sensorID + ' ' + selectedSensor.desc);
-                alert('Zmieniono ustawienia');
+                //alert('Zmieniono ustawienia');
             } else {
                 console.log('Blad: ' + response.message);
                 alert('Blad serwera');
