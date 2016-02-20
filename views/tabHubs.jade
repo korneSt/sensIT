@@ -1,1 +1,31 @@
-p //lista hubow, po kliknieciu przenosi na strone huba
+#txt(style="display: none;")
+    | #{user.userID}
+
+#hubTab
+    .row
+        .col-md-4.col-sm-6.col-xs-12
+            h2 Twoje Huby
+            #hubList.tableFormat
+                table
+                    thead
+                        th Hub ID
+                        th Hub opis
+                    tbody
+            a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Hub
+            #hubForm.collapse
+                br
+                #addHub
+                    fieldset
+                        // //form(id="addHubForm")
+                        //.form-group
+                        label(for='hubid') Hub ID:
+                        input.form-control#inputHubID(type='text', required)
+                        //.form-group
+                        label(for='desc') Opis:
+                        input.form-control#inputDesc(type='text')
+                        //.form-group
+                        input.form-control#inputUserID(type='hidden', value=user.userID)
+                        br
+                        button.btn.btn-default#addHubButton Dodaj
+script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js')
+

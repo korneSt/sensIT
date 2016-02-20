@@ -2,9 +2,50 @@
 
 // DOM READY
 $(document).ready(function () {
-    console.log('zaladowano profile');
+
+    console.log('zaladowano global.js');
+
+    $(document).on('click', 'div#sensorListGroup a', function (e) {
+        //$('ul#sensorListGroup li').on('click', function () {
+        
+        e.preventDefault();
+        //$('a.current').removeClass('current');
+        $(this).addClass('list-group-item active').siblings()
+            .removeClass('list-group-item active')
+            .addClass('list-group-item');
+        
+        //this.addClass('list-group-item active');
+        sensorID = $(this).attr('data-sensid');
+        $('#editSensorTab').show();
+        console.log($(this).attr('data-sensid'));
+
+        //$('#editSensorTab').load('editSensor.jade');
+
+        getSensorByID(sensorID, function (result) {
+            console.log('resultat: ' + result)
+            selectedSensor = result
+        
+            //ustawia opis sensora w polu tekstowym
+            $('#inpuDescEditSens').val(selectedSensor.desc)
+        
+            //ustawia wartosc checkboxa favourite
+            if (selectedSensor.favourite === 1) {
+                $('#editSensor fieldset input#favCheckBox').prop('checked', true)
+            } else {
+                $('#editSensor fieldset input#favCheckBox').prop('checked', false)
+            }
+            //ustawia wartosc checkboxa stan
+            if (selectedSensor.state === 1) {
+                $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
+            } else {
+                $('#editSensor fieldset input#stateCheckBox').prop('checked', false)
+            }
+        })
+
+    })
+    //.css("cursor", "pointer");
     
-  
+
     //grid dla ulubionych sensorow
     // $('.grid').masonry({
     //     columnWidth: 150,
@@ -20,7 +61,9 @@ $(document).ready(function () {
     //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
 
-    $('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
+
+    //$('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
+
 
     Handlebars.registerHelper('link', function (text, url) {
         url = Handlebars.escapeExpression(url);
@@ -30,7 +73,11 @@ $(document).ready(function () {
             //<li class="list-group-item" >
             "<a href='/profile/sensor/" + url + "'>" + text + "</a>"
             );
+
+
     });
+    $('#editSensorTab').hide();
+
     
     //$('#addHubButton').click(addHub);
     
@@ -81,6 +128,7 @@ function createGrid() {
     var $gridItem = $("<div>", { class: "grid-item" });
     var $panel = $("<div>", { class: "panel panel-info" });
 
+
     $panel.appendTo($gridItem)
     $gridItem.appendTo($grid)
     //$gridItem.append($panel)
@@ -94,13 +142,19 @@ function populateTableSensors() {
     var theTemplate = Handlebars.compile(theTemplateScript);
 
 
+
     var wholeContent = '';
     var hubList = [];
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
-        $('.row').append(theTemplate(data));
-        
+
+
+        //$('#myContent').append(theTemplate(data));
+
+        $('#sensorsListTab').append(theTemplate(data));
+
+
         $.each(data.data, function () {
 
             // tableContent += '<tr>';

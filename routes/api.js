@@ -345,7 +345,32 @@ exports.deleteSensor = function (req, res) {
         });
 }
 
+
 // GET
+//Jako id podaj indeks hiba
+exports.deleteMeasure = function (req, res) {
+     Model.Measure
+            .query().whereIn('sensorID', [req.params.id]).del().then(function () {
+                    res.json({ error: false, data: { message: 'Sensor successfully deleted' } });
+                })
+                .catch(function (err) {
+                    res.status(500).json({ error: true, data: { message: err.message } });
+                });
+    // Model.Measures.forge({sensorID: req.params.id})
+    // .fetch({ require: true })
+    //     .then(function (sensor) {
+    //         sensor.destroy()
+    //             .then(function () {
+    //                 res.json({ error: false, data: { message: 'Sensor successfully deleted' } });
+    //             })
+    //             .catch(function (err) {
+    //                 res.status(500).json({ error: true, data: { message: err.message } });
+    //             });
+    //     })
+    //     .catch(function (err) {
+    //         res.status(500).json({ error: true, data: { message: err.message } });
+    //     });
+}
 
 exports.posts = function (req, res) {
     var posts = [];
