@@ -51,10 +51,10 @@ $(document).ready(function () {
     
 //var url = window.location.pathname.split('/')
 var sensorID;
+
 var selectedSensor = {}
 
 console.log('zaladowano podstrone edit sensor')
-
 
 
 //DRUGA WERSJA + callback
@@ -105,7 +105,7 @@ function editSensor(event) {
 
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-
+        
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
 

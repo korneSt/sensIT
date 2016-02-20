@@ -2,6 +2,7 @@
 
 // DOM READY
 $(document).ready(function () {
+
     console.log('zaladowano global.js');
 
     $(document).on('click', 'div#sensorListGroup a', function (e) {
@@ -44,6 +45,7 @@ $(document).ready(function () {
     })
     //.css("cursor", "pointer");
     
+
     //grid dla ulubionych sensorow
     // $('.grid').masonry({
     //     columnWidth: 150,
@@ -59,7 +61,9 @@ $(document).ready(function () {
     //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
 
+
     //$('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
+
 
     Handlebars.registerHelper('link', function (text, url) {
         url = Handlebars.escapeExpression(url);
@@ -70,8 +74,10 @@ $(document).ready(function () {
             "<a href='/profile/sensor/" + url + "'>" + text + "</a>"
             );
 
+
     });
     $('#editSensorTab').hide();
+
     
     //$('#addHubButton').click(addHub);
     
@@ -122,6 +128,7 @@ function createGrid() {
     var $gridItem = $("<div>", { class: "grid-item" });
     var $panel = $("<div>", { class: "panel panel-info" });
 
+
     $panel.appendTo($gridItem)
     $gridItem.appendTo($grid)
     //$gridItem.append($panel)
@@ -135,15 +142,18 @@ function populateTableSensors() {
     var theTemplate = Handlebars.compile(theTemplateScript);
 
 
+
     var wholeContent = '';
     var hubList = [];
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
 
+
         //$('#myContent').append(theTemplate(data));
 
         $('#sensorsListTab').append(theTemplate(data));
+
 
         $.each(data.data, function () {
 
