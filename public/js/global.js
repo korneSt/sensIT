@@ -107,13 +107,6 @@ function populateTableSensors() {
     var theTemplateScript = $("#header").html();
     var theTemplate = Handlebars.compile(theTemplateScript);
 
-<<<<<<< HEAD
-=======
-
-
-    var wholeContent = '';
-    var hubList = [];
->>>>>>> 4750255d100143301c737c0686302cfdfb640165
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
