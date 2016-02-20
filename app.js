@@ -79,10 +79,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function (req, res, next) {
-  //console.log('Time:', Date.now());
-  next();
-});
+
 
 //expose session details to the templates (change the content when logged in)
 app.get('*', function(req, res, next) {
@@ -91,7 +88,6 @@ app.get('*', function(req, res, next) {
 
   next();
 });
-
 
 //app.locals.link = '/profile/s/';
 
@@ -159,6 +155,8 @@ app.get('/api/sensor/:id', api.sensor);
 app.get('/api/measure/:id', api.measure);
 
 app.get('/api/currentUser', api.currentUser);
+
+app.get('/api/addMeasure/:id', api.addMeasureReal);
 
 // POST API
 app.post('/api/user', api.addUser);

@@ -272,6 +272,20 @@ exports.addMeasure = function (req, res) {
         });
 }
 
+exports.addMeasureReal = function (req, res) {
+    Model.Measure.forge({
+        sensorID: req.params.id,
+        value1: req.query.value1
+    })
+        .save()
+        .then(function (measure) {
+            res.json({ error: false, data: { measureID: measure.get('measureID') } });
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+}
+
 exports.editHub = function (req, res) {
     Model.Hub.forge({
         hubID: req.body.hubID
