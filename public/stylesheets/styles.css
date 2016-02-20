@@ -22,7 +22,7 @@
 	transition: opacity 1s;
 }
 .carousel .one {
-	background: url(../images/header-1.jpg);
+	background: url(../images/header-4.jpg);
 	background-size: cover;
 	-moz-background-size: cover;
 }
@@ -43,6 +43,10 @@
 }
 .carousel-caption{
 	top:50%;
+    background-color: rgba(139,195,74,0.5);
+    min-width: 100%;
+    max-height: 130px;
+    left: 0;
 }
 /*/KARUZELA*/
 
