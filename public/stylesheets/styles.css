@@ -80,6 +80,7 @@ input[type="password"] {
 	border-top-right-radius: 0;
 }
 /*/login form*/
+
 /*CONTENT*/
 #myContent{
 	padding: 50px;
@@ -100,10 +101,14 @@ input[type="password"] {
    line-height: 50px;
 }*/
 
+
 @media (max-width: 768px) {
 /*.navbar{
 	min-height: 70px !important;
 }*/
+#myContent{
+    padding: 25px 25px;
+}
 }
 
 
@@ -138,7 +143,8 @@ input[type="password"] {
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: lawngreen;
+  color: rgba(139,195,74,1);
+    /*color: lawngreen;*/
   /*color: #00D1E3*/
   background-color: transparent;
 }
@@ -150,8 +156,9 @@ input[type="password"] {
 }
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
-    color: lawngreen;
-  /*color: #00D1E3;*/
+    color: rgba(139,195,74,1);
+    /*color: lawngreen;*/
+    /*color: #00D1E3;*/
   background-color: transparent;
 }
 #myNavi {
@@ -166,17 +173,49 @@ input[type="password"] {
 .container-fluid #defaultNavbar1 .nav.navbar-nav.navbar-right {
 	font-size: large;
 }
+/*\NAVBAR*/
 
-/*tabsy*/
+/*logo*/
+#myLogoWrapper{
+    width: 100%;
+    margin-top: 100px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#myBigLogo{
+    height:200px;
+    width:200px;
+}
+
+
+/*TABS*/
 #tabWrapper{
     max-height: 50px;
+}
+.nav-tabs{
+    border-bottom: none;
 }
 .nav-tabs > li {
     float: left;
     width: 25%;
 }
-.nav-tabs > li {
+.nav-tabs > li > a{
+    color: black;
 	text-align:center;
+    background-color: white;
+    border-radius: 4px;
+}
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus{
+    font-weight: bold;
+    background-color: rgba(139,195,74,1);
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    font-weight: bold;
+    background-color: rgba(139,195,74,1);
 }
 #tabLogout > a{
     color: black;
@@ -186,3 +225,4 @@ input[type="password"] {
     color: white;    
     background-color: indianred;
 }
+/*\TABS*/
