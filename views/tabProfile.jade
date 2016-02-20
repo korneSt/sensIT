@@ -1,5 +1,27 @@
 #tabProfile
     p //strona uzytkownika z listą ulubionych sensorow
-    .grid#favGrid
-    #txt(style="display: none;")
-        | #{user.userID}
+    .row
+        .col-md-12.col-sm-12.col-xs-12
+            #favouriteListTab
+                script#favTabScript(type='text/x-handlebars-template').
+                    <a href="#" data-favID="{{sensorID}}">
+                        <div class="panel panel-info" id="favourite-item">
+                            <div class="panel-heading">
+                                <panel-title>
+                                    Aktualna temperatura
+                                </panel-title>
+                            </div>
+                            <div class="panel-body">
+                                <div id="sensor{{{sensorID}}}" class="currentTemp"> 
+                                    {{lastTemp}}
+                                </div>
+                                {{desc}}
+                            </div>
+                        </div>
+                    </a>
+            #favouriteSensorContent
+                include favouriteSensor.jade
+                
+#txt(style="display: none;")
+    | #{user.userID}
+    

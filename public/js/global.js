@@ -3,53 +3,15 @@
 // DOM READY
 $(document).ready(function () {
     console.log('zaladowano global.js');
-
-    $(document).on('click', 'div#sensorListGroup a', function (e) {
-        //$('ul#sensorListGroup li').on('click', function () {
-        
-        e.preventDefault();
-        //$('a.current').removeClass('current');
-        $(this).addClass('list-group-item active').siblings()
-            .removeClass('list-group-item active')
-            .addClass('list-group-item');
-        
-        //this.addClass('list-group-item active');
-        sensorID = $(this).attr('data-sensid');
-        $('#editSensorTab').show();
-        console.log($(this).attr('data-sensid'));
-
-        //$('#editSensorTab').load('editSensor.jade');
-
-        getSensorByID(sensorID, function (result) {
-            console.log('resultat: ' + result)
-            selectedSensor = result
-        
-            //ustawia opis sensora w polu tekstowym
-            $('#inpuDescEditSens').val(selectedSensor.desc)
-        
-            //ustawia wartosc checkboxa favourite
-            if (selectedSensor.favourite === 1) {
-                $('#editSensor fieldset input#favCheckBox').prop('checked', true)
-            } else {
-                $('#editSensor fieldset input#favCheckBox').prop('checked', false)
-            }
-            //ustawia wartosc checkboxa stan
-            if (selectedSensor.state === 1) {
-                $('#editSensor fieldset input#stateCheckBox').prop('checked', true)
-            } else {
-                $('#editSensor fieldset input#stateCheckBox').prop('checked', false)
-            }
-        })
-
-    })
+   
     //.css("cursor", "pointer");
     
     //grid dla ulubionych sensorow
-    // $('.grid').masonry({
-    //     columnWidth: 150,
-    //     itemSelector: '.grid-item',
-    //     gutter: 10  //padding
-    // });
+    $('.grid').masonry({
+        columnWidth: 150,
+        itemSelector: '.grid-item',
+        gutter: 10  //padding
+    });
     populateTableSensors();
     populateTableHubs();
 
@@ -61,17 +23,8 @@ $(document).ready(function () {
 
     //$('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
 
-    Handlebars.registerHelper('link', function (text, url) {
-        url = Handlebars.escapeExpression(url);
-        text = Handlebars.escapeExpression(text);
-
-        return new Handlebars.SafeString(
-            //<li class="list-group-item" >
-            "<a href='/profile/sensor/" + url + "'>" + text + "</a>"
-            );
-
-    });
     $('#editSensorTab').hide();
+    $('#favouriteSensorContent').hide();
     
     //$('#addHubButton').click(addHub);
     
@@ -90,12 +43,28 @@ $(document).ready(function () {
     //     console.log("podstrona widoczna");
     // }
     // window.setTimeout(updateSensorTemp, 10000);
-    //    window.setInterval(updateSensorTemp, 10000);
+    window.setInterval(updateSensorTemp, 10000);
+
+    $(document).on('click', 'div#favouriteListTab a', function (e) {
+        e.preventDefault();
+        $selectedFavSensor = $(this);
+        // $(this).addClass('list-group-item active').siblings()
+        //     .removeClass('list-group-item active')
+        //     .addClass('list-group-item');
+        
+        //ustaw wartosc sensorID na wybrana po kliknieciu
+        sensorID = $(this).attr('data-favID');
+        $('#favouriteListTab').hide();
+        //wyswietl zakladke do edycji sensora
+        $('#favouriteSensorContent').show();
+    });
+
+
 });
 
 var myArray
 
-
+var $selectedFavSensor;
 var userListData = [];
 var favSensors = [];
 
@@ -130,13 +99,9 @@ function createGrid() {
 }
 
 function populateTableSensors() {
-    var theData = { customers: [{ firstName: 'Michael', lastName: 'Alexander', age: 20 }, { firstName: 'John', lastName: 'Allen', age: 29 }] };
     var theTemplateScript = $("#header").html();
     var theTemplate = Handlebars.compile(theTemplateScript);
 
-
-    var wholeContent = '';
-    var hubList = [];
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
         // For each item in our JSON, add a table row and cells to the content stringt
         var tableContent = ''
@@ -158,6 +123,7 @@ function populateTableSensors() {
             // tableContent += '</tr>';
             //dodaje do tablicy wszystkie ulubione sensory
             if (this.favourite === 1) {
+                console.log('this z populate ' + this.desc)
                 favSensors.push(this)
                 //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
                 populateFavourite(this);
@@ -198,26 +164,39 @@ function updateSensorTemp() {
             console.log('update: ' + this.sensorID)
             var sensorSelected = this;
             //populateFavourite(this)
-            getCurrentTemp(sensorSelected.sensorID, function (lastTemp) {
+            getCurrentTemp(sensorSelected, function (lastTemp) {
                 $('#sensor' + sensorSelected.sensorID).html(lastTemp)
             })
-
         })
     }
 }
+var favScript = $("#favTabScript").html();
+var favTemplate = Handlebars.compile(favScript);
 
-function populateFavourite(sensor) {
+function populateFavourite(loadedSensor) {
     //favSensors.forEach(function(data) {
     // console.log(this.data.sensorID);
-    getCurrentTemp(sensor.sensorID, function (lastTemp) {
+   
+    console.log('loaded sensor: ' + loadedSensor.sensorID);
+    var favTabObj = {
+        sensorID: loadedSensor.sensorID,
+        desc: loadedSensor.desc,
+    }
+    console.log('favTabTemplate ' + favTabObj.sensorID + ' ' + favTabObj.desc);
 
-        var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' + sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
-        content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
-        + sensor.sensorID + '" class="';
-        content += 'currentTemp' + '">' + lastTemp
-        + '</div>' + sensor.desc + '</div></div></a></div>';
+    getCurrentTemp(favTabObj, function (lastTemp) {
+        favTabObj.lastTemp = lastTemp;
+        console.log('currnet Temp fun ' + favTabObj.sensorID + ' ' + favTabObj.lastTemp)
+
+        $('#favouriteListTab').append(favTemplate(favTabObj));
+
+        // var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' + sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
+        // content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
+        // + sensor.sensorID + '" class="';
+        // content += 'currentTemp' + '">' + lastTemp
+        // + '</div>' + sensor.desc + '</div></div></a></div>';
+        // $('.grid').append(content)
         console.log('ile ulubionych: ' + favSensors.length);
-        $('.grid').append(content)
         //updateSensorTemp();
     });
 
@@ -235,8 +214,8 @@ function populateFavourite(sensor) {
 // }
 
 //zwraca ostatnia temp dla wszystkich sensorow co 10s
-function getCurrentTemp(id, callback) {
-    $.getJSON('/api/measuresSensor/' + id).then(function (result) {
+function getCurrentTemp(sensor, callback) {
+    $.getJSON('/api/measuresSensor/' + sensor.sensorID).then(function (result) {
         var totalItems = result.data.length;
         var lastTemp;
         if (result.data[totalItems - 1] !== undefined) {

@@ -275,7 +275,8 @@ exports.addMeasure = function (req, res) {
 exports.addMeasureReal = function (req, res) {
     Model.Measure.forge({
         sensorID: req.params.id,
-        value1: req.query.value1
+        value1: req.query.value1,
+        value2: req.query.value2
     })
         .save()
         .then(function (measure) {
