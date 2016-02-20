@@ -47,7 +47,7 @@ $(document).ready(function () {
     //     console.log("podstrona widoczna");
     // }
     // window.setTimeout(updateSensorTemp, 10000);
-    window.setInterval(updateSensorTemp, 10000);
+  //  window.setInterval(updateSensorTemp, 10000);
 
     $(document).on('click', 'div#favouriteListTab a', function (e) {
         e.preventDefault();
