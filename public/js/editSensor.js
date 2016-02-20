@@ -52,8 +52,13 @@ $(document).ready(function () {
     
 
 var sensorID;
+
 var selectedSensor = {}
 var $selectedItem;
+
+console.log('zaladowano podstrone edit sensor')
+
+//DRUGA WERSJA + callback
 
 function getSensorByID(id, callback) {
     console.log('/api/sensor/' + id)
@@ -92,7 +97,7 @@ function editSensor(event) {
 
     if (errorCount === 0) {
         selectedSensor.desc = $('#editSensor fieldset input#inpuDescEditSens').val()
-
+        
         console.log(selectedSensor);
         console.log('sensor id: ' + sensorID);
 
