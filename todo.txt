@@ -7,41 +7,4 @@
 3. deleteSensor
 
 4. populateTableSensors(); aktualizowanie ulubionych kafelkow po edycji sensora
-
-    // .grid-item
-            //     .panel.panel-info
-            //         .panel-heading
-            //             panel-title Aktualna temperatura
-            //         .panel-body
-            //             .currentTemp
-            // .grid-item
-            //     .panel.panel-info
-            //         .panel-heading
-            //             panel-title Aktualna temperatura
-            //         .panel-body
-            //             .currentTemp
-            // .grid-item
-            //     .panel.panel-info
-            //         .panel-heading
-            //             panel-title Aktualna wilgotnosc
-            //         .panel-body
-            //             .currentTemp
-            // .grid-item
-            //     .panel.panel-info
-            //         .panel-heading
-            //             panel-title Aktualna wilgotnosc
-            //         .panel-body
-            //             .currentTemp
-            // .grid-item
-            //     .panel.panel-info
-            //         .panel-heading
-            //             panel-title Aktualna wilgotnosc
-            //         .panel-body
-            //             .currentTemp
-            // .row
-            //     .col-md-4.col-sm-6.col-xs-12#test
-            //     .col-md-4.col-sm-6.col-xs-12#test2
-
-            // .row
-            //     .col-md-4.col-sm-6.col-xs-12#test
-            //     .col-md-4.col-sm-6.col-xs-12#test2
+5. dodac animacje po ustawieniu zmian w sensorach

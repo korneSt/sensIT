@@ -1,46 +1,48 @@
-$(document).ready(function () {
-    console.log(hubID)
-    //$('#inpuDescEditSens').val(selectedHub.desc)
 
-    // getSensorByID(selectedHub, sensorID) // pierwsza wersja wywolanie
-    $('#inpuDescEditHub').click(function () {
-        $(this).val('');
-    });
-    getHubByID(hubID, function (result) {
-        console.log('resultat: ' + result)
-        selectedHub = result
-
-        $('#inpuDescEditHub').val(selectedHub.desc)
-    })
-    $('#editHubButton').on('click', editHub);
-    $('#addSensorButton').on('click', addSensor);
-
-
-
-    $('#stateCheckBox').click(function () {
-        if (this.checked) {
-            state = 1;
-        } else {
-            state = 0;
-        }
-    });
-    // if (($('#inpuDescEditSens').is(":focus"))) {
-    //     $(this).val('');
-    // } else {
-    //     $(this).val(selectedHub.desc);
-    // }    
-
-})
-
-var url = window.location.pathname.split('/')
-var hubID = url[3]
+'use strict'
 var selectedHub = {}
 var state = 0;
+var hubID;
+var $selectedItemHub;
+$(document).ready(function () {
+    console.log('zaladowano podstrone hub')
+    
+    //rejestruj klikniecia w liscie sensorow
+    $(document).on('click', 'div#hubListGroup a', function (e) {
+        e.preventDefault();
+        
+        //wybrany objekt DOM 
+        $selectedItemHub = $(this);
+        
+        //ustaw wartosc hubID na wybrana po kliknieciu
+        hubID = $(this).attr('data-hubID');
+        console.log('hubID: ' + hubID);
 
-console.log('zaladowano podstrone edit hub')
+        getHubByID(hubID, function (result) {
+            //ustaw objekt huba
+            selectedHub = result
+        
+            //ustaw opis huba w polu tekstowym
+            $('.inpuDescEditHub').val(selectedHub.desc)
 
-//DRUGA WERSJA + callback
+            //ustaw wartosc checkboxa stan
+            if (selectedHub.state === 1) {
+                $('fieldset input.stateCheckBox').prop('checked', true)
+            } else {
+                $(' fieldset input.stateCheckBox').prop('checked', false)
+            }
+        })
+    })
+    
+    //usun tekst z pola tekstowego po kliknieciu
+    $(document).on('click', '.inpuDescEditHub', function () {
+        $(this).val('');
+    });
+    
+    //rejestruj klikniecia checkbox'ow i przycisku zmiany edycji
+    $(document).on('click', '.editHubButton', editHub);
 
+})
 
 function getHubByID(id, callback) {
     console.log('/api/hub/' + id)
@@ -52,21 +54,24 @@ function getHubByID(id, callback) {
 function editHub(event) {
     event.preventDefault();
     var errorCount = 0;
-    $('#editHub input').each(function (index, val) {
-        console.log(val);
+    //znajduje trzeciego rodzica dla przycisku
+    var $masterParent = $(this).parents(':eq(3)');
+
+    //znajdz rodzica przycisku a dla niego znajdz wszystkie pola tekstowe
+    var $parent = $(this).parent().find('input[type=text]');
+    
+    //walidacja wszystkich pol tekstowych
+    $parent.each(function (index, val) {
         if ($(this).val() === '') {
             errorCount++;
+        } else {
+           selectedHub.desc =  $(this).val()
         }
     });
     console.log(errorCount)
+
     if (errorCount === 0) {
-        selectedHub.desc = $('#editHub fieldset input#inpuDescEditHub').val()
-        // var editedSensor = {
-        //     'hubid': $('#addHub fieldset input#inputHubID').val(),
-        //     'desc': $('#addHub fieldset input#inputDesc').val(),
-        //     'userid': $('#addHub fieldset input#inputUserID').val()
-        // }
-        console.log('wybrany hub' + selectedHub);
+        console.log('zmieniony hub: ' + selectedHub);
         $.ajax({
             type: 'PUT',
             data: selectedHub,
@@ -75,15 +80,14 @@ function editHub(event) {
         }).done(function (response) {
             console.log(response)
             if (response.error === false) {
-                // $('#addHub fieldset input').val('');
-
+                //populateTableSensors();
+                $selectedItemHub.text(selectedHub.hubID + ' ' + selectedHub.desc);
                 alert('Zmieniono ustawienia');
+                $masterParent.removeClass('in');
             } else {
-                console.log(response.message);
+                console.log('Blad: ' + response.message);
                 alert('Blad serwera');
             }
-        }).fail(function name(params) {
-            console.log('blad')
         });
     } else {
         alert('Wypelnij wszyskie pola');
@@ -92,13 +96,13 @@ function editHub(event) {
 }
 
 
-//dodaje nowy sensor
-function addSensor(event) {
+//dodaje nowy hub
+function addhub(event) {
     event.preventDefault();
     var errorCount = 0;
 
 
-    $('#addSensor input[type=text]').each(function (index, val) {
+    $('#addhub input[type=text]').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
             errorCount++;
@@ -106,30 +110,30 @@ function addSensor(event) {
     });
     console.log(errorCount)
     if (errorCount === 0) {
-        var newSensor = {
+        var newhub = {
             
             //wartosci z pol tekstowych, ktore wprowadza user
-            'sensorid': $('#addSensor fieldset input#inputSensorID').val(),
-            'desc': $('#addSensor fieldset input#inputDesc').val(),
+            'hubid': $('#addhub fieldset input#inputhubID').val(),
+            'desc': $('#addhub fieldset input#inputDesc').val(),
             'hubID': selectedHub.hubID,
             'state': state
         }
-        console.log(newSensor)
+        console.log(newhub)
         $.ajax({
             type: 'POST',
-            data: newSensor,
-            url: '/api/sensor',
+            data: newhub,
+            url: '/api/hub',
             dataType: 'JSON'
         }).done(function (response) {
             if (response.error === false) {
-                $('#addSensor fieldset input[type=text]').val('');
+                $('#addhub fieldset input[type=text]').val('');
                 //populateTableHubs();
             } else {
                 console.log(response);
-                alert('Niepoprawne ID sensora');
+                alert('Niepoprawne ID huba');
             }
         }).fail(function () {
-            alert('Niepoprawne ID sensora')
+            alert('Niepoprawne ID huba')
         });
     } else {
         alert('Wypelnij wszyskie pola');
