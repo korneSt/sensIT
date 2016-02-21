@@ -170,6 +170,7 @@ app.put('/api/sensor/:id', api.editSensor);
 
 //DELETE API
 app.delete('/api/sensor/:id', api.deleteSensor);
+//id to numer sensora (potrzebne przy usuwaniu sensorow ktore maja pomiary)
 app.delete('/api/measure/:id', api.deleteMeasure);
 
 //app.get('/api/hub/:id', api.post);

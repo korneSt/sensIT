@@ -52,6 +52,8 @@ $(document).ready(function () {
     $(document).on('click', 'input.favCheckBox', checkFavourite);
     $(document).on('click', 'input.stateCheckBox', checkState);
     $(document).on('click', '.editSensorButton', editSensor);
+
+    $(document).on('click', 'div#sensorListGroup a.deleteSensor', deleteSensor);
 });
 
 function getSensorByID(id, callback) {
@@ -87,7 +89,7 @@ function editSensor(event) {
         if ($(this).val() === '') {
             errorCount++;
         } else {
-           selectedSensor.desc =  $(this).val()
+            selectedSensor.desc = $(this).val()
         }
     });
     console.log(errorCount)
@@ -116,4 +118,45 @@ function editSensor(event) {
     }
 }
 
+function deleteSensor(event) {
+    event.preventDefault();
+    var $sensorToDelete = $(this).attr('data-sensID');
+    var $parentDelete = $(this).parents(':eq(3)');
+    // Pop up a confirmation dialog
+    var confirmation = confirm('Czy na pewno chcesz usunąć ten sensor?');
 
+    if (confirmation === true) {
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/measure/' + $sensorToDelete
+        }).done(function (response) {
+
+            if (response.error === false) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/sensor/' + $sensorToDelete
+                }).done(function (response) {
+
+                    if (response.error === false) {
+                        $parentDelete.remove();
+                    }
+                    else {
+                        console.log(response.data.message)
+                        alert('Blad serwera');
+                    }
+
+                    // Update the table
+                    //populateTableSensors();
+                });
+            }
+            else {
+                console.log(response.data.message)
+                alert('Blad serwera');
+            }
+        });
+    }
+    else {
+        // If they said no to the confirm, do nothing
+        return false;
+    }
+};

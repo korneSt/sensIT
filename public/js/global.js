@@ -21,8 +21,6 @@ $(document).ready(function () {
 
     //$('#addHubButton').on('click', addHub);
     //$('#favPanel').on('click', function(){alert('a')});
-    $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
-
 
     //$('#sensor2323').click(function () { console.log('a') }).css("cursor", "pointer");
 
@@ -242,37 +240,6 @@ function getTemperatures() {
 //         return false;
 //     }
 // }
-
-
-function deleteSensor(event) {
-    event.preventDefault();
-
-    // Pop up a confirmation dialog
-    var confirmation = confirm('Are you sure you want to delete this sensor?');
-
-    if (confirmation === true) {
-        $.ajax({
-            type: 'DELETE',
-            url: '/api/sensor/' + $(this).attr('rel')
-        }).done(function (response) {
-
-            if (response.error === false) {
-                console.log(response.data.message)
-            }
-            else {
-                console.log(response.data.message)
-                alert('Blad serwera');
-            }
-
-            // Update the table
-            populateTableSensors();
-        });
-    }
-    else {
-        // If they said no to the confirm, do nothing
-        return false;
-    }
-};
 
 //DO WYKRESU
 // var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
