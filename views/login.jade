@@ -6,25 +6,18 @@ block content
             h1
                 span.fa.fa-sign-in
                 |  Login
-            // LOGIN FORM
-
-            
             form(action='/login', method='post')
                 -if(errorMessage)
                     .alert.alert-danger !{errorMessage}
                 .form-group
-                label Email
+                label Login
                 input.form-control(type='text', name='username', required)
                 .form-group
-                label Password
+                label Hasło
                 input.form-control(type='password', name='password', required)
                 br 
                 button.btn.btn-warning.btn-lg(type='submit') Login
             hr
             p
-                | Need an account? 
-                a(href='/signup') Signup
-            p
-                | Or go 
-                a(href='/') home
-                | .
+            | Potrzebujesz konta? 
+            a(href='/signup') Zarejestruj się

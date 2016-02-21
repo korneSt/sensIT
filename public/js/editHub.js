@@ -1,5 +1,5 @@
-
 'use strict'
+
 var selectedHub = {}
 var state = 0;
 var hubID;
@@ -41,6 +41,8 @@ $(document).ready(function () {
     
     //rejestruj klikniecia checkbox'ow i przycisku zmiany edycji
     $(document).on('click', '.editHubButton', editHub);
+    
+    //rejestruj klikniecie przycisku i wykonaj funkcje addHub
     $('#addHubButton').on('click', addHub);
 
 })

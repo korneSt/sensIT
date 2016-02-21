@@ -14,7 +14,6 @@ var Hub = DB.Model.extend({
     user: function () {
         return this.belongsTo(User);
     }
-
 });
 
 var Sensor = DB.Model.extend({
@@ -32,7 +31,6 @@ var Measure = DB.Model.extend({
         return this.belongsTo(Sensor);
     }
 });
-
 
 //KOLEKCJE
 var Users = DB.Collection.extend({

@@ -5,26 +5,15 @@ block content
         .col-sm-6.col-sm-offset-3
             h1
                 span.fa.fa-sign-in
-                |  Signup
-
-        
-                
+                |  Zarejestruj
             form(action='/signup', method='post')
                 -if(errorMessage)
                     .alert.alert-danger !{errorMessage}
                 .form-group
-                label Email
+                label Login
                 input.form-control(type='text', name='username', required)
                 .form-group
-                label Password
+                label Hasło
                 input.form-control(type='password', name='password', required)
                 br
-                button.btn.btn-warning.btn-lg(type='submit') Signup
-            hr
-            p
-                | Already have an account? 
-                a(href='/login') Login
-            p
-                | Or go 
-                a(href='/') home
-                | .
+                button.btn.btn-warning.btn-lg(type='submit') Zarejestruj

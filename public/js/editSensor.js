@@ -1,7 +1,7 @@
+'use strict'
 /**
  * funckje podstrony do edycji sensora
  */
-'use strict'
 
 var sensorID;
 var selectedSensor = {}
