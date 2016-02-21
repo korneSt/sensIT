@@ -47,7 +47,7 @@ $(document).ready(function () {
     //     console.log("podstrona widoczna");
     // }
     // window.setTimeout(updateSensorTemp, 10000);
-  //  window.setInterval(updateSensorTemp, 10000);
+    //  window.setInterval(updateSensorTemp, 10000);
 
     $(document).on('click', 'div#favouriteListTab a', function (e) {
         e.preventDefault();
@@ -88,80 +88,30 @@ function setCookie(nazwa, wartosc, dni) {
 
 var tab = []
 
-function createGrid() {
-
-    //var $gridItem = $("<div>", { id: "favGrid", class: "grid-item" });
-    var $grid = $("<div>", { class: "grid" });
-    var $gridItem = $("<div>", { class: "grid-item" });
-    var $panel = $("<div>", { class: "panel panel-info" });
-
-
-    $panel.appendTo($gridItem)
-    $gridItem.appendTo($grid)
-    //$gridItem.append($panel)
-    //$("#myContent").appendTo($gridItem)
-    $grid.appendTo(".row")
-}
-
 function populateTableSensors() {
+    //szablon listy sensorow
     var theTemplateScript = $("#header").html();
     var theTemplate = Handlebars.compile(theTemplateScript);
 
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
-        // For each item in our JSON, add a table row and cells to the content stringt
-        var tableContent = ''
-
-
-        //$('#myContent').append(theTemplate(data));
-
         $('#sensorsListTab').append(theTemplate(data));
 
-
         $.each(data.data, function () {
-
-            // tableContent += '<tr>';
-            // tableContent += '<td><a href="profile/sensor/' + this.sensorID + '" class="linkshowuser" rel="' + this.sensorID + '">' + this.sensorID + '</a></td>';
-            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.state + '">' + this.state + '</a></td>';
-            // tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.favourite + '">' + this.favourite + '</a></td>';
-            // tableContent += '<td><a href="#" class="linkdeletesensor" rel="' + this.sensorID + '">delete</a></td>';
-
-            // tableContent += '</tr>';
-            //dodaje do tablicy wszystkie ulubione sensory
             if (this.favourite === 1) {
                 console.log('this z populate ' + this.desc)
                 favSensors.push(this)
-                //dodaj sesnor do grida z ulubionymi sensorami - NIE DZIALA NA RAZIE 
                 populateFavourite(this);
             }
         });
-        // wholeContent += tableContent;
-        // $('#sensorList table tbody').html(wholeContent);
     });
 };
 
 function populateTableHubs(callback) {
-    var test = ''
-    var tableContent = '';
+    var hubScript = $("#hubListScript").html();
+    var hubTemplate = Handlebars.compile(hubScript);
 
-    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (result) {
-
-        // For each item in our JSON, add a table row and cells to the content string
-        $.each(result.data, function () {
-            tableContent += '<tr>';
-            tableContent += '<td><a href="profile/hub/' + this.hubID + '" class="linkshowuser" rel="' + this.hubID + '">' + this.hubID + '</a></td>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this.desc + '">' + this.desc + '</a></td>';
-            tableContent += '</tr>';
-        });
-        // (function resultat(callback) {
-        //     tab.push(result)
-        // })();
-        // console.log(test);
-        // setCookie('huby', JSON.stringify(tab),2 )
-        // Inject the whole content string into our existing HTML table
-        $('#hubList table tbody').html(tableContent);
-
+    $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (data) {
+        $('#hubsListTab').append(hubTemplate(data));
     });
 
 };

@@ -101,7 +101,6 @@ function editSensor(event) {
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
-
             if (response.error === false) {
                 //populateTableSensors();
                 $selectedItem.text(selectedSensor.sensorID + ' ' + selectedSensor.desc);

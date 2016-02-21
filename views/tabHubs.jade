@@ -6,6 +6,29 @@
         .col-md-12.col-sm-12.col-xs-12
             h2 Twoje Huby
             #hubsListTab
+            script#hubListScript(type='text/x-handlebars-template').
+                <div class="panel-group" id="hubListGroup">
+                {{#each data}}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#hub{{hubID}}" class="list-group-item" data-parent="#hubListGroup" data-toggle="collapse" data-hubID="{{hubID}}">{{ hubID }} {{ desc }}</a>
+                            </h4>
+                        </div>
+                        <div id="hub{{hubID}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="editHub">
+                                    <fieldset>
+                                        <label for="hubid">Opis:</label>
+                                        <input class="inpuDescEditHub" type="text" required="required" class="form-control"/>
+                                        <button class="editHubButton" class="btn btn-default">Edytuj</button>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+                </div>
             a.btn.btn-info(data-toggle='collapse', data-target='#hubForm') Dodaj Hub
             #hubForm.collapse
                 br
