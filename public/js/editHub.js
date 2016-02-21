@@ -41,6 +41,7 @@ $(document).ready(function () {
     
     //rejestruj klikniecia checkbox'ow i przycisku zmiany edycji
     $(document).on('click', '.editHubButton', editHub);
+    $('#addHubButton').on('click', addHub);
 
 })
 
@@ -83,7 +84,7 @@ function editHub(event) {
                 //populateTableSensors();
                 $selectedItemHub.text(selectedHub.hubID + ' ' + selectedHub.desc);
                 alert('Zmieniono ustawienia');
-                $masterParent.removeClass('in');
+                $masterParent.collapse('hide');
             } else {
                 console.log('Blad: ' + response.message);
                 alert('Blad serwera');
@@ -97,12 +98,11 @@ function editHub(event) {
 
 
 //dodaje nowy hub
-function addhub(event) {
+function addHub(event) {
     event.preventDefault();
     var errorCount = 0;
 
-
-    $('#addhub input[type=text]').each(function (index, val) {
+    $('#addHub input[type=text]').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
             errorCount++;
@@ -110,24 +110,22 @@ function addhub(event) {
     });
     console.log(errorCount)
     if (errorCount === 0) {
-        var newhub = {
-            
+        var newHub = {
             //wartosci z pol tekstowych, ktore wprowadza user
-            'hubid': $('#addhub fieldset input#inputhubID').val(),
-            'desc': $('#addhub fieldset input#inputDesc').val(),
-            'hubID': selectedHub.hubID,
-            'state': state
+            'hubid': $('#addHub fieldset input#inputHubID').val(),
+            'desc': $('#addHub fieldset input#inputDesc').val(),
+            'userid': $('#addHub fieldset input#inputUserID').val()
         }
-        console.log(newhub)
+        console.log(newHub)
         $.ajax({
             type: 'POST',
-            data: newhub,
+            data: newHub,
             url: '/api/hub',
             dataType: 'JSON'
         }).done(function (response) {
-            if (response.error === false) {
-                $('#addhub fieldset input[type=text]').val('');
+            if (response.msg === '') {
                 //populateTableHubs();
+                $('#hubModal').modal('hide')
             } else {
                 console.log(response);
                 alert('Niepoprawne ID huba');

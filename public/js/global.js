@@ -19,7 +19,7 @@ $(document).ready(function () {
 
     //getCurrentTemp();
 
-    $('#addHubButton').on('click', addHub);
+    //$('#addHubButton').on('click', addHub);
     //$('#favPanel').on('click', function(){alert('a')});
     $('#sensorList table tbody').on('click', 'td a.linkdeletesensor', deleteSensor);
 
@@ -204,44 +204,44 @@ function getTemperatures() {
 }
 
 //dodaje nowego huba
-function addHub(event) {
-    event.preventDefault();
-    var errorCount = 0;
+// function addHub(event) {
+//     event.preventDefault();
+//     var errorCount = 0;
 
-    $('#addHub input[type=text]').each(function (index, val) {
-        console.log(val);
-        if ($(this).val() === '') {
-            errorCount++;
-        }
-    });
-    console.log(errorCount)
-    if (errorCount === 0) {
-        var newHub = {
-            //wartosci z pol tekstowych, ktore wprowadza user
-            'hubid': $('#addHub fieldset input#inputHubID').val(),
-            'desc': $('#addHub fieldset input#inputDesc').val(),
-            'userid': $('#addHub fieldset input#inputUserID').val()
-        }
-        console.log(newHub)
-        $.ajax({
-            type: 'POST',
-            data: newHub,
-            url: '/api/hub',
-            dataType: 'JSON'
-        }).done(function (response) {
-            if (response.msg === '') {
-                $('#addHub fieldset input[type=text]').val('');
-                populateTableHubs();
-            } else {
-                console.log(response);
-                alert('Niepoprawne ID huba');
-            }
-        });
-    } else {
-        alert('Wypelnij wszyskie pola');
-        return false;
-    }
-}
+//     $('#addHub input[type=text]').each(function (index, val) {
+//         console.log(val);
+//         if ($(this).val() === '') {
+//             errorCount++;
+//         }
+//     });
+//     console.log(errorCount)
+//     if (errorCount === 0) {
+//         var newHub = {
+//             //wartosci z pol tekstowych, ktore wprowadza user
+//             'hubid': $('#addHub fieldset input#inputHubID').val(),
+//             'desc': $('#addHub fieldset input#inputDesc').val(),
+//             'userid': $('#addHub fieldset input#inputUserID').val()
+//         }
+//         console.log(newHub)
+//         $.ajax({
+//             type: 'POST',
+//             data: newHub,
+//             url: '/api/hub',
+//             dataType: 'JSON'
+//         }).done(function (response) {
+//             if (response.msg === '') {
+//                 $('#addHub fieldset input[type=text]').val('');
+//                 populateTableHubs();
+//             } else {
+//                 console.log(response);
+//                 alert('Niepoprawne ID huba');
+//             }
+//         });
+//     } else {
+//         alert('Wypelnij wszyskie pola');
+//         return false;
+//     }
+// }
 
 
 function deleteSensor(event) {
