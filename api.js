@@ -360,6 +360,23 @@ exports.deleteSensor = function (req, res) {
         });
 }
 
+exports.deleteHub = function (req, res) {
+    Model.Hub.forge({ hubID: req.params.id })
+        .fetch({ require: true })
+        .then(function (hub) {
+            hub.destroy()
+                .then(function () {
+                    res.json({ error: false, data: { message: 'Hub successfully deleted' } });
+                })
+                .catch(function (err) {
+                    res.status(500).json({ error: true, data: { message: err.message } });
+                });
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+}
+
 
 // GET
 //Jako id podaj indeks hiba

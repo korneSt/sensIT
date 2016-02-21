@@ -129,6 +129,7 @@ app.put('/api/sensor/:id', api.editSensor);
 app.delete('/api/sensor/:id', api.deleteSensor);
 //id to numer sensora (potrzebne przy usuwaniu sensorow ktore maja pomiary)
 app.delete('/api/measure/:id', api.deleteMeasure);
+app.delete('/api/hub/:id', api.deleteHub);
 
 
 // logout
