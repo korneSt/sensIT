@@ -80,6 +80,7 @@ var checkFavourite = function () {
 function editSensor(event) {
     event.preventDefault();
     var errorCount = 0;
+    var $parentSensor = $(this).parents(':eq(3)');
     
     //znajdz rodzica przycisku a dla niego znajdz wszystkie pola tekstowe
     var $parent = $(this).parent().find('input[type=text]');
@@ -106,7 +107,8 @@ function editSensor(event) {
             if (response.error === false) {
                 //populateTableSensors();
                 $selectedItem.text(selectedSensor.sensorID + ' ' + selectedSensor.desc);
-                alert('Zmieniono ustawienia');
+                //alert('Zmieniono ustawienia');
+                $parentSensor.collapse('hide');
             } else {
                 console.log('Blad: ' + response.message);
                 alert('Blad serwera');
