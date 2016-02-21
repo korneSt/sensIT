@@ -50,12 +50,30 @@ $(document).ready(function () {
     $(document).on('click', 'div#favouriteListTab a', function (e) {
         e.preventDefault();
         $selectedFavSensor = $(this);
+        // getTemperatures()
         // $(this).addClass('list-group-item active').siblings()
         //     .removeClass('list-group-item active')
         //     .addClass('list-group-item');
         
         //ustaw wartosc sensorID na wybrana po kliknieciu
         sensorID = $(this).attr('data-favID');
+        getTemperatures(sensorID, function (result) {
+            sensorChart = result;
+            console.log(sensorChart);
+            dataToChart.datasets[0].data = []
+            dataToChart.labels = []
+            sensorChart.data.forEach(function (v, i) {
+
+                dataToChart.labels.push(v.mTime.substring(0, 10))
+
+                dataToChart.datasets[0].data.push(parseFloat(v.value1))
+
+                console.log(dataToChart.datasets[0].data)
+                console.log(dataToChart.labels);
+            });
+             var ctx = document.getElementById("myChart").getContext("2d");
+                var myLineChart = new Chart(ctx).Line(dataToChart);
+        })
         $('#favouriteListTab').hide();
         //wyswietl zakladke do edycji sensora
         $('#favouriteSensorContent').show();
@@ -69,6 +87,7 @@ var myArray
 var $selectedFavSensor;
 var userListData = [];
 var favSensors = [];
+var sensorChart;
 
 // Functions 
 
@@ -178,27 +197,15 @@ function getCurrentTemp(sensor, callback) {
         } else {
             lastTemp = 'Brak'
         }
-        //alert(result.data[totalItems - 1].hubID);
         callback(lastTemp);
     })
-    // .then(function () {
-    //     setTimeout(callback, 10000);
-    // })
 }
+var measures = [];
 
-function getTemperatures() {
-    var temps = [];
-    $.getJSON('/api/measures').then(function (result) {
-
-        $.each(result.data, function () {
-            //alert(result.data.value1);
-            temps.push(this.value1);
-        });
-
-    }).then(function () {
-        alert(temps);
-        return temps;
-    });
+function getTemperatures(sensorID, callback) {
+    $.getJSON('/api/measuresSensor/' + sensorID).then(function (result) {
+        callback(result);
+    })
 }
 
 //dodaje nowego huba

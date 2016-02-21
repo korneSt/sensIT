@@ -120,7 +120,7 @@ function editSensor(event) {
     }
 }
 
-function deleteSensor(event) {
+function deleteSensor(event, callback) {
     event.preventDefault();
     var $sensorToDelete = $(this).attr('data-sensID');
     var $parentDelete = $(this).parents(':eq(3)');
@@ -141,6 +141,7 @@ function deleteSensor(event) {
 
                     if (response.error === false) {
                         $parentDelete.remove();
+                        callback;
                     }
                     else {
                         console.log(response.data.message)

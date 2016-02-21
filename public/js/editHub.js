@@ -68,7 +68,7 @@ function editHub(event) {
         if ($(this).val() === '') {
             errorCount++;
         } else {
-           selectedHub.desc =  $(this).val()
+            selectedHub.desc = $(this).val()
         }
     });
     console.log(errorCount)
@@ -139,4 +139,30 @@ function addHub(event) {
         alert('Wypelnij wszyskie pola');
         return false;
     }
+}
+
+
+
+function deleteHub(event) {
+    event.preventDefault();
+    var $hubToDelete = $(this).attr('data-hubID');
+    var $parentDelete = $(this).parents(':eq(3)');
+    deleteSensor(event, function () {
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/sensor/' + $hubToDelete
+        }).done(function (response) {
+
+            if (response.error === false) {
+                $parentDelete.remove();
+            }
+            else {
+                console.log(response.data.message)
+                alert('Blad serwera');
+            }
+
+            // Update the table
+            //populateTableSensors();
+        });
+    });
 }
