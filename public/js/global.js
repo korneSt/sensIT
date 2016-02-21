@@ -56,23 +56,30 @@ $(document).ready(function () {
         //     .addClass('list-group-item');
         
         //ustaw wartosc sensorID na wybrana po kliknieciu
+        dataToChart.datasets[0].data = []
+        dataToChart.labels = []
         sensorID = $(this).attr('data-favID');
+        
+        //usuwa stary i tworzy nowy element canvas w DOM
+        //po to aby wykresy się nie nakładały
+        $('#myChart').remove();
+        $('#chart').append('<canvas id="myChart" width="700" height="400"><canvas>');
+
         getTemperatures(sensorID, function (result) {
             sensorChart = result;
             console.log(sensorChart);
-            dataToChart.datasets[0].data = []
-            dataToChart.labels = []
+
             sensorChart.data.forEach(function (v, i) {
 
                 dataToChart.labels.push(v.mTime.substring(0, 10))
-
                 dataToChart.datasets[0].data.push(parseFloat(v.value1))
 
                 console.log(dataToChart.datasets[0].data)
                 console.log(dataToChart.labels);
             });
-             var ctx = document.getElementById("myChart").getContext("2d");
-                var myLineChart = new Chart(ctx).Line(dataToChart);
+
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myLineChart = new Chart(ctx).Line(dataToChart);
         })
         $('#favouriteListTab').hide();
         //wyswietl zakladke do edycji sensora
@@ -88,6 +95,7 @@ var $selectedFavSensor;
 var userListData = [];
 var favSensors = [];
 var sensorChart;
+
 
 // Functions 
 
