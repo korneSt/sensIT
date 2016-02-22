@@ -145,6 +145,7 @@ function addHub(event) {
 
 
 function deleteHub(event) {
+    console.log($('#sensorListGroup').find("[data-sensID='" + 1836541 + "']").parents(':eq(3)'));
     event.preventDefault();
     var $hubToDelete = $(this).attr('data-hubID');
     var $parentDelete = $(this).parents(':eq(3)');
@@ -160,6 +161,7 @@ function deleteHub(event) {
                 console.log('id z /api/hub/1 ' + this.sensorID)
                 if (response.error === false) {
                     $parentDelete.remove();
+
                     //callback;
                 }
                 else {
@@ -172,47 +174,50 @@ function deleteHub(event) {
             });
             return;
         } else {
-        $.each(data.data, function () {
-            console.log('id z this ' + this.sensorID)
-            var idSensDelete = this.sensorID
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/measure/' + idSensDelete
-            }).done(function (response) {
-                console.log('id z /api/measure ' + this.sensorID)
-                if (response.error === false) {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: '/api/sensor/' + idSensDelete
-                    }).done(function (response) {
-                        console.log('id z /api/sensor ' + this.sensorID)
+            $.each(data.data, function () {
+                $('#sensorListGroup').find("[data-sensID='" + this.sensorID + "']").parents(':eq(3)').remove()
+                console.log('id z this ' + this.sensorID)
+                var idSensDelete = this.sensorID
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/measure/' + idSensDelete
+                }).done(function (response) {
+                    console.log('id z /api/measure ' + this.sensorID)
+                    if (response.error === false) {
                         $.ajax({
                             type: 'DELETE',
-                            url: '/api/hub/' + $hubToDelete
+                            url: '/api/sensor/' + idSensDelete
                         }).done(function (response) {
-                            console.log('id z delete /api/hub ' + this.sensorID)
-                            if (response.error === false) {
-                                $parentDelete.remove();
-                                //callback;
-                            }
-                            else {
-                                console.log('blad serwera');
-                                console.log(response.data.message)
-                                alert('Blad serwera');
-                            }
+                            console.log('id z /api/sensor ' + this.sensorID)
+                            $.ajax({
+                                type: 'DELETE',
+                                url: '/api/hub/' + $hubToDelete
+                            }).done(function (response) {
+                                console.log('id z delete /api/hub ' + this.sensorID)
+                                if (response.error === false) {
+                                    $parentDelete.remove();
 
-                            //populateTableSensors();
-                        }).fail(function() {
-                            return;
+
+                                    //callback;
+                                }
+                                else {
+                                    console.log('blad serwera');
+                                    console.log(response.data.message)
+                                    alert('Blad serwera');
+                                }
+
+                                //populateTableSensors();
+                            }).fail(function () {
+                                return;
+                            });
                         });
-                    });
-                }
-                else {
-                    console.log(response.data.message)
-                    alert('Blad serwera');
-                }
+                    }
+                    else {
+                        console.log(response.data.message)
+                        alert('Blad serwera');
+                    }
+                });
             });
-        });
         }
     });
 
