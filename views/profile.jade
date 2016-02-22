@@ -14,7 +14,7 @@ block content
                     a(href='/signout') Logout
         .tab-content
             #tabProfile.tab-pane.fade.in.active
-                h3 Witaj userze
+                h3 Witaj #{user.username}
                 include tabProfile.jade
             #tabHubs.tab-pane.fade
                 h3 Hubs

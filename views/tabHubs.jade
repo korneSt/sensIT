@@ -14,10 +14,10 @@
                         <div class="panel-heading" role="tab">
                             <h4 class="panel-title">
                                 <div class="list-group-item">
-                                    <a href="#hub{{hubID}}" data-parent="#hubListGroup" data-toggle="collapse" data-hubID="{{hubID}}">
+                                    <a href="#hub{{hubID}}" data-parent="#hubListGroup" data-toggle="collapse" data-hubID="{{hubID}}" class="clickOK">
                                         {{ hubID }} {{ desc }}
                                     </a>
-                                    <a role="button" href="#deleteHub" style="float:right;" class="deleteHub" data-hubID="{{hubID}}">
+                                    <a role="button" href="#deleteHub" style="float:right;" class="deleteHub" data-hubID="{{hubID}}" class="clickOK">
                                         Usuń
                                     </a>
                                 </div>
@@ -30,8 +30,7 @@
                                         <label for="hubid">Opis:</label>
                                         <input type="text" class="form-control inpuDescEditHub" required="required"/><br/>
                                         <button class="btn btn-default editHubButton">Edytuj</button>
-                                        <button class="btn btn-sm btn-primary showAllSensorsButton"><span class="glyphicon glyphicon-list"></span> Pokaż sensory</button>
-                                        <button class="btn btn-sm btn-primary addSensorButton" data-toggle='modal', data-target='#addSensorModal'></span> Dodaj sensor</button>
+                                        <a href="#tabSens" data-toggle="tab" role="button" class="btn btn-sm btn-primary showAllSensorsButton">Pokaż sensory</a>
                                     </fieldset>
                                 </div>
                             </div>
