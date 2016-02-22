@@ -8,8 +8,8 @@ var $selectedItemHub;
 $(document).ready(function () {
     console.log('zaladowano podstrone hub')
     
-    //rejestruj klikniecia w liscie sensorow
-    $(document).on('click', 'div#hubListGroup a', function (e) {
+    //rejestruj klikniecia w liscie hubow
+    $(document).on('click', 'div#hubListGroup a.clickOK', function (e) {
         e.preventDefault();
         
         //wybrany objekt DOM 
@@ -32,6 +32,11 @@ $(document).ready(function () {
             } else {
                 $(' fieldset input.stateCheckBox').prop('checked', false)
             }
+        })
+
+        $(document).on('click', '.showAllSensorsButton', function () {
+            console.log('h' + hubID);
+            window.location.hash = 'h' + hubID;
         })
     })
     
@@ -133,6 +138,7 @@ function addHub(event) {
             if (response.msg === '') {
                 //populateTableHubs();
                 $('#hubModal').modal('hide')
+                populateTableHubs();
             } else {
                 console.log(response);
                 alert('Niepoprawne ID huba');
@@ -176,6 +182,7 @@ function addSenosr(event) {
         }).done(function (response) {
             if (response.error === false) {
                 $('#addSensorModal').modal('hide')
+                populateTableHubs();
             } else {
                 console.log(response);
                 alert('Niepoprawne ID Sensora');
