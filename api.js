@@ -56,6 +56,7 @@ exports.sensors = function (req, res) {
         });
 };
 
+
 exports.measures = function (req, res) {
     Model.Measures.forge()
         .fetch()
@@ -171,8 +172,8 @@ exports.sensorsHub = function (req, res) {
 // on hubs.userID = users.userID
 // where hubs.userID = 251;
 exports.sensorsUser = function (req, res) {
-   Model.Sensors.forge()
-        .query(function(qb) {
+    Model.Sensors.forge()
+        .query(function (qb) {
             qb.where('hubs.userID', req.params.id)
             qb.join('hubs', 'sensors.hubID', '=', 'hubs.hubID')
             qb.join('users', 'hubs.userID', '=', 'users.userID')
@@ -185,6 +186,59 @@ exports.sensorsUser = function (req, res) {
             else {
                 res.json({ data: user.toJSON() });
             }
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+};
+
+exports.sensorsAddress = function (req, res) {
+
+    Model.Sensors.forge()
+    //.get("address")
+    //.query('where', { 'hubID': req.params.id })
+        .query(function (qb) {
+            qb.select('address').from('sensors'),
+            qb.where('sensors.hubID', req.params.id)
+        })
+        .fetch()
+        .then(function (data) {
+            var addr = data.toJSON();
+            var all = '';
+            for (var i in addr) {
+                var adr = addr[i].address;
+                console.log(adr);
+                if (adr != null) {
+                    all += adr + '\n';
+                }
+            }
+            if (!data) {
+                res.status(404).json({ error: true, data: {} });
+            }
+            else {
+                res.format({
+                    'text/plain': function () {
+                        res.send(all);
+                    }
+                })
+            }
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
+};
+
+
+exports.addMeasureAddress = function (req, res) {
+    Model.Measure.forge({
+        address: req.body.address,
+        sensorID: req.body.sensorid,
+        value1: req.body.value1,
+        value2: req.body.value2
+    })
+        .save()
+        .then(function (measure) {
+            res.json({ error: false, data: { measureID: measure.get('measureID') } });
         })
         .catch(function (err) {
             res.status(500).json({ error: true, data: { message: err.message } });
@@ -381,11 +435,11 @@ exports.deleteHub = function (req, res) {
 // GET
 //Jako id podaj indeks hiba
 exports.deleteMeasure = function (req, res) {
-     Model.Measure
-            .query().whereIn('sensorID', [req.params.id]).del().then(function () {
-                    res.json({ error: false, data: { message: 'Sensor successfully deleted' } });
-                })
-                .catch(function (err) {
-                    res.status(500).json({ error: true, data: { message: err.message } });
-                });
+    Model.Measure
+        .query().whereIn('sensorID', [req.params.id]).del().then(function () {
+            res.json({ error: false, data: { message: 'Sensor successfully deleted' } });
+        })
+        .catch(function (err) {
+            res.status(500).json({ error: true, data: { message: err.message } });
+        });
 }

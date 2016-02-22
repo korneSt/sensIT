@@ -108,6 +108,9 @@ app.get('/api/sensorsHub/:id', api.sensorsHub);
 app.get('/api/sensorsUser/:id', api.sensorsUser);
 app.get('/api/measuresSensor/:id', api.measuresSensor);
 
+//wykorzysuje adres nie id
+app.get('/api/sensorsAddress/:id', api.sensorsAddress);
+
 app.get('/api/user/:id', api.user);
 app.get('/api/hub/:id', api.hub);
 app.get('/api/sensor/:id', api.sensor);
@@ -120,6 +123,9 @@ app.post('/api/user', api.addUser);
 app.post('/api/hub', api.addHub);
 app.post('/api/sensor', api.addSensor);
 app.post('/api/measure', api.addMeasure);
+
+//wykorzysuje adres nie id
+app.post('/api/measureAddress', api.addMeasureAddress);
 
 //PUT
 app.put('/api/hub/:id', api.editHub);
