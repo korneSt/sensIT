@@ -4,6 +4,7 @@ var selectedHub = {}
 var state = 0;
 var hubID;
 var $selectedItemHub;
+
 $(document).ready(function () {
     console.log('zaladowano podstrone hub')
     
@@ -44,6 +45,7 @@ $(document).ready(function () {
     
     //rejestruj klikniecie przycisku i wykonaj funkcje addHub
     $('#addHubButton').on('click', addHub);
+    $('#addSensorButton').on('click', addSenosr);
 
     $(document).on('click', 'div#hubListGroup a.deleteHub', deleteHub);
 
@@ -56,6 +58,7 @@ function getHubByID(id, callback) {
     })
 }
 
+//edytuj hub
 function editHub(event) {
     event.preventDefault();
     var errorCount = 0;
@@ -101,7 +104,7 @@ function editHub(event) {
 }
 
 
-//dodaje nowy hub
+//dodaj nowy hub
 function addHub(event) {
     event.preventDefault();
     var errorCount = 0;
@@ -142,6 +145,50 @@ function addHub(event) {
         return false;
     }
 }
+
+
+
+//dodaj nowy sensor
+function addSenosr(event) {
+    event.preventDefault();
+    var errorCount = 0;
+
+    $('#addSensor input[type=text]').each(function (index, val) {
+        console.log(val);
+        if ($(this).val() === '') {
+            errorCount++;
+        }
+    });
+    console.log('ile bledow' + errorCount)
+    if (errorCount === 0) {
+        var newSensor = {
+            //wartosci z pol tekstowych, ktore wprowadza user
+            'sensorid': $('#addSensor fieldset input#inputSensorIDNew').val(),
+            'desc': $('#addSensor fieldset input#inputDescNew').val(),
+            'hubid': selectedHub.hubID
+        }
+        console.log(newSensor)
+        $.ajax({
+            type: 'POST',
+            data: newSensor,
+            url: '/api/sensor',
+            dataType: 'JSON'
+        }).done(function (response) {
+            if (response.error === false) {
+                $('#addSensorModal').modal('hide')
+            } else {
+                console.log(response);
+                alert('Niepoprawne ID Sensora');
+            }
+        }).fail(function () {
+            alert('Niepoprawne ID Sensora')
+        });
+    } else {
+        alert('Wypelnij wszyskie pola');
+        return false;
+    }
+}
+
 
 
 function deleteHub(event) {
@@ -196,8 +243,6 @@ function deleteHub(event) {
                                 console.log('id z delete /api/hub ' + this.sensorID)
                                 if (response.error === false) {
                                     $parentDelete.remove();
-
-
                                     //callback;
                                 }
                                 else {

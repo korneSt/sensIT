@@ -22,3 +22,7 @@ var dataToChart = {
         }
     ]
 };
+
+function selectDay(element, index, array) {
+  return (element.mTime.substring(0, 10) === "2016-02-22");
+}

@@ -65,9 +65,9 @@ function getSensorByID(id, callback) {
 }
 //sprawdz stan przelacznika stan i aktualizuj obiekt selectedSensor
 var checkState = function () {
-    var $stateCheckbox = $('input.stateCheckBox:checked');
-    selectedSensor.state = $stateCheckbox.length;
-    console.log('stan state: ' + $stateCheckbox.length);
+    var $stateCheckbox = $(this).is(':checked') === true ? 1 : 0;
+    selectedSensor.favourite = $stateCheckbox;
+    console.log('stan state: ' + $stateCheckbox);
 
 }
 
@@ -76,13 +76,12 @@ var checkFavourite = function () {
     var $favCheckbox = $(this).is(':checked') === true ? 1 : 0;
     selectedSensor.favourite = $favCheckbox;
     console.log('stan fav: ' + $favCheckbox);
-    
+
     if (selectedSensor.favourite === 1) {
         console.log(selectedSensor.sensorID);
-        populateFavourite(selectedSensor)
-        //$('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").show()
+        // populateFavourite(selectedSensor)
     } else {
-        $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
+        //$('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
     }
 }
 
@@ -117,8 +116,13 @@ function editSensor(event) {
             if (response.error === false) {
                 //populateTableSensors();
                 $selectedItem.text(selectedSensor.sensorID + ' ' + selectedSensor.desc);
-                $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']");
-                //alert('Zmieniono ustawienia');
+
+                if (selectedSensor.favourite === 1) {
+                    $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
+                    populateFavourite(selectedSensor);
+                } else {
+                    $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
+                }
                 $parentSensor.collapse('hide');
             } else {
                 console.log('Blad: ' + response.message);
@@ -152,16 +156,13 @@ function deleteSensor(event, callback) {
 
                     if (response.error === false) {
                         $parentDelete.remove();
-                        $('#favouriteListTab').find("[data-favID='" + $sensorToDelete + "']").remove()
-                        callback;
+                        $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
+                        //callback;
                     }
                     else {
                         console.log(response.data.message)
                         alert('Blad serwera');
                     }
-
-                    // Update the table
-                    //populateTableSensors();
                 });
             }
             else {
