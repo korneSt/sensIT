@@ -31,6 +31,7 @@ $(document).ready(function () {
             //ustaw wartosc checkboxa favourite
             if (selectedSensor.favourite === 1) {
                 $('fieldset input.favCheckBox').prop('checked', true)
+
             } else {
                 $('fieldset input.favCheckBox').prop('checked', false)
             }
@@ -67,13 +68,22 @@ var checkState = function () {
     var $stateCheckbox = $('input.stateCheckBox:checked');
     selectedSensor.state = $stateCheckbox.length;
     console.log('stan state: ' + $stateCheckbox.length);
+
 }
 
 //sprawdz stan przelacznika ulubiony i aktualizuj obiekt selectedSensor
 var checkFavourite = function () {
-    var $favCheckbox = $('input.favCheckBox:checked');
-    selectedSensor.favourite = $favCheckbox.length;
-    console.log('stan fav: ' + $favCheckbox.length);
+    var $favCheckbox = $(this).is(':checked') === true ? 1 : 0;
+    selectedSensor.favourite = $favCheckbox;
+    console.log('stan fav: ' + $favCheckbox);
+    
+    if (selectedSensor.favourite === 1) {
+        console.log(selectedSensor.sensorID);
+        populateFavourite(selectedSensor)
+        //$('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").show()
+    } else {
+        $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
+    }
 }
 
 //akcja przyciska zatwierdzajacego edycje
@@ -107,6 +117,7 @@ function editSensor(event) {
             if (response.error === false) {
                 //populateTableSensors();
                 $selectedItem.text(selectedSensor.sensorID + ' ' + selectedSensor.desc);
+                $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']");
                 //alert('Zmieniono ustawienia');
                 $parentSensor.collapse('hide');
             } else {
@@ -141,6 +152,7 @@ function deleteSensor(event, callback) {
 
                     if (response.error === false) {
                         $parentDelete.remove();
+                        $('#favouriteListTab').find("[data-favID='" + $sensorToDelete + "']").remove()
                         callback;
                     }
                     else {

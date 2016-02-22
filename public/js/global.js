@@ -175,18 +175,8 @@ function populateFavourite(loadedSensor) {
 
         $('#favouriteListTab').append(favTemplate(favTabObj));
 
-        // var content = '<div class="grid-item"><a style ="display:block" href="/profile/favouriteSensor/' + sensor.sensorID + '"><div class="panel panel-info "><div class="panel-heading"><panel-title>';
-        // content += 'Aktualna temperatura' + '</panel-title></div><div class="panel-body"><div id="sensor'
-        // + sensor.sensorID + '" class="';
-        // content += 'currentTemp' + '">' + lastTemp
-        // + '</div>' + sensor.desc + '</div></div></a></div>';
-        // $('.grid').append(content)
         console.log('ile ulubionych: ' + favSensors.length);
-        //updateSensorTemp();
     });
-
-    // })
-    //$('.grid').html(content);
 }
 
 // function getSensorByID(id) {
@@ -198,7 +188,7 @@ function populateFavourite(loadedSensor) {
 //     })
 // }
 
-//zwraca ostatnia temp dla wszystkich sensorow co 10s
+//zwraca ostatnia temp dla podanego sensora
 function getCurrentTemp(sensor, callback) {
     $.getJSON('/api/measuresSensor/' + sensor.sensorID).then(function (result) {
         var totalItems = result.data.length;
