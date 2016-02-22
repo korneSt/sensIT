@@ -193,12 +193,9 @@ exports.sensorsUser = function (req, res) {
 };
 
 exports.sensorsAddress = function (req, res) {
-
     Model.Sensors.forge()
-    //.get("address")
-    //.query('where', { 'hubID': req.params.id })
         .query(function (qb) {
-            qb.select('address').from('sensors'),
+            qb.select('address', 'sensorID').from('sensors'),
             qb.where('sensors.hubID', req.params.id)
         })
         .fetch()
@@ -207,9 +204,10 @@ exports.sensorsAddress = function (req, res) {
             var all = '';
             for (var i in addr) {
                 var adr = addr[i].address;
+                var sensID = addr[i].sensorID;
                 console.log(adr);
                 if (adr != null) {
-                    all += adr + '\n';
+                    all += adr + ':' + sensID + '\n';
                 }
             }
             if (!data) {
