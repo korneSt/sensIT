@@ -64,11 +64,11 @@ function createGraph() {
 
 function populateTableSensors() {
     //szablon listy sensorow
-    var theTemplateScript = $("#header").html();
+    var theTemplateScript = $("#sensorListScript").html();
     var theTemplate = Handlebars.compile(theTemplateScript);
 
     $.getJSON('/api/sensorsUser/' + document.getElementById("txt").innerHTML, function (data) {
-        $('#sensorsListTab').append(theTemplate(data));
+        //$('#sensorsListTab').append(theTemplate(data));
 
         $.each(data.data, function () {
             if (this.favourite === 1) {
@@ -83,8 +83,27 @@ function populateTableHubs(callback) {
     var hubScript = $("#hubListScript").html();
     var hubTemplate = Handlebars.compile(hubScript);
 
+    var sensorScript = $("#sensorListScript").html();
+    var sensorTemplate = Handlebars.compile(sensorScript);
+
+    $('#sensorsListTab').children().remove();
+
+    //zwraca wszystkie huby użytkownika
     $.getJSON('/api/hubsUser/' + document.getElementById("txt").innerHTML, function (data) {
-        $('#hubsListTab').append(hubTemplate(data));
+
+        $('#hubsListTab').html(hubTemplate(data));
+        //$('#sensorsListTab').append(theTemplate(hubIDHeader)); 
+
+        $.each(data.data, function () {
+            var thisHub = this.hubID;
+            console.log('populate hubid: ' + this.hubID)
+            $.getJSON('/api/sensorsHub/' + this.hubID, function (data) {
+                if (data.data.length > 0) {
+                    data.hubID = thisHub;
+                    $('#sensorsListTab').append(sensorTemplate(data));
+                }
+            });
+        });
     });
 };
 
