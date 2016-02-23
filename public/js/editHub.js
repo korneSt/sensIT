@@ -88,14 +88,13 @@ function editHub(event) {
         $.ajax({
             type: 'PUT',
             data: selectedHub,
-            url: '/api/hub/' + hubID,
+            url: '/api/hub',
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
             if (response.error === false) {
                 //populateTableSensors();
                 $selectedItemHub.text(selectedHub.hubID + ' ' + selectedHub.desc);
-                alert('Zmieniono ustawienia');
                 $masterParent.collapse('hide');
             } else {
                 console.log('Blad: ' + response.message);
@@ -158,7 +157,7 @@ function addHub(event) {
 function addSenosr(event) {
     event.preventDefault();
     var errorCount = 0;
-
+    var $masterParent = $(this).parents(':eq(3)');
     $('#addSensor input[type=text]').each(function (index, val) {
         console.log(val);
         if ($(this).val() === '') {
@@ -171,6 +170,7 @@ function addSenosr(event) {
             //wartosci z pol tekstowych, ktore wprowadza user
             'sensorid': $('#addSensor fieldset input#inputSensorIDNew').val(),
             'desc': $('#addSensor fieldset input#inputDescNew').val(),
+            'address': $('#addSensor fieldset input#inputAddressNew').val(),
             'hubid': selectedHub.hubID
         }
         console.log(newSensor)
@@ -183,6 +183,7 @@ function addSenosr(event) {
             if (response.error === false) {
                 $('#addSensorModal').modal('hide')
                 populateTableHubs();
+                $masterParent.collapse('hide');
             } else {
                 console.log(response);
                 alert('Niepoprawne ID Sensora');
@@ -195,8 +196,6 @@ function addSenosr(event) {
         return false;
     }
 }
-
-
 
 function deleteHub(event) {
     console.log($('#sensorListGroup').find("[data-sensID='" + 1836541 + "']").parents(':eq(3)'));
@@ -215,16 +214,12 @@ function deleteHub(event) {
                 console.log('id z /api/hub/1 ' + this.sensorID)
                 if (response.error === false) {
                     $parentDelete.remove();
-
                     //callback;
                 }
                 else {
                     console.log(response.data.message)
                     alert('Blad serwera');
                 }
-
-                // Update the table
-                //populateTableSensors();
             });
             return;
         } else {
@@ -257,7 +252,6 @@ function deleteHub(event) {
                                     console.log(response.data.message)
                                     alert('Blad serwera');
                                 }
-
                                 //populateTableSensors();
                             }).fail(function () {
                                 return;

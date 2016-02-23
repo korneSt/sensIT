@@ -11,7 +11,7 @@ $(document).ready(function () {
     console.log('zaladowano podstrone sensor')
     
     //rejestruj klikniecia w liscie sensorow
-    $(document).on('click', 'div.sensorListGroup a.sensLink', function (e) {
+    $(document).on('click', 'div#sensorListGroup a.sensLink', function (e) {
         e.preventDefault();
         
         //wybrany objekt DOM 
@@ -31,7 +31,6 @@ $(document).ready(function () {
             //ustaw wartosc checkboxa favourite
             if (selectedSensor.favourite === 1) {
                 $('fieldset input.favCheckBox').prop('checked', true)
-
             } else {
                 $('fieldset input.favCheckBox').prop('checked', false)
             }
@@ -39,7 +38,7 @@ $(document).ready(function () {
             if (selectedSensor.state === 1) {
                 $('fieldset input.stateCheckBox').prop('checked', true)
             } else {
-                $(' fieldset input.stateCheckBox').prop('checked', false)
+                $('fieldset input.stateCheckBox').prop('checked', false)
             }
         })
     })
@@ -54,7 +53,7 @@ $(document).ready(function () {
     $(document).on('click', 'input.stateCheckBox', checkState);
     $(document).on('click', '.editSensorButton', editSensor);
 
-    $(document).on('click', 'div.sensorListGroup a.deleteSensor', deleteSensor);
+    $(document).on('click', 'div#sensorListGroup a.deleteSensor', deleteSensor);
 });
 
 function getSensorByID(id, callback) {
@@ -66,7 +65,7 @@ function getSensorByID(id, callback) {
 //sprawdz stan przelacznika stan i aktualizuj obiekt selectedSensor
 var checkState = function () {
     var $stateCheckbox = $(this).is(':checked') === true ? 1 : 0;
-    selectedSensor.favourite = $stateCheckbox;
+    selectedSensor.state = $stateCheckbox;
     console.log('stan state: ' + $stateCheckbox);
 
 }
@@ -79,11 +78,8 @@ var checkFavourite = function () {
 
     if (selectedSensor.favourite === 1) {
         console.log(selectedSensor.sensorID);
-        // populateFavourite(selectedSensor)
-    } else {
-        //$('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
     }
-}
+};
 
 //akcja przyciska zatwierdzajacego edycje
 function editSensor(event) {
@@ -109,7 +105,7 @@ function editSensor(event) {
         $.ajax({
             type: 'PUT',
             data: selectedSensor,
-            url: '/api/sensor/' + sensorID,
+            url: '/api/sensor',
             dataType: 'JSON'
         }).done(function (response) {
             console.log(response)
@@ -175,7 +171,7 @@ function deleteSensor(event, callback) {
         });
     }
     else {
-        // If they said no to the confirm, do nothing
+        // Jeśli nie potwierdzono usuniecia, nic nie rob
         return false;
     }
 };

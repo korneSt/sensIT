@@ -5,7 +5,7 @@
                 script#favTabScript(type='text/x-handlebars-template').
                     <a href="#" data-favID="{{sensorID}}">
                         <div class="panel panel-info" id="favourite-item">
-                            <div class="panel-heading">
+                            <div class="panel-heading fav-panel">
                                 <panel-title>
                                     Aktualna temperatura
                                 </panel-title>
@@ -14,7 +14,9 @@
                                 <div id="sensor{{{sensorID}}}" class="currentTemp"> 
                                     {{lastTemp}}
                                 </div>
-                                {{desc}}
+                                <div>
+                                    {{desc}}
+                                </div>
                             </div>
                         </div>
                     </a>
