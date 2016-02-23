@@ -36,14 +36,18 @@
 	background-size: cover;
 	-moz-background-size: cover;
 }
+.carousel .four {
+    background: url(../images/sensitTheme.png);
+    background-repeat: repeat;
+}
 .carousel .active.left {
 	left:0;
 	opacity:0;
 	z-index:2;
 }
 .carousel-caption{
-	top:50%;
-    background-color: rgba(139,195,74,0.5);
+	top:350px;
+    background-color: rgba(139,195,74,0.7);
     min-width: 100%;
     max-height: 130px;
     left: 0;
@@ -198,7 +202,7 @@ input[type="password"] {
 }
 .nav-tabs > li {
     float: left;
-    width: 25%;
+    width: 33.333%;
 }
 .nav-tabs > li > a{
     color: black;
@@ -230,4 +234,8 @@ input[type="password"] {
 
 .panel-heading{
     padding: 0;
+}
+
+.fav-panel {
+    padding: 10px 15px;
 }

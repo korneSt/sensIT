@@ -72,6 +72,19 @@ a:hover {
     text-align:center;
 }
 
+
+#myBigLogo img {
+      -webkit-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+}
+#myBigLogo img:hover {
+      transform: translateY(10px);
+      filter: grayscale(60%);
+      -webkit-filter: grayscale(30%);
+      -webkit-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+}
+
 #userInfo {
 	width:250px;
 	position:absolute;

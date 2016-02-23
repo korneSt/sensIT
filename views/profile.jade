@@ -10,8 +10,6 @@ block content
                     a(data-toggle='tab', href='#tabHubs') Hubs
                 li
                     a(data-toggle='tab', href='#tabSens') Sensors
-                li#tabLogout
-                    a(href='/signout') Logout
         .tab-content
             #tabProfile.tab-pane.fade.in.active
                 h3 Witaj #{user.username}
@@ -28,6 +26,9 @@ block content
     script(src='/js/global.js')
     script(src='/js/editSensor.js')
     script(src='/js/editHub.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js')
+    script(src='/js/favouriteSensor.js')
+
 
 
 

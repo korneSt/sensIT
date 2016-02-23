@@ -10,15 +10,17 @@ html(lang='pl')
     link(href="/bootstrap/bootstrap.css", rel="stylesheet", type='text/css')
     link(href='/stylesheets/styles.css', rel='stylesheet', type='text/css')
     link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
-    //link(href='/bootstrap-switch-master/dist/css/bootstrap3/bootstrap-switch.css' rel="stylesheet" type='text/css')
+    link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
+    link(href='/Pikaday-master/css/pikaday.css', rel='stylesheet', type='text/css')
+    link(rel="shortcut icon" href='images/sensitFav.ico')
 
-    //
     // script(src="bootstrap/jquery-1.11.2.min.js" type="text/javascript")
     
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js')
-    script(src='https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js')
-    script(src='https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js')
+    script(src='http://momentjs.com/downloads/moment.min.js')
+    script(src='/Pikaday-master/pikaday.js')
+    script(src='/Pikaday-master/plugins/pikaday.jquery.js')
     //script(src='/bootstrap-switch-master/dist/js/bootstrap-switch.js')
 
     // nie ruszac
@@ -37,7 +39,7 @@ html(lang='pl')
     script(src='/js/carousel.js', type='text/javascript')
 
 
-  body(style='background-color: #006FED;')
+  body
   
     include mycarousel.jade 
        

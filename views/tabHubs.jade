@@ -67,15 +67,16 @@
                                     br
                                     label(for='sensorid') Sensor ID:
                                     input.form-control#inputSensorIDNew(type='text', required)
-                                    //.form-group
+                                    br
+                                    label(for='address') Adres fizyczny:
+                                    input.form-control#inputAddressNew(type='text', required)
+                                    br
                                     label(for='desc') Opis:
                                     input.form-control#inputDescNew(type='text')
-                                    //.form-group
                                     input.form-control#inputHubIDNew(type='hidden', value=hub)
                                     br
                         .modal-footer
                             button.btn.btn-default(type='button', data-dismiss='modal') Anuluj
                             button.btn.btn-primary#addSensorButton(type='button') Zapisz
 
-script(src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js')
 
