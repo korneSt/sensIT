@@ -5,20 +5,20 @@ block content
         #tabWrapper
             ul.nav.nav-tabs
                 li.active
-                    a(data-toggle='tab', href='#tabProfile') Home
+                    a(data-toggle='tab', href='#tabProfile') Profil
                 li
-                    a(data-toggle='tab', href='#tabHubs') Hubs
+                    a(data-toggle='tab', href='#tabHubs') Huby
                 li
-                    a(data-toggle='tab', href='#tabSens') Sensors
+                    a(data-toggle='tab', href='#tabSens') Sensory
         .tab-content
             #tabProfile.tab-pane.fade.in.active
                 h3 Witaj #{user.username}
                 include tabProfile.jade
             #tabHubs.tab-pane.fade
-                h3 Hubs
+                br
                 include tabHubs.jade
             #tabSens.tab-pane.fade
-                h3 Sensors
+                h3 Sensory
                 include tabSensors.jade
 
         #txt(style="display: none;")

@@ -4,8 +4,21 @@ body {
 }
 
 #favourite-item{
-    width: 200px;
+    width: 32%;
     display: inline-block;
+    margin: 5px 0.4%;
+}
+@media (max-width: 768px) {
+    #favourite-item{
+        width: 48%;
+        margin: 5px 0.5%;
+    }
+}
+@media (max-width: 480px) {
+    #favourite-item{
+        width: 45%;
+        margin: 5px;
+    }
 }
 
 #favouriteListTab{

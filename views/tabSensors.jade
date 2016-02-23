@@ -13,7 +13,7 @@
                             <h4 class="panel-title">
                                 <div class="list-group-item">
                                     <a href="#c{{sensorID}}" data-parent="#sensorListGroup" data-toggle="collapse" data-sensID="{{sensorID}}" class="sensLink">
-                                        {{ sensorID }} {{ desc }}
+                                        {{ desc }}
                                     </a>
                                     <a role="button" href="#deleteSensor" style="float:right;" class="deleteSensor sensLink" data-sensID="{{sensorID}}">
                                         Usuń
@@ -25,12 +25,13 @@
                             <div class="panel-body">
                                 <div class="editSensor">
                                     <fieldset>
+                                        <label>ID: {{ sensorID }} </label> <br>
                                         <input type="checkbox" name="favSensor" class="favCheckBox"/>Ulubiony
                                         <input type="checkbox" name="stateSensor" class="stateCheckBox"/>Włączony<br/>
                                         <label for="hubid">Opis:</label>
                                         <input type="text" required="required" class="form-control inpuDescEditSens"/>
                                         <input type="hidden" class="form-control inputUserID"/><br/>
-                                        <button class="btn btn-default editSensorButton">Edytuj</button>
+                                        <button class="btn btn-default editSensorButton">Zapisz</button>
                                     </fieldset>
                                 </div>
                             </div>

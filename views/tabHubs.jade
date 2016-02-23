@@ -15,7 +15,7 @@
                             <h4 class="panel-title">
                                 <div class="list-group-item">
                                     <a href="#hub{{hubID}}" data-parent="#hubListGroup" data-toggle="collapse" data-hubID="{{hubID}}" class="clickOK">
-                                        {{ hubID }} {{ desc }}
+                                        {{ desc }}
                                     </a>
                                     <a role="button" href="#deleteHub" style="float:right;" class="deleteHub" data-hubID="{{hubID}}" class="clickOK">
                                         Usuń
@@ -27,10 +27,12 @@
                             <div class="panel-body">
                                 <div class="editHub">
                                     <fieldset>
+                                        <label> ID: {{hubID}} </label>
+                                        <br>
                                         <label for="hubid">Opis:</label>
                                         <input type="text" class="form-control inpuDescEditHub" required="required"/><br/>
-                                        <button class="btn btn-default editHubButton">Edytuj</button>
-                                        <button class="btn btn-sm btn-primary addSensorButton" data-toggle='modal', data-target='#addSensorModal'></span> Dodaj sensor</button>
+                                        <button class="btn btn-default editHubButton"> Zapisz </button>
+                                        <button class="btn btn btn-primary addSensorButton" data-toggle='modal', data-target='#addSensorModal'></span> Dodaj sensor </button>
                                     </fieldset>
                                 </div>
                             </div>
