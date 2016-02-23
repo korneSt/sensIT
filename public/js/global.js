@@ -12,28 +12,49 @@ $(document).ready(function () {
     $('#favouriteSensorContent').hide();
 
     //  window.setInterval(updateSensorTemp, 10000);
-
-    $(document).on('click', 'div#favouriteListTab a', function (e) {
+        
+    $(document).on('click', 'div#favouriteListTab a', function(e){
         e.preventDefault();
         $selectedFavSensor = $(this);
-
-        //ustaw wartosc sensorID na wybrana po kliknieciu
-        sensorID = $(this).attr('data-favID');
-        createGraph();
+        console.log($selectedFavSensor.find('currentTemp').text());
+        
+        //jeśli nie ma pomiarów, nie przenoś na podstrone z wykresami
+        if($selectedFavSensor.text().search("Brak") === -1){
+            //ustaw wartosc sensorID na wybrana po kliknieciu
+            sensorID = $(this).attr('data-favID');
+            console.log('click favourite: ' + sensorID);
+            
+            moment().format("YYYY-MM-DD"); 
+            picker.setMoment(moment())
+            createGraph;
+        }
     });
+    
+    $('#returnButton').on('click', function () {
+        $('#favouriteSensorContent').hide();
+        $('#favouriteListTab').show();
+    }); 
 });
 
 var $selectedFavSensor; //kliknięty kafelek (obiekt DOM)
 var favSensors = [];    //tablica obiektów ulubionych sensorów
-var sensorChart;    //sensor z którego powstanie wykres
+var sensorChart;        //sensor z którego powstanie wykres
+var sensorID;           //id wybranego sensora z listy ulubionych
+var selectedDay;        //wybrany dzień wykresu
 
 
 //FUNKCJE
 
-function createGraph() {
+function selectDay(element, index, array) {
+    return (element.mTime.substring(0, 10) === "2016-02-22");
+}
+
+function createGraph(day) {
+    selectedDay = $('#datepicker').val()
+    console.log(selectedDay);
     dataToChart.datasets[0].data = []
     dataToChart.labels = []
-        
+    //console.log(day);
     //usuwa stary i tworzy nowy element canvas w DOM
     //po to aby wykresy się nie nakładały
     $('#myChart').remove();
@@ -42,20 +63,21 @@ function createGraph() {
     getTemperatures(sensorID, function (result) {
         sensorChart = result;
         console.log(sensorChart);
-
+        var dayMeasure = [];
+        var timeMeasure = [];
+        var measures = []
         sensorChart.data.forEach(function (v, i) {
+            dayMeasure.push(v.mTime.substring(0, 10));   // dzień pomiaru
+            timeMeasure.push(v.mTime.substring(11, 19)); //godzina pomairu
+            measures.push(parseFloat(v.value1));         //pomiary
 
-            dataToChart.labels.push(v.mTime.substring(0, 10))
-            dataToChart.datasets[0].data.push(parseFloat(v.value1))
-
-            console.log(dataToChart.datasets[0].data)
-            console.log(dataToChart.labels);
         });
-
+        dataToChart.labels = timeMeasure; // oś X wykresu
+        dataToChart.datasets[0].data = measures; //oś Y wykresu
         var ctx = document.getElementById("myChart").getContext("2d");
         var myLineChart = new Chart(ctx).Line(dataToChart);
-        console.log('a ' + sensorChart.data.filter(selectDay))
     })
+    //schowaj ulubione karty
     $('#favouriteListTab').hide();
     //wyswietl zakladke do edycji sensora
     $('#favouriteSensorContent').show();
@@ -166,7 +188,37 @@ function getCurrentTemp(sensor, callback) {
 var measures = [];
 
 function getTemperatures(sensorID, callback) {
+    console.log('getTemperatures: ' + sensorID);
     $.getJSON('/api/measuresSensor/' + sensorID).then(function (result) {
         callback(result);
     })
 }
+ 
+var picker = new Pikaday({ field: $('#datepicker')[0],
+    i18n: {
+    previousMonth : 'Poprzedni miesiąc',
+    nextMonth     : 'Next Month',
+    months        : ['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
+    weekdays      : ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'],
+    weekdaysShort : ['Niedź','Pon','Wt','Śr','Czw','Pt','Sob']
+    },
+    format: 'YYYY-MM-DD',
+    onSelect: createGraph
+    });
+Chart.defaults.global.responsive = true;
+
+var dataToChart = {
+    labels: [],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(41,140,226,0.2)",
+            strokeColor: "rgba(41,140,226,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: []
+        }
+    ]
+};
