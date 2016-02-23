@@ -33,11 +33,6 @@ $(document).ready(function () {
                 $(' fieldset input.stateCheckBox').prop('checked', false)
             }
         })
-
-        $(document).on('click', '.showAllSensorsButton', function () {
-            console.log('h' + hubID);
-            window.location.hash = 'h' + hubID;
-        })
     })
     
     //usun tekst z pola tekstowego po kliknieciu
@@ -198,7 +193,6 @@ function addSenosr(event) {
 }
 
 function deleteHub(event) {
-    console.log($('#sensorListGroup').find("[data-sensID='" + 1836541 + "']").parents(':eq(3)'));
     event.preventDefault();
     var $hubToDelete = $(this).attr('data-hubID');
     var $parentDelete = $(this).parents(':eq(3)');
