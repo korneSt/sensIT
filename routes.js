@@ -6,13 +6,7 @@ var Model = require('./model');
 var Knex = require('./db');
 var http = require('http');
 
-var dataToSend = [];
-
 var currentUser;
-var hubsArray;
-var loggedUser;
-
-var items = [];
 var loggedUser;
 
 // index
@@ -31,7 +25,6 @@ var index = function(req, res, next) {
       }
    }
 };
-
 
 var showContact = function(req, res, next) {
     res.render('contact', {title: 'Contact'})
@@ -91,7 +84,7 @@ var signUpPost = function(req, res, next) {
 
    return newUser.then(function(model) {
       if(model) {
-         res.render('signup', {title: 'signup', errorMessage: 'username already exists'});
+         res.render('signup', {title: 'signup', errorMessage: 'Użytkownik już istnieje'});
       } else {
          var password = user.password;
          var hash = bcrypt.hashSync(password);
@@ -109,7 +102,6 @@ var signUpPost = function(req, res, next) {
 var signOut = function(req, res, next) {
    if(!req.isAuthenticated()) {
       res.redirect('/');
-      //notFound404(req, res, next);
    } else {
       req.logout();
       res.redirect('/');

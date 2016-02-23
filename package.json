@@ -16,13 +16,11 @@
     "express-session": "^1.13.0",
     "jade": "~1.11.0",
     "knex": "^0.10.0",
-    "lodash": "^3.10.1",
     "method-override": "^2.3.5",
     "morgan": "~1.6.1",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "serve-favicon": "~2.3.0",
-    "waitjs": "^0.2.0"
+    "serve-favicon": "~2.3.0"
   }
 }

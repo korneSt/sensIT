@@ -16,7 +16,7 @@ var Model = require('./model');
 var app = express();
 var api = require('./api');
 
-//PASSPORT 
+//PASSPORT - konfiguracja autentykacji
 passport.use(new LocalStrategy(function(username, password, done) {
    new Model.User({username: username}).fetch().then(function(data) {
       var user = data;
@@ -47,18 +47,18 @@ passport.deserializeUser(function(username, done) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json()); //zwraca informacje z formularzy HTML
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser()); //czyta cookies
-// required for passport
+
+//wymagane przez passport
 app.use(session({
     secret: 'cookie_secretsensitsensitsensit',
     resave: false,
     saveUninitialized: false
 }));
-//app.use(session({ secret: 'sensitsensitsensitsensitsensit' })); // session secret
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // użyj connect-flash do przesyłania wiadomości podczas sesji
@@ -80,25 +80,27 @@ app.get('/login', routes.signIn);
 app.get('/signup', routes.signUp);
 
 
-
-
 // POST
 app.post('/login', routes.signInPost);
 app.post('/signup', routes.signUpPost);
 
 
-// GET API - sprawdza czy zalogowany aby mieć dostęp do API
-// app.use(function (req, res, next) {
-//     console.log('sprawdzam logowanie');
-//     if(!req.isAuthenticated()) {
-//     res.redirect('/login');
-//     }
-//     next();
-// });
-
 //-----------------API---------------------//
 
-app.get('/api/users', api.users);
+//wykorzysuje adres nie id
+app.get('/api/sensorsAddress/:id', api.sensorsAddress);
+//wykorzysuje adres nie id
+app.post('/api/measureAddress', api.addMeasureAddress);
+
+// GET API - sprawdza czy zalogowany aby mieć dostęp do API
+app.use(function (req, res, next) {
+    console.log('sprawdzam logowanie');
+    if(!req.isAuthenticated()) {
+    res.redirect('/login');
+    }
+    next();
+});
+
 app.get('/api/hubs', api.hubs);
 app.get('/api/sensors', api.sensors);
 app.get('/api/measures', api.measures);
@@ -108,28 +110,22 @@ app.get('/api/sensorsHub/:id', api.sensorsHub);
 app.get('/api/sensorsUser/:id', api.sensorsUser);
 app.get('/api/measuresSensor/:id', api.measuresSensor);
 
-//wykorzysuje adres nie id
-app.get('/api/sensorsAddress/:id', api.sensorsAddress);
 
-app.get('/api/user/:id', api.user);
+
 app.get('/api/hub/:id', api.hub);
 app.get('/api/sensor/:id', api.sensor);
 app.get('/api/measure/:id', api.measure);
-app.get('/api/currentUser', api.currentUser);
 app.get('/api/addMeasure/:id', api.addMeasureReal);
 
 //POST
-app.post('/api/user', api.addUser);
 app.post('/api/hub', api.addHub);
 app.post('/api/sensor', api.addSensor);
 app.post('/api/measure', api.addMeasure);
 
-//wykorzysuje adres nie id
-app.post('/api/measureAddress', api.addMeasureAddress);
 
 //PUT
-app.put('/api/hub/:id', api.editHub);
-app.put('/api/sensor/:id', api.editSensor);
+app.put('/api/hub', api.editHub);
+app.put('/api/sensor', api.editSensor);
 
 //DELETE API
 app.delete('/api/sensor/:id', api.deleteSensor);
