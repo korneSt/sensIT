@@ -124,10 +124,11 @@ function populateTableHubs(callback) {
 
         $.each(data.data, function () {
             var thisHub = this.hubID;
+            var thisDesc = this.desc;
             console.log('populate hubid: ' + this.hubID)
             $.getJSON('/api/sensorsHub/' + this.hubID, function (data) {
                 if (data.data.length > 0) {
-                    data.hubID = thisHub;
+                    data.hubID = thisDesc;
                     $('#sensorsListTab').append(sensorTemplate(data));
                 }
             });
