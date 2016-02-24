@@ -11,7 +11,7 @@ $(document).ready(function () {
     console.log('zaladowano podstrone sensor')
     
     //rejestruj klikniecia w liscie sensorow
-    $(document).on('click', 'div#sensorListGroup a.sensLink', function (e) {
+    $(document).on('click', 'div.sensorListGroup a.sensLink', function (e) {
         e.preventDefault();
         
         //wybrany objekt DOM 
@@ -53,7 +53,7 @@ $(document).ready(function () {
     $(document).on('click', 'input.stateCheckBox', checkState);
     $(document).on('click', '.editSensorButton', editSensor);
 
-    $(document).on('click', 'div#sensorListGroup a.deleteSensor', deleteSensor);
+    $(document).on('click', 'div.sensorListGroup a.deleteSensor', deleteSensor);
 });
 
 function getSensorByID(id, callback) {
@@ -116,6 +116,7 @@ function editSensor(event) {
                 if (selectedSensor.favourite === 1) {
                     $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
                     populateFavourite(selectedSensor);
+                    favSensors.push(selectedSensor);
                 } else {
                     $('#favouriteListTab').find("[data-favID='" + selectedSensor.sensorID + "']").remove()
                 }

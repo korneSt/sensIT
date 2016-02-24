@@ -11,7 +11,7 @@ $(document).ready(function () {
     $('#editSensorTab').hide();
     $('#favouriteSensorContent').hide();
 
-    //  window.setInterval(updateSensorTemp, 10000);
+    window.setInterval(updateSensorTemp, 10000);
         
     $(document).on('click', 'div#favouriteListTab a', function(e){
         e.preventDefault();
@@ -54,7 +54,7 @@ function createGraph(day) {
     console.log(selectedDay);
     dataToChart.datasets[0].data = []
     dataToChart.labels = []
-    //console.log(day);
+
     //usuwa stary i tworzy nowy element canvas w DOM
     //po to aby wykresy się nie nakładały
     $('#myChart').remove();
@@ -67,9 +67,12 @@ function createGraph(day) {
         var timeMeasure = [];
         var measures = []
         sensorChart.data.forEach(function (v, i) {
-            dayMeasure.push(v.mTime.substring(0, 10));   // dzień pomiaru
-            timeMeasure.push(v.mTime.substring(11, 19)); //godzina pomairu
-            measures.push(parseFloat(v.value1));         //pomiary
+            console.log('wybrany dzien ' +selectedDay + ' z danych ' + v.mTime.substring(0, 10));
+           if(selectedDay == v.mTime.substring(0, 10)){
+                dayMeasure.push(v.mTime.substring(0, 10));   // dzień pomiaru
+                timeMeasure.push(v.mTime.substring(11, 19)); //godzina pomairu
+                measures.push(parseFloat(v.value1));         //pomiary
+           }
 
         });
         dataToChart.labels = timeMeasure; // oś X wykresu
@@ -149,7 +152,7 @@ function populateFavourite(loadedSensor) {
     console.log('loaded sensor: ' + loadedSensor.sensorID);
     var favTabObj = {
         sensorID: loadedSensor.sensorID,
-        desc: loadedSensor.desc,
+        desc: loadedSensor.desc
     }
     console.log('favTabTemplate ' + favTabObj.sensorID + ' ' + favTabObj.desc);
 
@@ -162,15 +165,6 @@ function populateFavourite(loadedSensor) {
         console.log('ile ulubionych: ' + favSensors.length);
     });
 }
-
-// function getSensorByID(id) {
-//     console.log('/api/sensor/' + id)
-//     $.getJSON('/api/sensor/' + id).then(function (result) {
-//         console.log(result.data)
-//         //return result.data.desc
-//         //$('#inputDescEditSens').val(result.data.desc)
-//     })
-// }
 
 //zwraca ostatnia temp dla podanego sensora
 function getCurrentTemp(sensor, callback) {
@@ -193,7 +187,7 @@ function getTemperatures(sensorID, callback) {
         callback(result);
     })
 }
- 
+//parametry okienka daty
 var picker = new Pikaday({ field: $('#datepicker')[0],
     i18n: {
     previousMonth : 'Poprzedni miesiąc',
@@ -205,8 +199,11 @@ var picker = new Pikaday({ field: $('#datepicker')[0],
     format: 'YYYY-MM-DD',
     onSelect: createGraph
     });
+    
+//dostosuj wykres do wielkości ekranu
 Chart.defaults.global.responsive = true;
 
+//parametry wykresu
 var dataToChart = {
     labels: [],
     datasets: [

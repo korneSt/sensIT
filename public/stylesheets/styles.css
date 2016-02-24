@@ -239,3 +239,6 @@ input[type="password"] {
 .fav-panel {
     padding: 10px 15px;
 }
+.panel-body {
+    padding-top: 30px;
+}

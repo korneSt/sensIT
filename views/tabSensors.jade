@@ -6,13 +6,13 @@
                 <div>
                     <h3 style="text-align: right;"> <a href="#h{{hubID}}"> {{hubID}} </a></h3>
                 </div>
-                <div class="panel-group" id ="sensorListGroup">
+                <div class="panel-group sensorListGroup">
                 {{#each data}}
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab">
                             <h4 class="panel-title">
                                 <div class="list-group-item">
-                                    <a href="#c{{sensorID}}" data-parent="#sensorListGroup" data-toggle="collapse" data-sensID="{{sensorID}}" class="sensLink">
+                                    <a href="#c{{sensorID}}" data-parent=".sensorListGroup" data-toggle="collapse" data-sensID="{{sensorID}}" class="sensLink">
                                         {{ desc }}
                                     </a>
                                     <a role="button" href="#deleteSensor" style="float:right;" class="deleteSensor sensLink" data-sensID="{{sensorID}}">

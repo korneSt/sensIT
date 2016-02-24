@@ -5,8 +5,7 @@ html(lang='pl')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title sensIT
-    //
-    // bootstrap, style i inne motyle
+
     link(href="/bootstrap/bootstrap.css", rel="stylesheet", type='text/css')
     link(href='/stylesheets/styles.css', rel='stylesheet', type='text/css')
     link(href='/stylesheets/style.css', rel='stylesheet', type='text/css')
@@ -14,31 +13,12 @@ html(lang='pl')
     link(href='/Pikaday-master/css/pikaday.css', rel='stylesheet', type='text/css')
     link(rel="shortcut icon" href='images/sensitFav.ico')
     link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css")
-
-
-    // script(src="bootstrap/jquery-1.11.2.min.js" type="text/javascript")
     
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js')
     script(src='http://momentjs.com/downloads/moment.min.js')
     script(src='/Pikaday-master/pikaday.js')
     script(src='/Pikaday-master/plugins/pikaday.jquery.js')
-    
-    //script(src='/bootstrap-switch-master/dist/js/bootstrap-switch.js')
-
-    // nie ruszac
-    
-    // nie wiem co to:
-    // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-    // WARNING: Respond.js doesn't work if you view the page via file://
-    //if lt IE 9
-      script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
-      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
-    // script(src="/js/jquery-1.11.2.min.js", type='text/javascript')
-    // <script src="js/bootstrap.js"></script>
-    
-    // bezuzyteczny skrypt
-    // script(src='/js/contentScript.js', type='text/javascript')
     script(src='/js/carousel.js', type='text/javascript')
 
 
@@ -49,12 +29,6 @@ html(lang='pl')
     #wrapper.container-fluid
     include navbar.jade
     block content
-        
-      
-      
-    // jQuery (necessary for Bootstrap's JavaScript plugins)
-    // problem z umieszczeniem <script> w head a body
-    // <script src="js/jquery-1.11.2.min.js"></script>
-    // Include all compiled plugins (below), or include individual files as needed
+
     script(src='/bootstrap/bootstrap.js')
 
