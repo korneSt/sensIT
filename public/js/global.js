@@ -48,7 +48,7 @@ var favSensors = [];        //tablica obiektów ulubionych sensorów
 var sensorChart;            //sensor z którego powstanie wykres
 var sensorID;               //id wybranego sensora z listy ulubionych
 var selectedDay;            //wybrany dzień wykresu
-var refreshTime=20000;      //co ile sprawdzac nową temperature
+var refreshTime=10000;      //co ile sprawdzac nową temperature
 
 //FUNKCJE
 
