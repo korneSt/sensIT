@@ -11,7 +11,7 @@ $(document).ready(function () {
     $('#editSensorTab').hide();
     $('#favouriteSensorContent').hide();
 
-    window.setInterval(updateSensorTemp, 10000);
+    window.setInterval(updateSensorTemp, refreshTime);
         
     $(document).on('click', 'div#favouriteListTab a', function(e){
         e.preventDefault();
@@ -34,20 +34,23 @@ $(document).ready(function () {
         $('#favouriteSensorContent').hide();
         $('#favouriteListTab').show();
     }); 
+    
+        $('.dropdown-menu a').on('click', function () {
+        console.log(parseInt($(this).attr('data-val'), 10)*1000);
+        
+        refreshTime = parseInt($(this).attr('data-val'), 10)*1000;
+        
+    }); 
 });
 
-var $selectedFavSensor; //kliknięty kafelek (obiekt DOM)
-var favSensors = [];    //tablica obiektów ulubionych sensorów
-var sensorChart;        //sensor z którego powstanie wykres
-var sensorID;           //id wybranego sensora z listy ulubionych
-var selectedDay;        //wybrany dzień wykresu
-
+var $selectedFavSensor;     //kliknięty kafelek (obiekt DOM)
+var favSensors = [];        //tablica obiektów ulubionych sensorów
+var sensorChart;            //sensor z którego powstanie wykres
+var sensorID;               //id wybranego sensora z listy ulubionych
+var selectedDay;            //wybrany dzień wykresu
+var refreshTime=20000;      //co ile sprawdzac nową temperature
 
 //FUNKCJE
-
-function selectDay(element, index, array) {
-    return (element.mTime.substring(0, 10) === "2016-02-22");
-}
 
 function createGraph(day) {
     selectedDay = $('#datepicker').val()

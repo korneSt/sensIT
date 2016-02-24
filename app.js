@@ -93,13 +93,13 @@ app.get('/api/sensorsAddress/:id', api.sensorsAddress);
 app.post('/api/measureAddress', api.addMeasureAddress);
 
 // GET API - sprawdza czy zalogowany aby mieć dostęp do API
-app.use(function (req, res, next) {
-    console.log('sprawdzam logowanie');
-    if(!req.isAuthenticated()) {
-    res.redirect('/login');
-    }
-    next();
-});
+// app.get('/api/*', function(req,res,next){
+//     console.log('sprawdzam logowanie');
+//     if(!req.isAuthenticated()) {
+//     res.redirect('/login');
+//     }
+//     next();
+// })
 
 app.get('/api/hubs', api.hubs);
 app.get('/api/sensors', api.sensors);
